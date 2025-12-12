@@ -1,623 +1,665 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ملخص إدارة المشاريع | Project Management Summary</title>
+    <title>ملخص إدارة المشاريع | PM Summary</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style>
+        /* --- المتغيرات اللونية (Palette) --- */
         :root {
-            --primary: #2c3e50;
-            --accent: #3498db;
-            --purple: #6c5ce7;
-            --green: #00b894;
-            --orange: #e17055;
-            --bg: #fdfeff;
-            --card-bg: #ffffff;
-            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --bg-body: #F3F4F6;       /* رمادي فاتح جداً للخلفية */
+            --bg-card: #FFFFFF;       /* أبيض نقي للكروت */
+            --text-primary: #1F2937;  /* رمادي غامق للنصوص */
+            --text-secondary: #6B7280;/* رمادي متوسط */
+            
+            --accent-blue: #3B82F6;   /* أزرق للعناوين الإنجليزية */
+            --accent-green: #10B981;  /* أخضر للنصوص العربية */
+            --accent-purple: #8B5CF6; /* بنفسجي للجداول */
+            --accent-rose: #F43F5E;   /* وردي لنقاط الامتحان */
+            
+            --bg-arabic: #F9FAFB;     /* خلفية خفيفة للنص العربي */
+            --bg-exam: #FFF1F2;       /* خلفية وردية خفيفة للامتحان */
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
 
-        * { box-sizing: border-box; }
-
+        /* --- التنسيق العام --- */
         body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: #f0f2f5;
-            color: var(--primary);
+            background-color: var(--bg-body);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
             margin: 0;
-            padding: 20px;
-            line-height: 1.6;
+            padding: 40px 20px;
+            line-height: 1.7;
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
-        /* الهيدر */
+        /* --- الهيدر --- */
         header {
             text-align: center;
-            background: linear-gradient(135deg, var(--primary), var(--purple));
-            color: white;
-            padding: 40px 20px;
-            border-radius: 20px;
-            margin-bottom: 40px;
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
+            margin-bottom: 60px;
         }
 
-        header h1 { margin: 0; font-size: 2.5rem; font-weight: 800; }
-        header p { opacity: 0.9; font-size: 1.2rem; margin-top: 10px; }
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #111827;
+            margin-bottom: 10px;
+            letter-spacing: -0.025em;
+        }
 
-        /* بطاقة الفصل */
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* --- تصميم البطاقة (Card Design) --- */
         .chapter-card {
-            background: var(--card-bg);
+            background: var(--bg-card);
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 40px;
+            overflow: hidden; /* لضمان عدم خروج المحتوى عن الحواف */
+            border: 1px solid #E5E7EB;
+            transition: transform 0.2s ease;
+        }
+
+        .chapter-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- عنوان الفصل --- */
+        .card-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid #F3F4F6;
+            background: linear-gradient(to right, #fff, #f9fafb);
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 1.25rem;
+            color: #111827;
+            font-weight: 700;
+        }
+
+        .week-tag {
+            display: inline-block;
+            background-color: #EEF2FF;
+            color: var(--accent-blue);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
             border-radius: 20px;
+            margin-left: 10px;
+            vertical-align: middle;
+            text-transform: uppercase;
+        }
+
+        /* --- المحتوى الداخلي --- */
+        .card-body {
             padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: var(--shadow);
-            border-top: 5px solid var(--accent);
-            transition: transform 0.3s ease;
         }
 
-        .chapter-card:hover { transform: translateY(-5px); }
-
-        .chapter-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px dashed #eee;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+        /* --- النص الإنجليزي --- */
+        .en-section {
+            margin-bottom: 25px;
+            padding-left: 15px;
+            border-left: 4px solid var(--accent-blue);
         }
 
-        .chapter-title { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
-        .week-badge {
-            background: var(--purple);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: bold;
+        .en-title {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
         }
 
-        /* شبكة الشرح (انجليزي/عربي) */
-        .explanation-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .explanation-grid { grid-template-columns: 1fr; }
-        }
-
-        .box {
+        /* --- النص العربي --- */
+        .ar-section {
+            font-family: 'Cairo', sans-serif;
+            direction: rtl;
+            text-align: right;
+            background-color: var(--bg-arabic);
             padding: 20px;
-            border-radius: 15px;
-            position: relative;
+            border-radius: 8px;
+            border-right: 4px solid var(--accent-green);
+            color: #374151;
         }
 
-        .box-english {
-            background-color: #f4f6f9;
-            border-right: 4px solid var(--purple);
-            direction: ltr; /* للنص الانجليزي */
-            text-align: left;
+        .ar-title {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            margin-bottom: 8px;
         }
 
-        .box-arabic {
-            background-color: #e8f8f5;
-            border-right: 4px solid var(--green);
+        /* --- نقاط الامتحان --- */
+        .exam-section {
+            background-color: var(--bg-exam);
+            padding: 20px 30px;
+            border-top: 1px dashed #FECDD3;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
         }
 
-        .box h3 { margin-top: 0; font-size: 1.1rem; opacity: 0.7; margin-bottom: 10px; }
-
-        /* نقاط الاختبار */
-        .exam-box {
-            background-color: #fff5f0;
-            border: 2px solid var(--orange);
-            color: #d35400;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            font-weight: 500;
+        .exam-icon {
+            font-size: 1.2rem;
         }
 
-        .exam-box strong { font-weight: 800; display: block; margin-bottom: 5px; }
+        .exam-content strong {
+            display: block;
+            color: #9F1239; /* Dark Red */
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+        
+        .exam-content span {
+            color: #881337;
+            font-size: 0.95rem;
+        }
 
-        /* الجداول */
-        .table-container {
-            overflow-x: auto;
-            margin-top: 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        /* --- الجداول --- */
+        .table-wrapper {
+            margin: 25px 0;
+            border-radius: 8px;
+            border: 1px solid #E5E7EB;
+            overflow: hidden;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
-            min-width: 600px;
+            font-size: 0.95rem;
         }
 
         th {
-            background-color: var(--primary);
-            color: white;
-            padding: 15px;
-            text-align: left; /* للانجليزي */
-        }
-        
-        /* جعل نصوص الجدول يسار للانجليزي */
-        td { padding: 12px 15px; border-bottom: 1px solid #eee; text-align: left; direction: ltr; }
-        
-        tr:nth-child(even) { background-color: #f8f9fa; }
-        tr:hover { background-color: #f1f1f1; }
-
-        /* الفواصل والعناوين الفرعية */
-        .section-break {
-            text-align: center;
-            margin: 50px 0;
-            position: relative;
-        }
-        .section-break span {
-            background: var(--accent);
-            color: white;
-            padding: 10px 30px;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1.2rem;
-            box-shadow: var(--shadow);
-        }
-        
-        .image-placeholder {
-            margin: 15px 0;
-            text-align: center;
-            opacity: 0.8;
+            background-color: #F9FAFB;
+            color: #374151;
+            font-weight: 600;
+            text-align: left;
+            padding: 12px 20px;
+            border-bottom: 1px solid #E5E7EB;
+            font-size: 0.85rem;
+            text-transform: uppercase;
         }
 
+        td {
+            padding: 14px 20px;
+            border-bottom: 1px solid #F3F4F6;
+            color: #4B5563;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Responsive Fixes */
+        @media (max-width: 600px) {
+            body { padding: 20px 10px; }
+            .card-header h2 { font-size: 1.1rem; }
+            .card-body { padding: 20px; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-
-    <header>
-        <h1>📝 ملخص إدارة المشاريع الاحترافي</h1>
-        <p>Brief Summary for Project Management Course</p>
-    </header>
-
-    <div class="chapter-card">
-        <div class="chapter-header">
-            <div class="chapter-title">Chapter 1: Introduction to Project Management</div>
-            <span class="week-badge">Week 2</span>
-        </div>
+    <div class="container">
         
-        <div class="explanation-grid">
-            <div class="box box-english">
-                <h3>Simple English</h3>
-                <p>This chapter introduces what projects are (temporary, unique). PM helps control the <strong>"triple constraint" (time, cost, scope)</strong>. Benefits: better resource use, higher morale. Introduces Roles (PM), Programs, and Portfolios.</p>
+        <header>
+            <h1>Project Management Summary</h1>
+            <p>Comprehensive bilingual notes organized by chapter</p>
+        </header>
+
+        <article class="chapter-card">
+            <div class="card-header">
+                <h2>Chapter 1: Introduction to Project Management <span class="week-tag">Week 2</span></h2>
             </div>
-            <div class="box box-arabic">
-                <h3>شرح عربي</h3>
-                <p>تعريف المشروع (مؤقت، فريد). إدارة المشاريع تتحكم في <strong>المحددات الثلاثة (الوقت، التكلفة، النطاق)</strong>. الفوائد: استخدام أفضل للموارد. يشرح الأدوار، البرامج، والبورتفوليو.</p>
+            <div class="card-body">
+                <div class="en-section">
+                    <span class="en-title">English Explanation</span>
+                    <p>This chapter introduces what projects are and why managing them is important. A project is a temporary task to create something unique, like building an app. Project management helps control time, cost, and scope (the "triple constraint"). It also discusses benefits like better resource use and higher morale. Roles include project managers who balance everything, and differences between single projects, programs (groups of projects), and portfolios (collections for strategy).</p>
+                </div>
+                <div class="ar-section">
+                    <span class="ar-title">الشرح العربي المبسط</span>
+                    <p>هذا الفصل يعرف الـ projects كمهمة مؤقتة لإنشاء شيء فريد، مثل تطوير تطبيق. إدارة المشاريع تساعد في التحكم بالوقت والتكلفة والنطاق (المحددات الثلاثة). الفوائد تشمل استخدام أفضل للموارد وزيادة الروح المعنوية. الأدوار تشمل مدير المشروع اللي يوازن كل شيء، والفرق بين مشروع واحد، برنامج (مجموعة مشاريع)، وبورتفوليو (مجموعة استراتيجية).</p>
+                </div>
             </div>
+            <div class="exam-section">
+                <div class="exam-icon">💡</div>
+                <div class="exam-content">
+                    <strong>Potential Exam Points (90% Chance)</strong>
+                    <span>Define project vs. operations, triple constraint diagram, advantages of PM, average salaries in PM.</span>
+                </div>
+            </div>
+        </article>
+
+        <article class="chapter-card">
+            <div class="card-header">
+                <h2>Chapter 2: PM & IT Context <span class="week-tag">Week 3</span></h2>
+            </div>
+            <div class="card-body">
+                <div class="en-section">
+                    <span class="en-title">English Explanation</span>
+                    <p>The 5 process groups are Initiating (start project), Planning (how to do it), Executing (do the work), Monitoring & Controlling (check progress), Closing (finish). They map to 10 knowledge areas like scope, time, cost. Methodologies like Agile or Waterfall are introduced, with a case study.</p>
+                </div>
+                <div class="ar-section">
+                    <span class="ar-title">الشرح العربي المبسط</span>
+                    <p>الـ5 مجموعات هي البدء (ابتداء المشروع)، التخطيط (كيفية العمل)، التنفيذ (العمل نفسه)، الرصد والتحكم (التحقق من التقدم)، والإغلاق (الانتهاء). ترتبط بـ10 مجالات معرفة مثل النطاق والوقت والتكلفة. المنهجيات مثل Agile أو Waterfall، مع دراسة حالة.</p>
+                </div>
+            </div>
+            <div class="exam-section">
+                <div class="exam-icon">💡</div>
+                <div class="exam-content">
+                    <strong>Exam Focus</strong>
+                    <span>5 process groups, mapping to knowledge areas, methodologies (Agile vs. traditional), case study examples.</span>
+                </div>
+            </div>
+        </article>
+
+        <article class="chapter-card">
+            <div class="card-header">
+                <h2>Chapter 3: PM Process Groups <span class="week-tag">Week 4</span></h2>
+            </div>
+            <div class="card-body">
+                <div class="en-section">
+                    <span class="en-title">English Explanation</span>
+                    <p>Focuses on integration: Strategic planning to choose projects, creating a project charter (official start document), management plans, executing work, and change control to handle changes. Tools like software for tracking.</p>
+                </div>
+                <div class="ar-section">
+                    <span class="ar-title">الشرح العربي المبسط</span>
+                    <p>يركز على التكامل: التخطيط الاستراتيجي لاختيار المشاريع، إنشاء ميثاق المشروع (الوثيقة الرسمية للبدء)، خطط الإدارة، تنفيذ العمل، والتحكم في التغييرات. أدوات مثل البرمجيات للتتبع.</p>
+                </div>
+            </div>
+            <div class="exam-section">
+                <div class="exam-icon">💡</div>
+                <div class="exam-content">
+                    <strong>Exam Focus</strong>
+                    <span>Project charter components, change control process, strategic selection methods (e.g., NPV, ROI).</span>
+                </div>
+            </div>
+        </article>
+
+        <article class="chapter-card">
+            <div class="card-header">
+                <h2>Chapter 4: Project Integration Management <span class="week-tag">Week 5</span></h2>
+            </div>
+            <div class="card-body">
+                <div class="en-section">
+                    <span class="en-title">English Explanation</span>
+                    <p>Scope is what the project will and won't do. Processes: Plan scope, collect requirements (interviews, surveys), create WBS (breakdown of tasks), WBS dictionary (details), control scope to avoid "scope creep".</p>
+                </div>
+                <div class="ar-section">
+                    <span class="ar-title">الشرح العربي المبسط</span>
+                    <p>النطاق هو ما سيفعله المشروع وما لن يفعله. العمليات: تخطيط النطاق، جمع المتطلبات (مقابلات، استطلاعات)، إنشاء WBS (تقسيم المهام)، قاموس WBS (التفاصيل)، التحكم في النطاق لتجنب "زحف النطاق".</p>
+                </div>
+            </div>
+            <div class="exam-section">
+                <div class="exam-icon">💡</div>
+                <div class="exam-content">
+                    <strong>Exam Focus</strong>
+                    <span>WBS creation approaches (top-down, bottom-up), requirements collection tools, scope control.</span>
+                </div>
+            </div>
+        </article>
+
+        <article class="chapter-card">
+            <div class="card-header">
+                <h2>Chapter 5: Project Scope Management <span class="week-tag">Week 6</span></h2>
+            </div>
+            <div class="card-body">
+                <div class="en-section">
+                    <span class="en-title">English Explanation</span>
+                    <p>Schedule management: Define activities, sequence them (dependencies), estimate durations, develop schedule (Gantt charts), control it. Tools like critical path method.</p>
+                </div>
+                <div class="ar-section">
+                    <span class="ar-title">الشرح العربي المبسط</span>
+                    <p>إدارة الجدول الزمني: تحديد النشاطات، ترتيبها (الاعتمادات)، تقدير المدد، تطوير الجدول (رسوم غانت)، التحكم فيه. أدوات مثل طريقة المسار الحرج.</p>
+                </div>
+            </div>
+            <div class="exam-section">
+                <div class="exam-icon">💡</div>
+                <div class="exam-content">
+                    <strong>Exam Focus</strong>
+                    <span>Activity sequencing (predecessors), critical path calculation, schedule compression (crashing, fast-tracking).</span>
+                </div>
+            </div>
+        </article>
+
+        <div style="text-align: center; margin: 50px 0; color: #9CA3AF; position: relative;">
+            <span style="background: #F3F4F6; padding: 0 15px; position: relative; z-index: 1; font-weight: 600;">Detailed Summary (70% Focus) starts here</span>
+            <hr style="position: absolute; top: 50%; left: 0; right: 0; border: 0; border-top: 1px dashed #D1D5DB; z-index: 0;">
         </div>
 
-        <div class="image-placeholder">
-           
+        <article class="chapter-card">
+            <div class="card-header">
+                <h2>Chapter 6: Project Schedule Management <span class="week-tag">Week 8</span></h2>
+            </div>
+            <div class="card-body">
+                <div class="en-section">
+                    <span class="en-title">English Explanation</span>
+                    <p>Time management is key for deadlines. Processes include planning schedule, defining activities from WBS, sequencing with network diagrams, estimating resources/durations (PERT for estimates), developing the schedule, and controlling it with updates.</p>
+                </div>
+                <div class="ar-section">
+                    <span class="ar-title">الشرح العربي المبسط</span>
+                    <p>إدارة الوقت أساسية للالتزام بالمواعيد. العمليات تشمل تخطيط الجدول، تحديد النشاطات من WBS، ترتيبها برسم الشبكات، تقدير الموارد/المدد (PERT للتقديرات)، تطوير الجدول، والتحكم بالتحديثات. استخدم برامج مثل MS Project.</p>
+                </div>
+                
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tool</th>
+                                <th>Description</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Gantt Chart</td>
+                                <td>Bar chart showing timeline</td>
+                                <td>Bars for tasks, arrows for dependencies</td>
+                            </tr>
+                            <tr>
+                                <td>Critical Path (CPM)</td>
+                                <td>Longest path of tasks</td>
+                                <td>If path is 20 days, project takes 20 days</td>
+                            </tr>
+                            <tr>
+                                <td>PERT</td>
+                                <td>Weighted average duration</td>
+                                <td>(Optimistic + 4xLikely + Pessimistic)/6</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="exam-section">
+                <div class="exam-icon">💡</div>
+                <div class="exam-content">
+                    <strong>High Probability Exam Points (90%)</strong>
+                    <span>Calculate critical path, PERT formula, difference between lag/lead, how to crash a schedule.</span>
+                </div>
+            </div>
+        </article>
 
-[Image of project management triple constraint triangle]
+        <article class="chapter-card">
+            <div class="card-header">
+                <h2>Chapter 7: Project Cost Management <span class="week-tag">Week 8</span></h2>
+            </div>
+            <div class="card-body">
+                <div class="en-section">
+                    <span class="en-title">English Explanation</span>
+                    <p>Cost management keeps projects on budget. Principles: Profits = revenues - costs, life cycle costing. Processes: Plan cost, estimate costs, determine budget (add reserves), control costs (earned value management).</p>
+                </div>
+                <div class="ar-section">
+                    <span class="ar-title">الشرح العربي المبسط</span>
+                    <p>إدارة التكاليف تحافظ على الميزانية. المبادئ: الربح = الإيرادات - التكاليف. العمليات: تخطيط التكلفة، تقدير التكاليف، تحديد الميزانية (إضافة احتياطيات للمخاطر)، التحكم في التكاليف (إدارة القيمة المكتسبة).</p>
+                </div>
+                
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Metric</th>
+                                <th>Formula</th>
+                                <th>Meaning</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Cost Variance (CV)</td>
+                                <td>EV - AC</td>
+                                <td>Negative = over budget</td>
+                            </tr>
+                            <tr>
+                                <td>Schedule Variance (SV)</td>
+                                <td>EV - PV</td>
+                                <td>Negative = behind schedule</td>
+                            </tr>
+                            <tr>
+                                <td>CPI Index</td>
+                                <td>EV / AC</td>
+                                <td>Less than 1 = over budget</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="exam-section">
+                <div class="exam-icon">💡</div>
+                <div class="exam-content">
+                    <strong>Exam Focus</strong>
+                    <span>Earned value calculations, types of costs (direct/indirect), reserve types (contingency/management).</span>
+                </div>
+            </div>
+        </article>
 
-        </div>
+        <article class="chapter-card">
+            <div class="card-header">
+                <h2>Chapter 8: Project Quality Management <span class="week-tag">Week 9</span></h2>
+            </div>
+            <div class="card-body">
+                <div class="en-section">
+                    <span class="en-title">English Explanation</span>
+                    <p>Quality ensures the project meets standards. Plan quality (metrics like defects rate), manage quality (audits), control quality (inspections). Modern quality: ISO standards, Six Sigma, Deming (14 points).</p>
+                </div>
+                <div class="ar-section">
+                    <span class="ar-title">الشرح العربي المبسط</span>
+                    <p>الجودة تضمن تلبية المشروع للمعايير. تخطيط الجودة، إدارة الجودة (التدقيقات)، التحكم في الجودة (التفتيش). الجودة الحديثة: معايير ISO، Six Sigma (تقليل العيوب)، قادة مثل Deming.</p>
+                </div>
+                
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tool</th>
+                                <th>Use</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Pareto Chart</td>
+                                <td>Identify main problems</td>
+                                <td>80% issues from 20% causes</td>
+                            </tr>
+                            <tr>
+                                <td>Fishbone Diagram</td>
+                                <td>Root cause analysis</td>
+                                <td>Branches for categories</td>
+                            </tr>
+                            <tr>
+                                <td>Control Chart</td>
+                                <td>Monitor variation</td>
+                                <td>Plot data with upper/lower limits</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="exam-section">
+                <div class="exam-icon">💡</div>
+                <div class="exam-content">
+                    <strong>Exam Focus</strong>
+                    <span>Seven basic quality tools, Six Sigma DMAIC process, Deming's cycle (PDCA).</span>
+                </div>
+            </div>
+        </article>
 
-        <div class="exam-box">
-            <strong>🔥 Potential Exam Points (90% Chance):</strong>
-            Define project vs. operations, Triple Constraint diagram, Advantages of PM, Average salaries.
-        </div>
+        <article class="chapter-card">
+            <div class="card-header">
+                <h2>Chapter 9: Project Human Resource Management <span class="week-tag">Week 10</span></h2>
+            </div>
+            <div class="card-body">
+                <div class="en-section">
+                    <span class="en-title">English Explanation</span>
+                    <p>Managing people: Plan resources, acquire team, develop team (training), manage team (conflict resolution). Keys: Motivation theories (Maslow, Herzberg), leadership styles, RACI matrix.</p>
+                </div>
+                <div class="ar-section">
+                    <span class="ar-title">الشرح العربي المبسط</span>
+                    <p>إدارة الناس: تخطيط الموارد، اكتساب الفريق، تطوير الفريق، إدارة الفريق (حل النزاعات). المفاتيح: نظريات التحفيز (هرم ماسلو، هيرزبيرغ)، أنماط القيادة، مصفوفة RACI.</p>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Theory</th>
+                                <th>Key Idea</th>
+                                <th>Application</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Maslow</td>
+                                <td>Hierarchy of needs</td>
+                                <td>Meet lower needs first</td>
+                            </tr>
+                            <tr>
+                                <td>Herzberg</td>
+                                <td>Hygiene & Motivators</td>
+                                <td>Salary (Hygiene) vs Recognition (Motivator)</td>
+                            </tr>
+                            <tr>
+                                <td>McGregor</td>
+                                <td>Theory X vs Theory Y</td>
+                                <td>Use Y for better teams</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="exam-section">
+                <div class="exam-icon">💡</div>
+                <div class="exam-content">
+                    <strong>Exam Focus</strong>
+                    <span>RACI chart, Tuckman's team development stages, conflict resolution methods.</span>
+                </div>
+            </div>
+        </article>
+
+        <article class="chapter-card">
+            <div class="card-header">
+                <h2>Chapter 10 & 12: Communications & Procurement <span class="week-tag">Week 11</span></h2>
+            </div>
+            <div class="card-body">
+                <div class="en-section">
+                    <span class="en-title">English Explanation</span>
+                    <p>Communications: Plan, manage, monitor. Procurement: Plan (make or buy?), conduct (contracts), control (vendor performance).</p>
+                </div>
+                <div class="ar-section">
+                    <span class="ar-title">الشرح العربي المبسط</span>
+                    <p>الاتصالات: تخطيط، إدارة، رصد. التوريد: تخطيط (صنع أو شراء؟)، إجراء (عقود)، التحكم (أداء المورد).</p>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Risk to Buyer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Fixed Price</td>
+                                <td>Set price</td>
+                                <td>Low (seller bears risk)</td>
+                            </tr>
+                            <tr>
+                                <td>Cost Reimbursable</td>
+                                <td>Pay costs + fee</td>
+                                <td>High (buyer pays extras)</td>
+                            </tr>
+                            <tr>
+                                <td>Time & Material</td>
+                                <td>Pay per hour</td>
+                                <td>Medium</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="exam-section">
+                <div class="exam-icon">💡</div>
+                <div class="exam-content">
+                    <strong>Exam Focus</strong>
+                    <span>Communications model, procurement process steps, types of contracts and risks.</span>
+                </div>
+            </div>
+        </article>
+
+        <article class="chapter-card">
+            <div class="card-header">
+                <h2>Final Chapters: Risk Management <span class="week-tag">Week 11</span></h2>
+            </div>
+            <div class="card-body">
+                <div class="en-section">
+                    <span class="en-title">English Explanation</span>
+                    <p>Risk management: Identify risks, analyze (probability x impact), respond (avoid, mitigate, accept), monitor. Importance: Reduces failures.</p>
+                </div>
+                <div class="ar-section">
+                    <span class="ar-title">الشرح العربي المبسط</span>
+                    <p>إدارة المخاطر: تحديد المخاطر، تحليل (احتمال x تأثير)، الرد (تجنب، تقليل، قبول)، الرصد. الأهمية: يقلل الفشل.</p>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Response</th>
+                                <th>Negative Risk</th>
+                                <th>Positive Risk (Opportunity)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Avoid / Exploit</td>
+                                <td>Eliminate risk</td>
+                                <td>Ensure it happens</td>
+                            </tr>
+                            <tr>
+                                <td>Mitigate / Enhance</td>
+                                <td>Reduce impact</td>
+                                <td>Increase chance</td>
+                            </tr>
+                            <tr>
+                                <td>Accept</td>
+                                <td>Do nothing</td>
+                                <td>Do nothing</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="exam-section">
+                <div class="exam-icon">💡</div>
+                <div class="exam-content">
+                    <strong>Exam Focus</strong>
+                    <span>Risk register, qualitative vs. quantitative analysis, expected monetary value calculation.</span>
+                </div>
+            </div>
+        </article>
+
     </div>
-
-    <div class="chapter-card">
-        <div class="chapter-header">
-            <div class="chapter-title">Chapter 2: PM & IT Context</div>
-            <span class="week-badge">Week 3</span>
-        </div>
-
-        <div class="explanation-grid">
-            <div class="box box-english">
-                <h3>Simple English</h3>
-                <p>Focuses on the <strong>5 Process Groups</strong>: Initiating, Planning, Executing, Monitoring & Controlling, Closing. Maps to 10 knowledge areas. Introduces Methodologies (Agile vs Waterfall).</p>
-            </div>
-            <div class="box box-arabic">
-                <h3>شرح عربي</h3>
-                <p>يركز على <strong>مجموعات العمليات الـ5</strong>: البدء، التخطيط، التنفيذ، الرصد والتحكم، الإغلاق. وعلاقتها بمجالات المعرفة الـ10. المنهجيات (أجايل ضد الشلال).</p>
-            </div>
-        </div>
-        
-        <div class="image-placeholder">
-           
-        </div>
-
-        <div class="exam-box">
-            <strong>💡 Potential Exam Points:</strong>
-            5 Process Groups, Mapping to knowledge areas, Methodologies (Agile vs. Traditional), Case Study.
-        </div>
-    </div>
-
-    <div class="chapter-card">
-        <div class="chapter-header">
-            <div class="chapter-title">Chapter 3: Process Groups (Integration)</div>
-            <span class="week-badge">Week 4</span>
-        </div>
-        <div class="explanation-grid">
-            <div class="box box-english">
-                <p>Focus on Integration: Strategic planning, <strong>Project Charter</strong> (official start), Management plans, Executing work, Change control.</p>
-            </div>
-            <div class="box box-arabic">
-                <p>التركيز على التكامل: التخطيط الاستراتيجي، <strong>ميثاق المشروع</strong> (الوثيقة الرسمية)، خطط الإدارة، تنفيذ العمل، والتحكم بالتغييرات.</p>
-            </div>
-        </div>
-        <div class="exam-box">
-            <strong>💡 Potential Exam Points:</strong> Project Charter components, Change control process, Selection methods (NPV, ROI).
-        </div>
-    </div>
-
-    <div class="chapter-card">
-        <div class="chapter-header">
-            <div class="chapter-title">Chapter 4: Project Scope Management</div>
-            <span class="week-badge">Week 5</span>
-        </div>
-        <div class="explanation-grid">
-            <div class="box box-english">
-                <p>Defining what the project will/won't do. Processes: Collect requirements, Create <strong>WBS</strong> (Work Breakdown Structure), Control scope to avoid "Scope Creep".</p>
-            </div>
-            <div class="box box-arabic">
-                <p>تحديد ما سيتم عمله وما لن يتم. العمليات: جمع المتطلبات، إنشاء هيكل تقسيم العمل <strong>(WBS)</strong>، التحكم بالنطاق لتجنب "زحف النطاق".</p>
-            </div>
-        </div>
-        <div class="exam-box">
-            <strong>💡 Potential Exam Points:</strong> WBS approaches (top-down vs bottom-up), Requirements tools, Scope control.
-        </div>
-    </div>
-
-    <div class="chapter-card">
-        <div class="chapter-header">
-            <div class="chapter-title">Chapter 5: Project Scope (Schedule Basics)</div>
-            <span class="week-badge">Week 6</span>
-        </div>
-        <div class="explanation-grid">
-            <div class="box box-english">
-                <p>Defining activities, Sequencing (dependencies), Estimating durations, Developing schedule (Gantt), Controlling it. Key: <strong>Critical Path Method</strong>.</p>
-            </div>
-            <div class="box box-arabic">
-                <p>تحديد الأنشطة، الترتيب (الاعتمادات)، تقدير المدد، تطوير الجدول (غانت)، التحكم. المفتاح: <strong>طريقة المسار الحرج</strong>.</p>
-            </div>
-        </div>
-        <div class="exam-box">
-            <strong>💡 Potential Exam Points:</strong> Activity sequencing, Critical Path calculation, Compression (Crashing, Fast-tracking).
-        </div>
-    </div>
-
-    <div class="section-break">
-        <span>🚀 70% Focus Area (Chapters 6-End)</span>
-    </div>
-
-    <div class="chapter-card" style="border-top-color: var(--orange);">
-        <div class="chapter-header">
-            <div class="chapter-title">Chapter 6: Schedule Management</div>
-            <span class="week-badge">Week 8</span>
-        </div>
-        
-        <div class="explanation-grid">
-            <div class="box box-english">
-                <p>Time management is key. Processes: Plan, Define, Sequence (Network Diagrams), Estimate (PERT), Develop, Control. Tools: <strong>MS Project</strong>.</p>
-            </div>
-            <div class="box box-arabic">
-                <p>إدارة الوقت أساسية. العمليات: تخطيط، تحديد، ترتيب (الشبكات)، تقدير (PERT)، تطوير، تحكم. أدوات: MS Project.</p>
-            </div>
-        </div>
-
-        <div class="image-placeholder">
-           
-
-[Image of Gantt chart example]
-
-        </div>
-
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tool</th>
-                        <th>Description</th>
-                        <th>Example</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Gantt Chart</strong></td>
-                        <td>Bar chart showing timeline</td>
-                        <td>Bars for tasks, arrows for dependencies</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Critical Path (CPM)</strong></td>
-                        <td>Longest path of tasks</td>
-                        <td>If path is 20 days, project takes min 20 days</td>
-                    </tr>
-                    <tr>
-                        <td><strong>PERT</strong></td>
-                        <td>Weighted average duration</td>
-                        <td>(Optimistic + 4*Likely + Pessimistic) / 6</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="exam-box">
-            <strong>🔥 Exam Points (90% Chance):</strong> Calculate Critical Path, PERT formula, Lag vs Lead, Crashing (speed up without too much cost).
-        </div>
-    </div>
-
-    <div class="chapter-card" style="border-top-color: var(--green);">
-        <div class="chapter-header">
-            <div class="chapter-title">Chapter 7: Cost Management</div>
-            <span class="week-badge">Week 8</span>
-        </div>
-
-        <div class="explanation-grid">
-            <div class="box box-english">
-                <p>Budget control. Profit = Rev - Cost. Processes: Plan, Estimate, Budget (Reserves), Control (<strong>Earned Value Management - EVM</strong>).</p>
-            </div>
-            <div class="box box-arabic">
-                <p>التحكم بالميزانية. العمليات: تخطيط، تقدير، ميزانية (احتياطيات)، تحكم (<strong>إدارة القيمة المكتسبة</strong>).</p>
-            </div>
-        </div>
-
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Metric</th>
-                        <th>Formula</th>
-                        <th>Meaning</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Cost Variance (CV)</td>
-                        <td>EV - AC</td>
-                        <td>Negative = Over budget 💸</td>
-                    </tr>
-                    <tr>
-                        <td>Schedule Variance (SV)</td>
-                        <td>EV - PV</td>
-                        <td>Negative = Behind schedule 🐢</td>
-                    </tr>
-                    <tr>
-                        <td>Cost Performance Index (CPI)</td>
-                        <td>EV / AC</td>
-                        <td>Less than 1 = Over budget</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="exam-box">
-            <strong>💡 Potential Exam Points:</strong> Earned Value calculations, Direct vs Indirect costs, Reserves (Contingency vs Management).
-        </div>
-    </div>
-
-    <div class="chapter-card">
-        <div class="chapter-header">
-            <div class="chapter-title">Chapter 8: Quality Management</div>
-            <span class="week-badge">Week 9</span>
-        </div>
-
-        <div class="explanation-grid">
-            <div class="box box-english">
-                <p>Meeting standards. Plan (metrics), Manage (audit), Control (inspect). Modern Quality: ISO, <strong>Six Sigma</strong> (3.4 defects/million), Deming.</p>
-            </div>
-            <div class="box box-arabic">
-                <p>تلبية المعايير. تخطيط (مقاييس)، إدارة (تدقيق)، تحكم (تفتيش). الجودة الحديثة: ISO، وسكس سيجما (3.4 عيب/مليون)، ديمنج.</p>
-            </div>
-        </div>
-        
-        <div class="image-placeholder">
-           
-
-[Image of Pareto chart example]
-
-        </div>
-
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tool</th>
-                        <th>Use</th>
-                        <th>Example</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Pareto Chart</strong></td>
-                        <td>Identify main problems</td>
-                        <td>80/20 Rule (80% problems from 20% causes)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Fishbone</strong></td>
-                        <td>Root cause analysis</td>
-                        <td>Finds source of error (Man, Machine, Method)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Control Chart</strong></td>
-                        <td>Monitor variation</td>
-                        <td>Upper & Lower limits</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="exam-box">
-            <strong>💡 Potential Exam Points:</strong> 7 Basic Tools, Six Sigma DMAIC, Deming Cycle (PDCA).
-        </div>
-    </div>
-
-    <div class="chapter-card">
-        <div class="chapter-header">
-            <div class="chapter-title">Chapter 9: Human Resource Management</div>
-            <span class="week-badge">Week 10</span>
-        </div>
-
-        <div class="explanation-grid">
-            <div class="box box-english">
-                <p>Managing people: Acquire, Develop, Manage Team. Keys: <strong>Motivation Theories</strong>, Leadership styles, RACI matrix.</p>
-            </div>
-            <div class="box box-arabic">
-                <p>إدارة الناس: اكتساب، تطوير، إدارة الفريق. المفاتيح: <strong>نظريات التحفيز</strong>، أنماط القيادة، مصفوفة RACI.</p>
-            </div>
-        </div>
-
-        <div class="image-placeholder">
-            
-
-[Image of Maslow's hierarchy of needs pyramid]
-
-        </div>
-
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Theory</th>
-                        <th>Key Idea</th>
-                        <th>Application</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Maslow</strong></td>
-                        <td>Hierarchy of needs</td>
-                        <td>Basic needs first -> Self-actualization</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Herzberg</strong></td>
-                        <td>Hygiene vs Motivators</td>
-                        <td>Salary prevents dissatisfaction; Recognition motivates</td>
-                    </tr>
-                    <tr>
-                        <td><strong>McGregor</strong></td>
-                        <td>Theory X vs Theory Y</td>
-                        <td>X = Lazy workers, Y = Motivated workers</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="exam-box">
-            <strong>💡 Potential Exam Points:</strong> RACI chart, Tuckman's stages (Forming, Storming...), Conflict resolution.
-        </div>
-    </div>
-
-    <div class="chapter-card">
-        <div class="chapter-header">
-            <div class="chapter-title">Ch 10 & 12: Communications & Procurement</div>
-            <span class="week-badge">Week 11</span>
-        </div>
-
-        <div class="explanation-grid">
-            <div class="box box-english">
-                <p><strong>Comm:</strong> Plan, Manage, Monitor. Avoid misunderstandings.<br><strong>Procurement:</strong> Make or Buy? Contracts (Fixed, Cost-plus), Controlling vendors.</p>
-            </div>
-            <div class="box box-arabic">
-                <p><strong>الاتصال:</strong> تخطيط، إدارة، رصد.<br><strong>التوريد:</strong> صنع أم شراء؟ أنواع العقود، التحكم بالموردين.</p>
-            </div>
-        </div>
-
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Contract Type</th>
-                        <th>Description</th>
-                        <th>Risk to Buyer</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Fixed Price</strong></td>
-                        <td>Set price</td>
-                        <td>Low (Seller pays overruns) ✅</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Cost Reimbursable</strong></td>
-                        <td>Costs + Fee</td>
-                        <td>High (Buyer pays extras) ⚠️</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Time & Material</strong></td>
-                        <td>Per hour/unit</td>
-                        <td>Medium</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="exam-box">
-            <strong>💡 Potential Exam Points:</strong> Communication model (Sender/Receiver/Noise), Contract types risks.
-        </div>
-    </div>
-
-    <div class="chapter-card" style="border-top-color: var(--orange);">
-        <div class="chapter-header">
-            <div class="chapter-title">Final: Risk Management</div>
-            <span class="week-badge">Week 11</span>
-        </div>
-
-        <div class="explanation-grid">
-            <div class="box box-english">
-                <p>Identify, Analyze (Prob x Impact), Respond, Monitor. <strong>Responses differ for Negative vs Positive risks.</strong></p>
-            </div>
-            <div class="box box-arabic">
-                <p>تحديد، تحليل (احتمال x تأثير)، رد، رصد. <strong>الردود تختلف للمخاطر السلبية عن الإيجابية.</strong></p>
-            </div>
-        </div>
-
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Response Strategy</th>
-                        <th>Negative Risk (Threat)</th>
-                        <th>Positive Risk (Opportunity)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Avoid / Exploit</strong></td>
-                        <td>Eliminate risk</td>
-                        <td>Ensure it happens</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Mitigate / Enhance</strong></td>
-                        <td>Reduce impact</td>
-                        <td>Increase probability</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Accept</strong></td>
-                        <td>Do nothing</td>
-                        <td>Do nothing</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="exam-box">
-            <strong>🔥 Exam Points:</strong> Risk Register, Qualitative vs Quantitative, Expected Monetary Value (EMV).
-        </div>
-    </div>
-
-</div>
 
 </body>
 </html>
