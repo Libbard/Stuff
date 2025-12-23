@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقرير مقررات علوم الحاسب - SEU</title>
+    
+    <!-- استدعاء Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- استدعاء الخطوط -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- أيقونات Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Cairo', sans-serif;
+        }
+        .prose p {
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        /* إخفاء شريط التمرير للقائمة العلوية في الجوال */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-800 selection:bg-emerald-200 selection:text-emerald-900">
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm border-b border-emerald-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="graduation-cap" class="h-8 w-8 text-emerald-600"></i>
+                    <span class="font-bold text-xl text-emerald-800 hidden md:block">علوم الحاسب SEU</span>
+                </div>
+                <div class="flex space-x-1 space-x-reverse overflow-x-auto no-scrollbar py-2" id="nav-links">
+                    <!-- سيتم توليد الروابط بواسطة JS -->
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Header -->
+    <header id="intro" class="relative bg-slate-900 text-white py-20 overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+        <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-teal-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        
+        <div class="relative max-w-5xl mx-auto px-4 text-center">
+            <div class="inline-block px-4 py-1.5 rounded-full bg-emerald-900/50 border border-emerald-500/30 text-emerald-300 text-sm font-semibold mb-6">
+                الجامعة السعودية الإلكترونية
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">
+                تقرير تحليلي للمقررات التخصصية<br/>في برنامج علوم الحاسب
+            </h1>
+            <p class="text-xl text-slate-300 max-w-3xl mx-auto font-light leading-relaxed">
+                المناهج، الموارد، واستراتيجيات التفوق الأكاديمي للمقررات المحورية: CS350, CS351, CS352, CS353
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-12 space-y-24">
+        
+        <!-- Introduction Body -->
+        <section class="prose prose-lg prose-emerald max-w-none">
+            <div class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
+                <h2 class="text-3xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                    <i data-lucide="layers" class="text-emerald-600"></i>
+                    مقدمة شاملة: الموقع الأكاديمي والتحول المعرفي
+                </h2>
+                <p class="text-slate-700">
+                    يُمثل برنامج بكالوريوس العلوم في علوم الحاسب (BSCS) في الجامعة السعودية الإلكترونية (SEU) نموذجاً أكاديمياً متقدماً يعتمد على دمج المعرفة النظرية العميقة بالتطبيق العملي، متوافقاً مع معايير الحوسبة العالمية مثل تلك التي وضعتها جمعية الآلات الحاسبة (ACM) وجمعية مهندسي الكهرباء والإلكترونيات (IEEE). في قلب هذا البرنامج، تبرز أربعة مقررات دراسية تُشكل "العمود الفقري التقني" للمرحلة المتوسطة والمتقدمة من الخطة الدراسية، وهي: مقدمة في قواعد البيانات (CS350)، نظم التشغيل (CS351)، تحليل وتصميم النظم (CS352)، وتصميم وتحليل الخوارزميات (CS353).
+                </p>
+                <p class="text-slate-700 mt-4">
+                    تكتسب هذه المقررات أهمية استثنائية كونها تمثل جسر العبور من مرحلة "تعلم البرمجة" (Learning to Code) التي ميزت السنوات الأولى (مثل CS230 وCS240)، إلى مرحلة "هندسة الحوسبة" (Computing Engineering) التي تتطلب تفكيراً تجريدياً، وتصميمياً، ونظمياً. إن الطالب في هذه المرحلة لا يُقيّم بناءً على قدرته على كتابة كود يعمل فحسب، بل على قدرته على تصميم حلول فعالة، آمنة، وقابلة للتوسع، وفهم ما يدور خلف الكواليس في العتاد والبرمجيات.
+                </p>
+                <div class="bg-emerald-50 rounded-xl p-6 mt-6 border-r-4 border-emerald-500">
+                    <h3 class="text-xl font-bold text-emerald-900 mb-3">منهجية التقرير</h3>
+                    <p class="text-emerald-800">يتبنى هذا التقرير منهجية بحثية تحليلية تفكيكية، حيث سيتم تناول كل مادة على حدة من خلال أربعة أبعاد رئيسية:</p>
+                    <ul class="list-disc list-inside mt-2 space-y-1 text-emerald-800">
+                        <li><strong>الهوية الأكاديمية للمقرر:</strong> تحليل التوصيف الرسمي، المتطلبات السابقة، والموقع من الخطة الدراسية.</li>
+                        <li><strong>المرجع الأساسي (الكتاب المقرر):</strong> دراسة نقدية للكتاب المعتمد، منهجيته، نقاط قوته وضعفه.</li>
+                        <li><strong>صوت الطالب (محلياً وعالمياً):</strong> تحليل انطباعات الطلاب حول صعوبة المادة والاختبارات.</li>
+                        <li><strong>الخارطة الاستراتيجية للمذاكرة:</strong> دليل عملي مفصل لتجاوز العقبات المفاهيمية.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Course 1: CS350 -->
+        <section id="cs350" class="scroll-mt-24">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="p-4 bg-blue-100 rounded-2xl text-blue-600">
+                    <i data-lucide="database" class="w-10 h-10"></i>
+                </div>
+                <div>
+                    <span class="text-sm font-bold text-blue-600 uppercase tracking-wider">المقرر الأول</span>
+                    <h2 class="text-4xl font-bold text-slate-900">مقدمة في قواعد البيانات (CS350)</h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Description -->
+                <div class="lg:col-span-2 space-y-8">
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
+                        <h3 class="text-2xl font-bold mb-4 text-slate-800">1.1 التوصيف الأكاديمي والبنية المنهجية</h3>
+                        <p class="text-slate-600 leading-relaxed mb-4">
+                            يُعد مقرر CS350 حجر الزاوية لأي متخصص في علوم الحاسب، حيث أن الغالبية العظمى من التطبيقات البرمجية الحديثة تعتمد على "البيانات" كعنصر أساسي للتشغيل. وفقاً لخطط الجامعة السعودية الإلكترونية، يأتي هذا المقرر بعد إتقان الطالب لهياكل البيانات (CS240)، مما يعني أن الطالب يجب أن يكون مستوعباً لكيفية تخزين البيانات في الذاكرة (Memory) لينتقل الآن لتعلم كيفية تخزينها واسترجاعها وإدارتها بشكل دائم (Persistence) وبكفاءة عالية.
+                        </p>
+                        <div class="space-y-4">
+                            <h4 class="font-bold text-slate-800 border-b pb-2">الأهداف التعليمية المحورية:</h4>
+                            <ul class="space-y-3">
+                                <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-blue-500 mt-1 flex-shrink-0"></i><div><span class="font-bold text-slate-800">النمذجة المفاهيمية:</span> <span class="text-slate-600">تحويل متطلبات العالم الحقيقي إلى مخططات هندسية مجردة (ER Diagrams).</span></div></li>
+                                <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-blue-500 mt-1 flex-shrink-0"></i><div><span class="font-bold text-slate-800">النموذج العلائقي:</span> <span class="text-slate-600">فهم البيانات كجداول وعلاقات رياضية، وهو الأساس لقواعد بيانات مثل Oracle.</span></div></li>
+                                <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-blue-500 mt-1 flex-shrink-0"></i><div><span class="font-bold text-slate-800">الجبر العلائقي:</span> <span class="text-slate-600">اللغة الرياضية الصورية التي تصف العمليات على البيانات.</span></div></li>
+                                <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-blue-500 mt-1 flex-shrink-0"></i><div><span class="font-bold text-slate-800">لغة SQL:</span> <span class="text-slate-600">الجانب التطبيقي لكتابة الاستعلامات المعقدة، الجداول، والعروض.</span></div></li>
+                                <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-blue-500 mt-1 flex-shrink-0"></i><div><span class="font-bold text-slate-800">التطبيع (Normalization):</span> <span class="text-slate-600">عملية رياضية لمنع تكرار البيانات والشذوذ وصولاً للصيغ المعيارية.</span></div></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Book Analysis -->
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                        <div class="flex items-start gap-4">
+                            <i data-lucide="book" class="w-8 h-8 text-slate-500 mt-1"></i>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-800 mb-2">1.2 المرجع الأساسي: "أساسيات نظم قواعد البيانات"</h3>
+                                <p class="text-slate-600 mb-4">
+                                    <strong>الكتاب المعتمد:</strong> Fundamentals of Database Systems للمؤلفين Ramez Elmasri و Shamkant B. Navathe. يُشار إليه عالمياً بـ "Elmasri/Navathe"، وهو يُعتبر "الإنجيل" الأكاديمي.
+                                </p>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                                        <h5 class="font-bold text-green-700 mb-2">العمق النظري</h5>
+                                        <p class="text-sm text-slate-600">موسوعي وشديد الرصانة. يشرح "لماذا" صممت قواعد البيانات هكذا. فصول التطبيع والجبر العلائقي مرجع معياري.</p>
+                                    </div>
+                                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                                        <h5 class="font-bold text-red-700 mb-2">التحدي أمام الطالب</h5>
+                                        <p class="text-sm text-slate-600">اللغة أكاديمية جداً. قد تكون قراءة الفصول النظرية شاقة دون توجيه مباشر بسبب الإسهاب الرياضي.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Opinion & Strategy -->
+                <div class="space-y-6">
+                    <!-- Opinions -->
+                    <div class="bg-white p-6 rounded-2xl shadow-lg shadow-blue-50/50 border border-blue-50">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                            <i data-lucide="users" class="w-5 h-5"></i> صوت الطالب
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="border-r-4 border-slate-300 pr-4">
+                                <span class="text-xs font-bold text-slate-400 uppercase">عالمياً</span>
+                                <p class="text-sm text-slate-600 mt-1">يشتكون من أنه "قديم الطراز" مقارنة بـ NoSQL، لكن يدركون قيمته لاحقاً في فهم "تكامل البيانات".</p>
+                            </div>
+                            <div class="border-r-4 border-blue-500 pr-4">
+                                <span class="text-xs font-bold text-blue-500 uppercase">طلاب SEU</span>
+                                <p class="text-sm text-slate-600 mt-1">المادة "دسمة". مشروع المادة نقطة تحول. الاختبارات تركز على التفاصيل الدقيقة (MCQ) ولا تقبل التخمين.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Strategy -->
+                    <div class="bg-gradient-to-br from-blue-600 to-blue-800 text-white p-6 rounded-2xl">
+                        <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                            <i data-lucide="lightbulb" class="w-5 h-5 text-yellow-300"></i> دليل الاستراتيجية
+                        </h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-bold text-blue-200 text-sm">المرحلة 1: هندسة المعنى (1-5)</h4>
+                                <p class="text-xs leading-5 mt-1 opacity-90">ركز على ER Model. الفخ الأكبر هو "التعددية" (Cardinality). استخدم أدوات مثل Draw.io.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-blue-200 text-sm">المرحلة 2: لغة البيانات (6-9)</h4>
+                                <p class="text-xs leading-5 mt-1 opacity-90">اربط النظرية بالتطبيق (Selection = WHERE). تدرب على SQLZoo. أتقن OUTER JOIN.</p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-blue-200 text-sm">المرحلة 3: التصميم (10-14)</h4>
+                                <p class="text-xs leading-5 mt-1 opacity-90">التطبيع هو "تنظيف". احفظ قاعدة BCNF. تدرب على تحويل جداول Excel سيئة إلى 3NF.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-slate-200" />
+
+        <!-- Course 2: CS351 -->
+        <section id="cs351" class="scroll-mt-24">
+            <div class="flex items-center gap-4 mb-8">
+                <div class="p-4 bg-purple-100 rounded-2xl text-purple-600">
+                    <i data-lucide="cpu" class="w-10 h-10"></i>
+                </div>
+                <div>
+                    <span class="text-sm font-bold text-purple-600 uppercase tracking-wider">المقرر الثاني</span>
+                    <h2 class="text-4xl font-bold text-slate-900">نظم التشغيل (CS351)</h2>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100">
+                <div class="p-8 lg:p-12">
+                    <div class="prose max-w-none text-slate-600">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-4">2.1 التوصيف الأكاديمي: داخل "أحشاء" الحاسب</h3>
+                        <p>
+                            يُصنف مقرر CS351 عالمياً ومحلياً كأحد "المقررات المصفاة" (Filter Courses) في تخصص علوم الحاسب؛ فهو المادة التي تختبر قدرة الطالب على فهم ما يدور في "أحشاء" الحاسب الآلي. المادة تتطلب متطلباً سابقاً وهو "عمارة وتنظيم الحاسب" (CS241)، مما يؤكد على طبيعتها العتادية-البرمجية.
+                        </p>
+                        <div class="grid md:grid-cols-2 gap-6 my-8">
+                            <div class="bg-purple-50 p-5 rounded-xl">
+                                <h4 class="font-bold text-purple-800 mb-2">المحاور الأساسية</h4>
+                                <ul class="text-sm space-y-2">
+                                    <li>• <strong>إدارة العمليات:</strong> كيف يتم خلق البرنامج وتشغيله؟ وجدولة المعالج.</li>
+                                    <li>• <strong>تعدد الخيوط:</strong> تشغيل مهام متعددة ومشاكل التزامن.</li>
+                                    <li>• <strong>التزامن (Synchronization):</strong> المشكلة الأخطر؛ منع تداخل العمليات (Semaphores, Mutexes).</li>
+                                </ul>
+                            </div>
+                            <div class="bg-purple-50 p-5 rounded-xl">
+                                <h4 class="font-bold text-purple-800 mb-2">تكملة المحاور</h4>
+                                <ul class="text-sm space-y-2">
+                                    <li>• <strong>الجمود (Deadlocks):</strong> توقف الأنظمة وخوارزمية "المصرفي".</li>
+                                    <li>• <strong>إدارة الذاكرة:</strong> الذاكرة الافتراضية والترحيل (Paging).</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800 text-slate-200 p-6 rounded-xl my-8">
+                            <div class="flex gap-4 items-center mb-4">
+                                <i data-lucide="book" class="text-purple-400"></i>
+                                <div>
+                                    <h4 class="font-bold text-white text-lg">2.2 الكتاب الديناصور: Operating System Concepts</h4>
+                                    <p class="text-sm text-slate-400">للمؤلفين Silberschatz, Galvin, و Gagne</p>
+                                </div>
+                            </div>
+                            <p class="text-sm leading-relaxed">
+                                يُعرف بـ "الكتاب الديناصور". هو المرجع رقم 1 عالمياً. يتميز بوضوح الشرح واستخدام تشبيهات ممتازة. لكنه ضخم وموسوعي، وشرحه لخوارزميات التزامن يعتمد على "الكود الوهمي" مما قد يسبب صعوبة في التطبيق العملي.
+                            </p>
+                        </div>
+
+                        <h3 class="text-2xl font-bold text-slate-800 mt-8 mb-4">2.3 و 2.4 التحدي والاستراتيجية</h3>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="font-bold text-red-600 mb-3">التحديات (محلياً وعالمياً)</h4>
+                                <ul class="space-y-3 text-sm">
+                                    <li class="flex gap-2"><span class="text-red-500 font-bold">!</span> صدمة التزامن: الانتقال من التفكير التسلسلي للتوازي.</li>
+                                    <li class="flex gap-2"><span class="text-red-500 font-bold">!</span> الرياضيات الخفية: طلاب SEU يتفاجأون بالمسائل الحسابية (خوارزميات الجدولة، تحويل العناوين).</li>
+                                    <li class="flex gap-2"><span class="text-red-500 font-bold">!</span> مشاكل التطبيق: التعامل مع بيئة Linux و C pointers.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-green-600 mb-3">استراتيجية "مدير النظام"</h4>
+                                <ul class="space-y-3 text-sm">
+                                    <li class="bg-green-50 p-2 rounded">
+                                        <strong>إدارة المعالج:</strong> تخيل أنك مدير مطعم. ارسم "مخطط غانت" (Gantt Chart) دائماً لحل مسائل الجدولة.
+                                    </li>
+                                    <li class="bg-green-50 p-2 rounded">
+                                        <strong>التزامن:</strong> تخيل السيمافور كإشارة مرور. ركز على المشاكل الكلاسيكية (الفلاسفة، المنتج والمستهلك).
+                                    </li>
+                                    <li class="bg-green-50 p-2 rounded">
+                                        <strong>الذاكرة:</strong> تدرب على تحويل العناوين (Binary/Hex). ارسم المخطط الهرمي للذاكرة.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-slate-200" />
+
+        <!-- Course 3: CS352 -->
+        <section id="cs352" class="scroll-mt-24">
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="md:w-1/3">
+                    <div class="sticky top-24 bg-gradient-to-br from-orange-500 to-amber-600 text-white p-8 rounded-3xl shadow-xl">
+                        <i data-lucide="network" class="mb-4 text-orange-100 w-12 h-12"></i>
+                        <h2 class="text-3xl font-bold mb-2">تحليل وتصميم النظم</h2>
+                        <h3 class="text-xl font-medium text-orange-100 mb-6">(CS352)</h3>
+                        <p class="text-sm opacity-90 leading-relaxed mb-6">
+                            "الجسر بين عالم الأعمال وعالم التقنية". تركز هذه المادة على "ماذا نبني" بدلاً من "كيف نبني".
+                        </p>
+                        <div class="bg-white/10 backdrop-blur rounded-lg p-4">
+                            <h4 class="font-bold text-sm mb-2 border-b border-white/20 pb-2">المرجع الأساسي</h4>
+                            <p class="text-xs">Systems Analysis and Design (Shelly Cashman Series)</p>
+                            <p class="text-xs mt-1 italic">كتاب "مهني" يقرأ كدليل لموظف استشارات.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:w-2/3 space-y-8">
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 card-hover">
+                        <h3 class="text-xl font-bold text-slate-800 mb-4">3.1 دورة حياة تطوير النظام (SDLC)</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-orange-50 p-3 rounded-lg border border-orange-100">
+                                <span class="font-bold text-orange-800 block mb-1">التخطيط (Planning)</span>
+                                <span class="text-xs text-slate-600">دراسة الجدوى بأنواعها الأربعة.</span>
+                            </div>
+                            <div class="bg-orange-50 p-3 rounded-lg border border-orange-100">
+                                <span class="font-bold text-orange-800 block mb-1">التحليل (Analysis)</span>
+                                <span class="text-xs text-slate-600">جمع المتطلبات (JAD, Interviews) ونمذجتها (DFD, Use Case).</span>
+                            </div>
+                            <div class="bg-orange-50 p-3 rounded-lg border border-orange-100">
+                                <span class="font-bold text-orange-800 block mb-1">التصميم (Design)</span>
+                                <span class="text-xs text-slate-600">تحويل المتطلبات لمخططات فنية (UML) وتصميم الواجهات.</span>
+                            </div>
+                            <div class="bg-orange-50 p-3 rounded-lg border border-orange-100">
+                                <span class="font-bold text-orange-800 block mb-1">التنفيذ (Implementation)</span>
+                                <span class="text-xs text-slate-600">الانتقال للنظام الجديد، الاختبار، والصيانة.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 card-hover">
+                        <h3 class="text-xl font-bold text-slate-800 mb-4">3.3 آراء الطلاب: بين الملل والأهمية</h3>
+                        <div class="space-y-4 text-slate-600">
+                            <p>
+                                <strong class="text-slate-800">عالمياً:</strong> يميل "المبرمجون" للاستخفاف بها، لكنهم يكتشفون بعد التخرج أن "فهم المتطلبات خطأ" هو السبب الأول لفشل المشاريع.
+                            </p>
+                            <p>
+                                <strong class="text-slate-800">في SEU:</strong> التحدي الأكبر هو "المشروع الجماعي" وإدارة الفريق. يواجه الطلاب تحدياً في الكتابة التقنية الدقيقة بالإنجليزية. يشتكون من كثرة الرسومات (UML, DFD).
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 card-hover relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-2 h-full bg-orange-500"></div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-4">3.4 استراتيجية "الهندسة العكسية للمتطلبات"</h3>
+                        <ul class="space-y-4 text-slate-600">
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="pen-tool" class="w-5 h-5 text-orange-500 flex-shrink-0 mt-1"></i>
+                                <div>
+                                    <strong>السيناريوهات:</strong> في الاختبارات، ستعطى "قصة". احفظ أنواع الجدوى. في DFD، القاعدة الذهبية هي "التوازن" (Balancing).
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="pen-tool" class="w-5 h-5 text-orange-500 flex-shrink-0 mt-1"></i>
+                                <div>
+                                    <strong>إتقان UML:</strong> افهم الفرق بين المخططات الساكنة والديناميكية. تعلم استخدام Visio أو Lucidchart.
+                                </div>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="pen-tool" class="w-5 h-5 text-orange-500 flex-shrink-0 mt-1"></i>
+                                <div>
+                                    <strong>تتبع السيناريو:</strong> تدرب على تطبيقات حقيقية (مثل توكلنا). الأسئلة غالباً مواقف عملية تتطلب فهماً لإدارة التغيير.
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-slate-200" />
+
+        <!-- Course 4: CS353 -->
+        <section id="cs353" class="scroll-mt-24">
+            <div class="text-center mb-12">
+                <div class="inline-block p-4 bg-slate-900 rounded-full text-white mb-4 shadow-lg">
+                    <i data-lucide="code" class="w-10 h-10"></i>
+                </div>
+                <h2 class="text-4xl font-black text-slate-900 mb-2">تصميم وتحليل الخوارزميات (CS353)</h2>
+                <p class="text-xl text-slate-500">ذروة سنام علوم الحاسب النظرية</p>
+            </div>
+
+            <div class="space-y-12">
+                <!-- Intro Grid -->
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-slate-800">
+                        <h3 class="text-xl font-bold text-slate-800 mb-4">4.1 المحاور العميقة</h3>
+                        <p class="text-slate-600 mb-4">المادة لا تعلمك "كيف تبرمج الحل"، بل "كيف تجد الحل الأكثر كفاءة".</p>
+                        <ul class="space-y-2 text-sm text-slate-700">
+                            <li class="border-b pb-2"><strong>التحليل المقارب (Big O):</strong> قياس سرعة الخوارزمية رياضياً.</li>
+                            <li class="border-b pb-2"><strong>استراتيجيات التصميم:</strong> فرق تسد (Merge Sort)، الخوارزميات الجشعة (Dijkstra)، البرمجة الديناميكية (Knapsack).</li>
+                            <li><strong>التعقيد الحسابي:</strong> مشاكل P و NP.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-emerald-600">
+                        <h3 class="text-xl font-bold text-slate-800 mb-4">4.2 المرجع: Introduction to the Design and Analysis of Algorithms</h3>
+                        <p class="text-sm text-slate-600 mb-4">للمؤلف Anany Levitin. يتميز بتصنيف الخوارزميات بناءً على "طريقة التصميم" وليس نوع المشكلة. يبدأ كل فصل بـ "لغز". يعاب عليه تبسيط الشفرات البرمجية.</p>
+                        <div class="bg-emerald-50 p-4 rounded-lg">
+                           <h4 class="font-bold text-emerald-800 text-sm mb-1">صوت الطالب:</h4>
+                           <p class="text-xs text-emerald-700">بوابة المقابلات في الشركات الكبرى (Google). صعبة في البداية (خاصة الاستقراء الرياضي) حتى تحدث "لحظة التنوير". في SEU، يعاني الطلاب من "التتبع اليدوي" (Tracing) في الاختبارات.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Strategy Section -->
+                <div class="bg-slate-900 text-slate-300 rounded-3xl p-8 lg:p-12 overflow-hidden relative">
+                    <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+                    <h3 class="text-2xl font-bold text-white mb-8 relative z-10 text-center">4.4 الدليل الاستراتيجي: استراتيجية "المختبر الذهني"</h3>
+                    
+                    <div class="grid lg:grid-cols-3 gap-6 relative z-10">
+                        <div class="bg-slate-800 p-6 rounded-xl hover:bg-slate-700 transition duration-300">
+                            <div class="text-emerald-400 font-mono text-xl mb-3">01. Big O</div>
+                            <h4 class="text-white font-bold mb-2">أساسيات التحليل</h4>
+                            <p class="text-sm mb-3">احفظ ترتيب السرعات:</p>
+                            <code class="block bg-black/30 p-2 rounded text-xs font-mono mb-3" dir="ltr">O(1) < O(log n) < O(n) < O(n²)</code>
+                            <p class="text-sm">اتقن "النظرية الرئيسية" (Master Theorem) لحل العلاقات التكرارية بسرعة.</p>
+                        </div>
+
+                        <div class="bg-slate-800 p-6 rounded-xl hover:bg-slate-700 transition duration-300">
+                            <div class="text-emerald-400 font-mono text-xl mb-3">02. Classic Algos</div>
+                            <h4 class="text-white font-bold mb-2">الخوارزميات الكلاسيكية</h4>
+                            <p class="text-sm">استخدم أوراق اللعب لمحاكاة الترتيب (Sorting). ارسم العقد واستخدم أقلام ملونة لتظليل العقد في خوارزميات الرسوم البيانية (Graphs).</p>
+                        </div>
+
+                        <div class="bg-slate-800 p-6 rounded-xl hover:bg-slate-700 transition duration-300">
+                            <div class="text-emerald-400 font-mono text-xl mb-3">03. Dynamic Prog</div>
+                            <h4 class="text-white font-bold mb-2">البرمجة الديناميكية</h4>
+                            <p class="text-sm">سرها هو "الجدول" (DP Table). تدرب على رسمه وتعبئته يدوياً. تعلم التمييز بينها وبين الخوارزميات الجشعة (Greedy).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="border-slate-200" />
+
+        <!-- Conclusion & Table -->
+        <section id="conclusion" class="scroll-mt-24">
+            <div class="bg-emerald-50 rounded-3xl p-8 lg:p-12 border border-emerald-100">
+                <h2 class="text-3xl font-bold text-emerald-900 mb-6 flex items-center gap-3">
+                    <i data-lucide="bar-chart" class="text-emerald-600"></i>
+                     5. استراتيجية التكامل والنجاح الشامل
+                </h2>
+                <div class="prose prose-emerald max-w-none text-emerald-800 mb-8">
+                    <p>
+                        تتميز الجامعة السعودية الإلكترونية بنظام يعتمد على الطالب بنسبة 70% وعلى المحاضر بنسبة 30%. المحاضرة الأسبوعية هي مجرد "رؤوس أقلام". تتطلب هذه المواد 8-10 ساعات مذاكرة ذاتية. تجنب ترجمة المصطلحات للعربية للحفاظ على الدقة العلمية.
+                    </p>
+                    <p>
+                        اختبارات SEU تميل للتنوع (MCQ، مقالي، مسائل). يجب التعود على الحل السريع دون الاعتماد على المصحح الآلي.
+                    </p>
+                </div>
+
+                <!-- Comparison Table -->
+                <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-emerald-100">
+                    <table class="w-full text-right">
+                        <thead class="bg-emerald-600 text-white">
+                            <tr>
+                                <th class="p-4 whitespace-nowrap">المقرر</th>
+                                <th class="p-4 whitespace-nowrap">الرمز</th>
+                                <th class="p-4">التحدي الرئيسي</th>
+                                <th class="p-4">مفتاح النجاح (The Key)</th>
+                                <th class="p-4">النشاط العملي المقترح</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-emerald-50">
+                            <tr class="hover:bg-emerald-50/50">
+                                <td class="p-4 font-bold">قواعد البيانات</td>
+                                <td class="p-4 font-mono text-sm text-slate-500">CS350</td>
+                                <td class="p-4 text-sm">الفجوة بين النظرية والتطبيق</td>
+                                <td class="p-4 text-sm font-semibold text-emerald-700">إتقان ERD والـ Normalization</td>
+                                <td class="p-4 text-sm">SQLZoo + رسم المخططات</td>
+                            </tr>
+                            <tr class="hover:bg-emerald-50/50">
+                                <td class="p-4 font-bold">نظم التشغيل</td>
+                                <td class="p-4 font-mono text-sm text-slate-500">CS351</td>
+                                <td class="p-4 text-sm">المفاهيم المجردة (التزامن)</td>
+                                <td class="p-4 text-sm font-semibold text-emerald-700">التخيل والرسم (Visualization)</td>
+                                <td class="p-4 text-sm">محاكاة خوارزميات الجدولة</td>
+                            </tr>
+                            <tr class="hover:bg-emerald-50/50">
+                                <td class="p-4 font-bold">تحليل النظم</td>
+                                <td class="p-4 font-mono text-sm text-slate-500">CS352</td>
+                                <td class="p-4 text-sm">الملل وكثرة التوثيق</td>
+                                <td class="p-4 text-sm font-semibold text-emerald-700">التفكير كمدير وليس كمبرمج</td>
+                                <td class="p-4 text-sm">نقد تطبيقات + أدوات الرسم</td>
+                            </tr>
+                            <tr class="hover:bg-emerald-50/50">
+                                <td class="p-4 font-bold">الخوارزميات</td>
+                                <td class="p-4 font-mono text-sm text-slate-500">CS353</td>
+                                <td class="p-4 text-sm">الصعوبة الرياضية</td>
+                                <td class="p-4 text-sm font-semibold text-emerald-700">التتبع اليدوي (Tracing)</td>
+                                <td class="p-4 text-sm">LeetCode + Master Theorem</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-8 pt-8 border-t border-emerald-200 text-center">
+                    <p class="text-emerald-800 font-medium italic">
+                        "تمثل هذه الحزمة الرباعية النواة الصلبة لتكوين عالم الحاسب. ورغم كثافتها، إلا أنها تضمن للخريج مستوىً معرفياً يضاهي خريجي أفضل الجامعات العالمية إذا ما تم التعامل معها باستراتيجية المذاكرة العميقة."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <i data-lucide="graduation-cap" class="w-12 h-12 mx-auto mb-4 text-emerald-600"></i>
+            <p>© 2024 تقرير مقررات علوم الحاسب - الجامعة السعودية الإلكترونية</p>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTopBtn" class="fixed bottom-8 left-8 bg-emerald-600 hover:bg-emerald-700 text-white p-3 rounded-full shadow-lg transition-all z-50 animate-bounce hidden">
+        <i data-lucide="arrow-up" class="w-6 h-6"></i>
+    </button>
+
+    <script>
+        // تفعيل أيقونات Lucide
+        lucide.createIcons();
+
+        // إدارة التنقل
+        const navLinksContainer = document.getElementById('nav-links');
+        const sections = [
+            { id: 'intro', label: 'المقدمة' },
+            { id: 'cs350', label: 'CS350' },
+            { id: 'cs351', label: 'CS351' },
+            { id: 'cs352', label: 'CS352' },
+            { id: 'cs353', label: 'CS353' },
+            { id: 'conclusion', label: 'الخاتمة' },
+        ];
+
+        let activeSection = 'intro';
+
+        // إنشاء أزرار التنقل
+        sections.forEach(section => {
+            const btn = document.createElement('button');
+            btn.textContent = section.label;
+            btn.className = `px-3 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap text-slate-600 hover:bg-slate-100`;
+            btn.onclick = () => {
+                document.getElementById(section.id).scrollIntoView({ behavior: 'smooth' });
+                updateActiveNav(section.id);
+            };
+            btn.id = `nav-btn-${section.id}`;
+            navLinksContainer.appendChild(btn);
+        });
+
+        function updateActiveNav(id) {
+            activeSection = id;
+            document.querySelectorAll('#nav-links button').forEach(btn => {
+                if (btn.id === `nav-btn-${id}`) {
+                    btn.className = 'px-3 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap bg-emerald-100 text-emerald-800';
+                } else {
+                    btn.className = 'px-3 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap text-slate-600 hover:bg-slate-100';
+                }
+            });
+        }
+        updateActiveNav('intro');
+
+        // زر الصعود للأعلى
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                scrollToTopBtn.classList.remove('hidden');
+            } else {
+                scrollToTopBtn.classList.add('hidden');
+            }
+        });
+
+        scrollToTopBtn.onclick = () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+    </script>
+</body>
+</html>
