@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المرجع الشامل للخوارزميات | Algorithmic Reference</title>
+    
+    <!-- Tailwind CSS with custom config for Dark Mode -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Enable class-based dark mode
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#0f172a',    // slate-900
+                        darkcard: '#1e293b',  // slate-800
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- MathJax -->
+    <script>
+        window.MathJax = {
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            startup: { typeset: false }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+        }
+        h1, h2, h3, .font-cairo {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        /* Custom Scrollbar for Page */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .dark ::-webkit-scrollbar-thumb { background: #475569; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* Card Animations */
+        .algo-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .algo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+        }
+        .dark .algo-card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* MathJax Adjustments */
+        mjx-container {
+            direction: ltr !important;
+            padding: 2px !important; /* يمنع قص الحواف للحروف الرياضية */
+        }
+        
+        /* Prevent layout breaking on mobile */
+        .math-scroll {
+            overflow-x: auto;
+            overflow-y: hidden;
+            max-width: 100%;
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        .math-scroll::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
+        
+        /* Text Selection */
+        ::selection {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        .dark ::selection {
+            background-color: #3b82f6;
+            color: #ffffff;
+        }
+        
+        /* Icon Buttons */
+        .icon-btn {
+            transition: transform 0.2s;
+        }
+        .icon-btn:active {
+            transform: scale(0.9);
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-20 bg-[#fcfcfc] dark:bg-[#0f172a] text-[#1e293b] dark:text-[#f8fafc] transition-colors duration-300">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-30 border-b border-gray-200 dark:border-slate-800 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.03)] bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+            <div class="flex flex-col lg:flex-row justify-between items-center gap-5">
+                
+                <!-- Logo & Title -->
+                <div class="flex items-center gap-4 w-full lg:w-auto">
+                    <div class="w-12 h-12 rounded-xl bg-slate-900 dark:bg-white flex items-center justify-center text-white dark:text-slate-900 shadow-md shrink-0 transition-colors">
+                        <i class="ph ph-books text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 id="mainTitle" class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight leading-none mb-1 font-cairo">المرجع المبوب للخوارزميات</h1>
+                        <p id="subTitle" class="text-sm text-slate-500 dark:text-slate-400 font-medium">الشابتر 1 إلى 5 - مصنف ومجهز للنسخ</p>
+                    </div>
+                </div>
+
+                <!-- Controls: Search, Lang, Theme -->
+                <div class="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
+                    <div class="relative w-full sm:w-80">
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-4 ltr:right-auto ltr:left-0 ltr:pl-4 pointer-events-none">
+                            <i class="ph ph-magnifying-glass text-slate-400 dark:text-slate-500 text-lg"></i>
+                        </div>
+                        <input type="text" id="searchInput" placeholder="ابحث في جميع الخوارزميات..." 
+                            class="block w-full pl-4 pr-11 ltr:pr-4 ltr:pl-11 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all font-medium">
+                    </div>
+                    
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <button id="langToggleBtn" class="icon-btn flex-1 sm:flex-none px-4 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold rounded-xl transition-colors flex items-center justify-center gap-2 border border-slate-200 dark:border-slate-700">
+                            <i class="ph ph-translate text-xl"></i>
+                            <span id="langText">EN</span>
+                        </button>
+                        
+                        <button id="themeToggleBtn" class="icon-btn flex-1 sm:flex-none px-4 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-yellow-400 hover:bg-slate-200 dark:hover:bg-slate-700 font-bold rounded-xl transition-colors flex items-center justify-center border border-slate-200 dark:border-slate-700">
+                            <i id="themeIcon" class="ph ph-moon-stars text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" id="mainContent">
+        <!-- Sections will be injected here -->
+    </main>
+
+    <!-- Empty State -->
+    <div id="noResults" class="hidden flex-col items-center justify-center py-32 text-center">
+        <div class="w-20 h-20 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-5">
+            <i class="ph ph-magnifying-glass-minus text-4xl text-slate-400 dark:text-slate-500"></i>
+        </div>
+        <h3 id="noResultsTitle" class="text-xl font-bold text-slate-800 dark:text-white mb-2 font-cairo">لم يتم العثور على نتائج</h3>
+        <p id="noResultsDesc" class="text-slate-500 dark:text-slate-400">حاول استخدام كلمات بحث مختلفة.</p>
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        // Language Dictionary
+        const uiText = {
+            ar: {
+                mainTitle: "المرجع المبوب للخوارزميات",
+                subTitle: "الشابتر 1 إلى 5 - مصنف ومجهز للنسخ",
+                searchPlaceholder: "ابحث في جميع الخوارزميات...",
+                langText: "EN",
+                noResultsTitle: "لم يتم العثور على نتائج",
+                noResultsDesc: "حاول استخدام كلمات بحث مختلفة.",
+                best: "الأفضل",
+                avg: "المتوسط",
+                worst: "الأسوأ",
+                notes: "ملاحظات",
+                complexity: "التعقيد الزمني (TIME COMPLEXITY)"
+            },
+            en: {
+                mainTitle: "Grouped Algorithm Reference",
+                subTitle: "Chapters 1 to 5 - Categorized & Ready",
+                searchPlaceholder: "Search all algorithms...",
+                langText: "عربي",
+                noResultsTitle: "No results found",
+                noResultsDesc: "Try using different search keywords.",
+                best: "Best",
+                avg: "Avg",
+                worst: "Worst",
+                notes: "Notes",
+                complexity: "TIME COMPLEXITY"
+            }
+        };
+
+        // Complete Bilingual & Split Complexity Data
+        const data = [
+            // Sorting
+            { 
+                id: 6, category: 'sort', 
+                nameAr: "الترتيب بالاختيار", nameEn: "Selection Sort", 
+                descAr: "مسح المصفوفة للبحث عن أصغر عنصر ووضعه في بدايتها، ثم تكرار العملية للبقية.", descEn: "Scanning the array to find the smallest element, placing it at the beginning, and repeating.", 
+                compBest: "$\\Theta(n^2)$", compAvg: "$\\Theta(n^2)$", compWorst: "$\\Theta(n^2)$", 
+                notesAr: "من خوارزميات القوة الغاشمة (Brute Force)، وتقوم بتغيير أماكن العناصر (Swapping).", notesEn: "A brute-force algorithm. Modifies the array in-place via swapping." 
+            },
+            { 
+                id: 7, category: 'sort', 
+                nameAr: "الترتيب الفقاعي", nameEn: "Bubble Sort", 
+                descAr: "مقارنة العناصر المتجاورة وتبديلها إن كانت غير مرتبة لرفع العنصر الأكبر للنهاية.", descEn: "Comparing adjacent elements and swapping them if unordered to bubble up the largest element.", 
+                compBest: "$O(n)$", compAvg: "$\\Theta(n^2)$", compWorst: "$\\Theta(n^2)$", 
+                notesAr: "تندرج أيضاً تحت استراتيجية القوة الغاشمة (Brute Force).", notesEn: "Falls under the Brute Force strategy. It is stable and in-place." 
+            },
+            { 
+                id: 15, category: 'sort', 
+                nameAr: "الترتيب بالإدراج", nameEn: "Insertion Sort", 
+                descAr: "إدراج عنصر جديد في مكانه الصحيح ضمن مصفوفة فرعية مرتبة مسبقاً.", descEn: "Inserting a new element into its proper place within a previously sorted sub-array.", 
+                compBest: "$\\Theta(n)$", compAvg: "$\\Theta(n^2)$", compWorst: "$\\Theta(n^2)$", 
+                notesAr: "سريعة جداً في المصفوفات شبه المرتبة، تندرج تحت تقليل بمقدار ثابت.", notesEn: "Very fast on almost-sorted arrays. Based on decrease-by-a-constant strategy." 
+            },
+            { 
+                id: 20, category: 'sort', 
+                nameAr: "الترتيب بالدمج", nameEn: "Mergesort", 
+                descAr: "ترتيب مصفوفة بتقسيمها لنصفين، ترتيب كل نصف عودياً، ثم دمجهما معاً.", descEn: "Sorting by recursively dividing the array in halves and then merging them.", 
+                compBest: "$\\Theta(n \\log n)$", compAvg: "$\\Theta(n \\log n)$", compWorst: "$\\Theta(n \\log n)$", 
+                notesAr: "عيبها الرئيسي احتياجها لمساحة تخزين إضافية كبيرة (ليست In-place).", notesEn: "Main drawback is the significant extra storage requirement (not in-place)." 
+            },
+            { 
+                id: 21, category: 'sort', 
+                nameAr: "الترتيب السريع", nameEn: "Quicksort", 
+                descAr: "ترتيب المصفوفة استناداً إلى تقسيمها حول عنصر يتم اختياره كمحور (Pivot).", descEn: "Sorting the array by partitioning it around a selected pivot element.", 
+                compBest: "$\\Theta(n \\log n)$", compAvg: "$\\Theta(n \\log n)$", compWorst: "$O(n^2)$", 
+                notesAr: "كفاءتها ممتازة على المصفوفات العشوائية وتعمل في المكان (In-place).", notesEn: "Excellent efficiency on random arrays and operates in-place." 
+            },
+
+            // Search
+            { 
+                id: 2, category: 'search', 
+                nameAr: "البحث المتسلسل", nameEn: "Sequential Search", 
+                descAr: "البحث عن قيمة معينة في مصفوفة بالمرور على جميع العناصر بالتسلسل.", descEn: "Searching for a specific value by scanning all elements sequentially.", 
+                compBest: "$O(1)$", compAvg: "$\\Theta(n)$", compWorst: "$O(n)$", 
+                notesAr: "يمكن تحسينها بإضافة مفتاح البحث كـ 'حارس' (Sentinel) في نهاية المصفوفة.", notesEn: "Can be optimized by adding the search key as a 'Sentinel' at the end." 
+            },
+            { 
+                id: 4, category: 'search', 
+                nameAr: "إيجاد العنصر الأكبر", nameEn: "MaxElement", 
+                descAr: "تحديد أكبر عنصر في مصفوفة معطاة عن طريق مسحها.", descEn: "Determining the largest element in a given array by scanning it.", 
+                compBest: "$\\Theta(n)$", compAvg: "$\\Theta(n)$", compWorst: "$\\Theta(n)$", 
+                notesAr: "عدد المقارنات ثابت لجميع المصفوفات من نفس الحجم.", notesEn: "The number of comparisons is constant for all arrays of the same size." 
+            },
+            { 
+                id: 5, category: 'search', 
+                nameAr: "التحقق من تفرد العناصر", nameEn: "UniqueElements", 
+                descAr: "التحقق مما إذا كانت جميع العناصر في المصفوفة مختلفة وفريدة.", descEn: "Checking if all elements in the array are distinct and unique.", 
+                compBest: "$O(1)$", compAvg: "-", compWorst: "$\\Theta(n^2)$", 
+                notesAr: "تعتمد على حلقتين تكراريتين متداخلتين لمقارنة كل عنصر بالبقية.", notesEn: "Relies on two nested loops to compare each element with the rest." 
+            },
+            { 
+                id: 17, category: 'search', 
+                nameAr: "البحث الثنائي", nameEn: "Binary Search", 
+                descAr: "البحث في مصفوفة مرتبة بمقارنة مفتاح البحث مع العنصر الأوسط وإقصاء النصف.", descEn: "Searching a sorted array by comparing the key with the middle element and splitting.", 
+                compBest: "$O(1)$", compAvg: "$\\approx \\log_2 n$", compWorst: "$\\Theta(\\log n)$", 
+                notesAr: "بحث مثالي للبيانات المرتبة، تطبيق لتقنية التقليل بمعامل ثابت.", notesEn: "Optimal for sorted data. Applies decrease-by-a-constant-factor technique." 
+            },
+            { 
+                id: 19, category: 'search', 
+                nameAr: "الاختيار السريع", nameEn: "Quickselect", 
+                descAr: "إيجاد العنصر رقم (k) الأصغر في المصفوفة بشكل عودي بالاعتماد على التقسيم.", descEn: "Finding the kth smallest element recursively relying on partitioning algorithms.", 
+                compBest: "$O(n)$", compAvg: "$O(n)$", compWorst: "$O(n^2)$", 
+                notesAr: "تندرج تحت استراتيجية تقليل الحجم بشكل متغير.", notesEn: "Classified under the variable-size-decrease strategy." 
+            },
+
+            // Graph
+            { 
+                id: 13, category: 'graph', 
+                nameAr: "البحث في العمق أولاً", nameEn: "Depth-First Search (DFS)", 
+                descAr: "عبور الرسم البياني بالتعمق في مسار العقدة حتى طريق مسدود ثم التراجع خطوة.", descEn: "Traversing a graph by going deep into a path until a dead end, then backtracking.", 
+                compBest: "-", compAvg: "-", 
+                compWorst: "<div class='flex flex-col items-center gap-1.5 w-full min-w-0'><span>$O(|V|^2)$</span><span class='w-3/4 border-t border-slate-300 dark:border-slate-600'></span><span>$O(|V| + |E|)$</span></div>", 
+                notesAr: "تعمل بشكل عودي (تستعين بمكدس Stack لتتبع المسار).", notesEn: "Works recursively (uses a Stack to keep track of the path)." 
+            },
+            { 
+                id: 14, category: 'graph', 
+                nameAr: "البحث في العرض أولاً", nameEn: "Breadth-First Search (BFS)", 
+                descAr: "عبور الرسم البياني بزيارة جميع العقد المجاورة دفعة واحدة قبل الانتقال للمستوى الأعمق.", descEn: "Traversing a graph by visiting all adjacent nodes first before going deeper.", 
+                compBest: "-", compAvg: "-", 
+                compWorst: "<div class='flex flex-col items-center gap-1.5 w-full min-w-0'><span>$O(|V|^2)$</span><span class='w-3/4 border-t border-slate-300 dark:border-slate-600'></span><span>$O(|V| + |E|)$</span></div>", 
+                notesAr: "تعتمد على بنية البيانات 'طابور' (Queue) لتنظيم أولوية الزيارات.", notesEn: "Relies on a Queue data structure to manage visitation priority." 
+            },
+            { 
+                id: 16, category: 'graph', 
+                nameAr: "الفرز الطوبولوجي", nameEn: "Topological Sorting", 
+                descAr: "ترتيب رؤوس الرسم البياني الموجه باستخراج وحذف العقد التي لا تملك حواف داخلة.", descEn: "Ordering directed graph vertices by repeatedly extracting and deleting source nodes.", 
+                compBest: "-", compAvg: "-", compWorst: "$O(|V| + |E|)$", 
+                notesAr: "يشترط لعمل الخوارزمية أن يكون الرسم البياني خالياً من الدورات (DAG).", notesEn: "Requires the graph to be a Directed Acyclic Graph (DAG)." 
+            },
+            { 
+                id: 23, category: 'graph', 
+                nameAr: "عبور الأشجار الثنائية", nameEn: "Binary Tree Traversals", 
+                descAr: "زيارة عقد الشجرة الثنائية الثلاثة (الجذر، الفرع الأيسر والأيمن) بتوقيتات مختلفة.", descEn: "Visiting the binary tree nodes (root, left, right) in various timings.", 
+                compBest: "$\\Theta(n)$", compAvg: "$\\Theta(n)$", compWorst: "$\\Theta(n)$", 
+                notesAr: "الترتيب القبلي (Preorder)، الوسطي (Inorder)، والبعدي (Postorder).", notesEn: "Preorder, Inorder, and Postorder traversal strategies." 
+            },
+
+            // Exhaustive
+            { 
+                id: 10, category: 'exhaustive', 
+                nameAr: "بائع المتجول (بحث شامل)", nameEn: "TSP - Exhaustive Search", 
+                descAr: "إيجاد أقصر مسار لزيارة مدن مختلفة بتوليد كل مسارات التباديل الممكنة.", descEn: "Finding the shortest tour visiting cities by generating all permutations.", 
+                compBest: "-", compAvg: "-", compWorst: "$O(n!)$", 
+                notesAr: "غير عملية كلياً إلا للمشكلات ذات الحجم الصغير جداً.", notesEn: "Completely impractical except for extremely small problem sizes." 
+            },
+            { 
+                id: 11, category: 'exhaustive', 
+                nameAr: "حقيبة الظهر (بحث شامل)", nameEn: "Knapsack - Exhaustive Search", 
+                descAr: "إيجاد أفضل مجموعة فرعية من العناصر التي تتسع في حقيبة بوزن محدد.", descEn: "Finding the most valuable subset of items that fits in a knapsack.", 
+                compBest: "-", compAvg: "-", compWorst: "$\\Theta(2^n)$", 
+                notesAr: "تعتبر من مشكلات العتاد الصعبة (NP-hard).", notesEn: "Considered an NP-hard problem." 
+            },
+            { 
+                id: 12, category: 'exhaustive', 
+                nameAr: "مشكلة التعيين (بحث شامل)", nameEn: "Assignment Problem", 
+                descAr: "توزيع المهام على الأشخاص بأقل تكلفة عبر توليد وتجربة كل التباديل.", descEn: "Distributing tasks to people at minimal cost by generating all permutations.", 
+                compBest: "-", compAvg: "-", compWorst: "$O(n!)$", 
+                notesAr: "يوجد توافق أحادي بين التعيينات الممكنة وتباديل الأرقام.", notesEn: "There is a one-to-one correspondence between assignments and permutations." 
+            },
+
+            // Math
+            { 
+                id: 1, category: 'math', 
+                nameAr: "خوارزمية إقليدس", nameEn: "Euclid's Algorithm", 
+                descAr: "خوارزمية لإيجاد القاسم المشترك الأكبر لعددين عن طريق التكرار.", descEn: "Finding the greatest common divisor (GCD) of two numbers via iteration.", 
+                compBest: "$O(1)$", compAvg: "-", compWorst: "$O(\\log n)$", 
+                notesAr: "يمكن تنفيذها باستخدام التكرار (while) أو كدالة عودية.", notesEn: "Can be implemented using a while loop or recursively." 
+            },
+            { 
+                id: 3, category: 'math', 
+                nameAr: "حساب المضروب", nameEn: "Factorial Recursion", 
+                descAr: "حساب مضروب الرقم (n!) بشكل عودي.", descEn: "Calculating the factorial of a number (n!) recursively.", 
+                compBest: "$\\Theta(n)$", compAvg: "$\\Theta(n)$", compWorst: "$\\Theta(n)$", 
+                notesAr: "العملية الأساسية لقياس الكفاءة فيها هي عملية الضرب.", notesEn: "The basic operation for efficiency measurement is multiplication." 
+            },
+            { 
+                id: 24, category: 'math', 
+                nameAr: "ضرب الأعداد الكبيرة (Karatsuba)", nameEn: "Karatsuba Multiplication", 
+                descAr: "ضرب الأرقام الضخمة لتقليل عمليات الضرب المطلوبة من 4 إلى 3 عمليات.", descEn: "Multiplying large integers by reducing required multiplications from 4 to 3.", 
+                compBest: "$O(n^{1.585})$", compAvg: "$O(n^{1.585})$", compWorst: "$O(n^{1.585})$", 
+                notesAr: "تعمل على تحسين السرعة بتقليل ضرب مقابل إضافة جمع وطرح.", notesEn: "Improves speed by trading one multiplication for extra additions." 
+            },
+
+            // Geometry
+            { 
+                id: 9, category: 'geometry', 
+                nameAr: "أقرب زوج (قوة غاشمة)", nameEn: "Brute-Force Closest-Pair", 
+                descAr: "إيجاد أقرب نقطتين لبعضهما بحساب المسافة بين كل زوج في المستوى.", descEn: "Finding the closest two points by computing the distance between all pairs.", 
+                compBest: "$\\Theta(n^2)$", compAvg: "$\\Theta(n^2)$", compWorst: "$\\Theta(n^2)$", 
+                notesAr: "تتطلب الخوارزمية حساب الجذر التربيعي كعملية أساسية.", notesEn: "Requires calculating the square root as a basic operation." 
+            },
+            { 
+                id: 26, category: 'geometry', 
+                nameAr: "أقرب زوج (فرق تسد)", nameEn: "Closest-Pair by D&C", 
+                descAr: "تقسيم النقاط بخط عمودي لنصفين والتحقق من منطقة التماس.", descEn: "Dividing points vertically into halves and checking the boundary strip.", 
+                compBest: "$O(n \\log n)$", compAvg: "$O(n \\log n)$", compWorst: "$O(n \\log n)$", 
+                notesAr: "توفر حلاً أكثر كفاءة وسرعة جذرياً بدلاً من القوة الغاشمة.", notesEn: "Provides a radically faster and more efficient solution than brute force." 
+            },
+
+            // Helpers
+            { 
+                id: 8, category: 'helpers', 
+                nameAr: "مطابقة النصوص", nameEn: "Brute-Force String Matching", 
+                descAr: "البحث عن نمط داخل نص بإزاحة النمط ومطابقته حرفاً بحرف.", descEn: "Finding a pattern in a text by shifting and matching character by character.", 
+                compBest: "$O(m)$", compAvg: "$O(n)$", compWorst: "$O(nm)$", 
+                notesAr: "تقوم بإزاحة النمط غالباً بعد مقارنة حرف واحد فقط.", notesEn: "Usually shifts the pattern after comparing just one character on mismatch." 
+            },
+            { 
+                id: 18, category: 'helpers', 
+                nameAr: "تقسيم لوموتو", nameEn: "Lomuto Partitioning", 
+                descAr: "تقسيم مصفوفة بحيث تكون العناصر الأصغر يسار المحور والأكبر يمينه.", descEn: "Partitioning an array so smaller elements are to the left of the pivot.", 
+                compBest: "$\\Theta(n)$", compAvg: "$\\Theta(n)$", compWorst: "$\\Theta(n)$", 
+                notesAr: "تُستخدم كخوارزمية تقسيم مساعدة لحل مشكلة التحديد.", notesEn: "Used as a helper partitioning algorithm for selection problems." 
+            },
+            { 
+                id: 22, category: 'helpers', 
+                nameAr: "تقسيم هور", nameEn: "Hoare Partitioning", 
+                descAr: "تقسيم مصفوفة باستخدام مؤشرين يتحركان من الأطراف نحو المنتصف.", descEn: "Partitioning using two pointers moving from both ends towards the center.", 
+                compBest: "$\\Theta(n)$", compAvg: "$\\Theta(n)$", compWorst: "$\\Theta(n)$", 
+                notesAr: "تتوقف الخوارزمية وتتراجع عند تقاطع المؤشرين.", notesEn: "The algorithm stops and crosses over when pointers meet." 
+            },
+            { 
+                id: 25, category: 'helpers', 
+                nameAr: "ضرب مصفوفات ستراسن", nameEn: "Strassen's Matrix", 
+                descAr: "طريقة مبتكرة لضرب مصفوفتين باستخدام 7 عمليات ضرب فقط بدلاً من 8.", descEn: "Innovative method to multiply matrices using only 7 multiplications instead of 8.", 
+                compBest: "$\\Theta(n^{2.807})$", compAvg: "$\\Theta(n^{2.807})$", compWorst: "$\\Theta(n^{2.807})$", 
+                notesAr: "أعلى كفاءة من خوارزمية القوة الغاشمة للمصفوفات الكبيرة.", notesEn: "Higher efficiency than the brute force algorithm for large matrices." 
+            }
+        ];
+
+        // Categories Configuration (Dual Language)
+        const categories = {
+            'sort': { titleAr: 'خوارزميات الترتيب', titleEn: 'Sorting Algorithms', icon: 'ph-sort-ascending', color: 'blue' },
+            'search': { titleAr: 'خوارزميات البحث والمصفوفات', titleEn: 'Search & Arrays', icon: 'ph-magnifying-glass-plus', color: 'indigo' },
+            'graph': { titleAr: 'الرسوم البيانية والأشجار', titleEn: 'Graphs & Trees', icon: 'ph-graph', color: 'emerald' },
+            'exhaustive': { titleAr: 'البحث الشامل والتوافيق', titleEn: 'Exhaustive Search', icon: 'ph-infinity', color: 'rose' },
+            'math': { titleAr: 'الرياضيات والأعداد', titleEn: 'Math & Numerics', icon: 'ph-math-operations', color: 'amber' },
+            'geometry': { titleAr: 'الهندسة الحسابية', titleEn: 'Computational Geometry', icon: 'ph-compass-tool', color: 'cyan' },
+            'helpers': { titleAr: 'تقنيات مساعدة', titleEn: 'Helpers & Miscellaneous', icon: 'ph-puzzle-piece', color: 'slate' }
+        };
+
+        // Tailwind Color maps (Supports dark mode)
+        const colorClasses = {
+            'blue': { border: 'border-t-blue-500', text: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-500/10', icon: 'text-blue-500 dark:text-blue-400', badgeBg: 'bg-blue-100 dark:bg-blue-500/20', badgeText: 'text-blue-700 dark:text-blue-300', boxBg: 'bg-white dark:bg-slate-800' },
+            'indigo': { border: 'border-t-indigo-500', text: 'text-indigo-600 dark:text-indigo-400', bg: 'bg-indigo-50 dark:bg-indigo-500/10', icon: 'text-indigo-500 dark:text-indigo-400', badgeBg: 'bg-indigo-100 dark:bg-indigo-500/20', badgeText: 'text-indigo-700 dark:text-indigo-300', boxBg: 'bg-white dark:bg-slate-800' },
+            'emerald': { border: 'border-t-emerald-500', text: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-500/10', icon: 'text-emerald-500 dark:text-emerald-400', badgeBg: 'bg-emerald-100 dark:bg-emerald-500/20', badgeText: 'text-emerald-700 dark:text-emerald-300', boxBg: 'bg-white dark:bg-slate-800' },
+            'rose': { border: 'border-t-rose-500', text: 'text-rose-600 dark:text-rose-400', bg: 'bg-rose-50 dark:bg-rose-500/10', icon: 'text-rose-500 dark:text-rose-400', badgeBg: 'bg-rose-100 dark:bg-rose-500/20', badgeText: 'text-rose-700 dark:text-rose-300', boxBg: 'bg-white dark:bg-slate-800' },
+            'amber': { border: 'border-t-amber-500', text: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-500/10', icon: 'text-amber-500 dark:text-amber-400', badgeBg: 'bg-amber-100 dark:bg-amber-500/20', badgeText: 'text-amber-700 dark:text-amber-300', boxBg: 'bg-white dark:bg-slate-800' },
+            'cyan': { border: 'border-t-cyan-500', text: 'text-cyan-600 dark:text-cyan-400', bg: 'bg-cyan-50 dark:bg-cyan-500/10', icon: 'text-cyan-500 dark:text-cyan-400', badgeBg: 'bg-cyan-100 dark:bg-cyan-500/20', badgeText: 'text-cyan-700 dark:text-cyan-300', boxBg: 'bg-white dark:bg-slate-800' },
+            'slate': { border: 'border-t-slate-500 dark:border-t-slate-400', text: 'text-slate-600 dark:text-slate-300', bg: 'bg-slate-50 dark:bg-slate-700/30', icon: 'text-slate-500 dark:text-slate-400', badgeBg: 'bg-slate-200 dark:bg-slate-600', badgeText: 'text-slate-700 dark:text-slate-200', boxBg: 'bg-white dark:bg-slate-800' }
+        };
+
+        // State variables
+        let currentLang = 'ar';
+        let isDarkMode = false;
+
+        const mainContent = document.getElementById('mainContent');
+        const searchInput = document.getElementById('searchInput');
+        const noResults = document.getElementById('noResults');
+        const langToggleBtn = document.getElementById('langToggleBtn');
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+
+        function updateUIStatics() {
+            const ui = uiText[currentLang];
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            document.documentElement.lang = currentLang;
+            
+            document.getElementById('mainTitle').textContent = ui.mainTitle;
+            document.getElementById('subTitle').textContent = ui.subTitle;
+            document.getElementById('searchInput').placeholder = ui.searchPlaceholder;
+            document.getElementById('langText').textContent = ui.langText;
+            document.getElementById('noResultsTitle').textContent = ui.noResultsTitle;
+            document.getElementById('noResultsDesc').textContent = ui.noResultsDesc;
+        }
+
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('themeIcon');
+            
+            if (isDarkMode) {
+                html.classList.add('dark');
+                themeIcon.classList.remove('ph-moon-stars');
+                themeIcon.classList.add('ph-sun');
+            } else {
+                html.classList.remove('dark');
+                themeIcon.classList.remove('ph-sun');
+                themeIcon.classList.add('ph-moon-stars');
+            }
+        }
+
+        // Render Function
+        function renderContent(filterText = '') {
+            mainContent.innerHTML = '';
+            let totalMatches = 0;
+            const ui = uiText[currentLang];
+
+            Object.keys(categories).forEach(catKey => {
+                const catData = categories[catKey];
+                const theme = colorClasses[catData.color];
+                
+                // Filter
+                const algosInCat = data.filter(alg => {
+                    if (alg.category !== catKey) return false;
+                    const searchStr = `${alg.nameAr} ${alg.nameEn} ${alg.descAr} ${alg.descEn} ${alg.notesAr} ${alg.notesEn}`.toLowerCase();
+                    return searchStr.includes(filterText.toLowerCase());
+                });
+
+                if (algosInCat.length > 0) {
+                    totalMatches += algosInCat.length;
+
+                    const section = document.createElement('section');
+                    section.className = "mb-14";
+                    
+                    const catTitle = currentLang === 'ar' ? catData.titleAr : catData.titleEn;
+
+                    section.innerHTML = `
+                        <div class="flex items-center gap-3 mb-6 pb-2 border-b border-slate-200/60 dark:border-slate-800">
+                            <div class="p-2.5 rounded-lg ${theme.bg} ${theme.text}">
+                                <i class="ph ${catData.icon} text-2xl"></i>
+                            </div>
+                            <h2 class="text-2xl font-bold text-slate-800 dark:text-white font-cairo">${catTitle}</h2>
+                            <span class="mr-auto ltr:mr-0 ltr:ml-auto px-3 py-1 text-sm font-bold rounded-full ${theme.badgeBg} ${theme.badgeText}">
+                                ${algosInCat.length}
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8" id="grid-${catKey}">
+                        </div>
+                    `;
+                    
+                    mainContent.appendChild(section);
+                    const gridContainer = document.getElementById(`grid-${catKey}`);
+
+                    algosInCat.forEach(alg => {
+                        const card = document.createElement('div');
+                        card.className = `algo-card h-full flex flex-col bg-white dark:bg-darkcard rounded-2xl border border-slate-100 dark:border-slate-800 relative overflow-hidden border-t-4 ${theme.border}`;
+                        
+                        const badgePos = currentLang === 'ar' ? 'left-4' : 'right-4';
+                        const titlePad = currentLang === 'ar' ? 'pl-10' : 'pr-10';
+                        
+                        const title = currentLang === 'ar' ? alg.nameAr : alg.nameEn;
+                        const subTitle = currentLang === 'ar' ? alg.nameEn : alg.nameAr;
+                        const desc = currentLang === 'ar' ? alg.descAr : alg.descEn;
+                        const notes = currentLang === 'ar' ? alg.notesAr : alg.notesEn;
+
+                        card.innerHTML = `
+                            <div class="absolute top-4 ${badgePos} w-8 h-8 rounded-full ${theme.bg} ${theme.text} flex items-center justify-center font-bold text-sm">
+                                ${alg.id}
+                            </div>
+                            
+                            <div class="p-5 flex-grow flex flex-col">
+                                <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-0.5 font-cairo ${titlePad} leading-tight">
+                                    ${title}
+                                </h3>
+                                <div class="text-xs font-bold tracking-wide text-slate-400 dark:text-slate-500 mb-4 uppercase">
+                                    ${subTitle}
+                                </div>
+                                
+                                <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-5 flex-grow">
+                                    ${desc}
+                                </p>
+                                
+                                <!-- 3 Split Complexities Grid -->
+                                <div class="rounded-xl p-3 mb-4 border border-slate-100 dark:border-slate-700/50 ${theme.bg}">
+                                    <div class="flex items-center gap-1.5 mb-2 ${theme.text}">
+                                        <i class="ph ph-chart-bar text-base"></i>
+                                        <span class="text-[11px] font-bold tracking-wider">${ui.complexity}</span>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <!-- Best -->
+                                        <div class="flex flex-col items-center justify-center p-2 rounded-lg border border-slate-100 dark:border-slate-700/30 ${theme.boxBg} h-full w-full min-w-0">
+                                            <span class="text-[11px] font-bold uppercase mb-2 opacity-75 ${theme.text} text-center w-full truncate">${ui.best}</span>
+                                            <div class="math-scroll text-[13px] sm:text-[14px] font-bold text-slate-800 dark:text-slate-200 dir-ltr text-center w-full">
+                                                ${alg.compBest}
+                                            </div>
+                                        </div>
+                                        <!-- Avg -->
+                                        <div class="flex flex-col items-center justify-center p-2 rounded-lg border border-slate-100 dark:border-slate-700/30 ${theme.boxBg} h-full w-full min-w-0">
+                                            <span class="text-[11px] font-bold uppercase mb-2 opacity-75 ${theme.text} text-center w-full truncate">${ui.avg}</span>
+                                            <div class="math-scroll text-[13px] sm:text-[14px] font-bold text-slate-800 dark:text-slate-200 dir-ltr text-center w-full">
+                                                ${alg.compAvg}
+                                            </div>
+                                        </div>
+                                        <!-- Worst -->
+                                        <div class="flex flex-col items-center justify-center p-2 rounded-lg border border-slate-100 dark:border-slate-700/30 ${theme.boxBg} h-full w-full min-w-0">
+                                            <span class="text-[11px] font-bold uppercase mb-2 opacity-75 ${theme.text} text-center w-full truncate">${ui.worst}</span>
+                                            <div class="math-scroll text-[13px] sm:text-[14px] font-bold text-slate-800 dark:text-slate-200 dir-ltr text-center w-full">
+                                                ${alg.compWorst}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
+                                    <i class="ph ph-info text-lg mt-0.5 ${theme.icon}"></i>
+                                    <p class="text-[13px] font-medium text-slate-500 dark:text-slate-400 leading-snug">
+                                        ${notes}
+                                    </p>
+                                </div>
+                            </div>
+                        `;
+                        gridContainer.appendChild(card);
+                    });
+                }
+            });
+
+            if (totalMatches === 0) {
+                noResults.classList.remove('hidden');
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise([mainContent]).catch((err) => console.log(err.message));
+            }
+        }
+
+        // Listeners
+        searchInput.addEventListener('input', (e) => {
+            renderCardsThrottled(e.target.value);
+        });
+
+        langToggleBtn.addEventListener('click', () => {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            updateUIStatics();
+            renderContent(searchInput.value);
+        });
+
+        themeToggleBtn.addEventListener('click', () => {
+            toggleTheme();
+        });
+
+        // Throttle
+        let timeout = null;
+        function renderCardsThrottled(text) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                renderContent(text);
+            }, 150);
+        }
+
+        // Init
+        window.addEventListener('DOMContentLoaded', () => {
+            updateUIStatics();
+            renderContent();
+            
+            // Check system preference for dark mode initially
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                toggleTheme();
+            }
+
+            setTimeout(() => {
+                if (window.MathJax && window.MathJax.typesetPromise) {
+                    window.MathJax.typesetPromise();
+                }
+            }, 300);
+        });
+    </script>
+</body>
+</html>
