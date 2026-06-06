@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المرجع الشامل للخوارزميات | CS353 Algorithm Reference</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={darkMode:'class',theme:{extend:{colors:{darkbg:'#0f172a',darkcard:'#1e293b'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+<script>window.MathJax={tex:{inlineMath:[['$','$']]},startup:{typeset:false}};</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+*{box-sizing:border-box}
+body{font-family:'Cairo',sans-serif}
+::-webkit-scrollbar{width:7px; height:7px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px}
+.dark ::-webkit-scrollbar-thumb{background:#475569}
+
+
+.algo-card{transition:all .3s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+.algo-card:hover{transform:translateY(-5px);box-shadow:0 25px 50px -12px rgba(0,0,0,.15)}
+.dark .algo-card:hover{box-shadow:0 25px 50px -12px rgba(0,0,0,.5)}
+
+
+.info-btn{opacity:0;transition:opacity .2s,transform .2s;width:32px;height:32px;border-radius:50%;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:none;outline:none;background:rgba(99,102,241,.12);color:#6366f1}
+.algo-card:hover .info-btn{opacity:1}
+.info-btn:hover{transform:scale(1.15);background:rgba(99,102,241,.22)}
+
+
+.visual-area{border-radius:.625rem;overflow:hidden;margin-bottom:.75rem;background:rgba(248,250,252,.8); display:flex; justify-content:center; align-items:center; padding: 10px 0;}
+.dark .visual-area{background:rgba(15,23,42,.5)}
+.visual-area svg{display:block;width:100%;height:auto;max-height:85px;}
+svg text { font-family: 'JetBrains Mono', 'Cairo', sans-serif; pointer-events:none; }
+
+
+.cx-cell{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:.5rem .3rem;border-radius:.6rem;min-height:60px;cursor:help}
+.cx-label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;opacity:.7;margin-bottom:4px;text-align:center}
+.cx-val{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;text-align:center;overflow-x:auto;max-width:100%;scrollbar-width:none}
+.cx-val::-webkit-scrollbar{display:none}
+mjx-container{direction:ltr!important;padding:1px!important}
+
+
+.cx-tip{position:absolute;z-index:60;background:#1e293b;color:#f8fafc;padding:.6rem .9rem;border-radius:.7rem;font-size:11px;width:200px;box-shadow:0 10px 30px rgba(0,0,0,.35);bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);line-height:1.5;pointer-events:none;opacity:0;transition:opacity .15s}
+.cx-cell:hover .cx-tip{opacity:1}
+.dark .cx-tip{background:#0f172a;border:1px solid #334155}
+
+
+.mod-badge{font-size:10px;padding:2px 8px;border-radius:9999px;font-weight:700;font-family:'JetBrains Mono',monospace}
+
+
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal-box{background:#fff;border-radius:1.5rem;max-width:640px;width:100%;max-height:92vh;overflow-y:auto;transform:scale(.94) translateY(16px);transition:transform .3s;box-shadow:0 30px 70px rgba(0,0,0,.25)}
+.dark .modal-box{background:#1e293b;color:#f8fafc}
+.modal-overlay.open .modal-box{transform:scale(1) translateY(0)}
+.modal-sec{padding:1rem 1.4rem;border-bottom:1px solid #e2e8f0}
+.dark .modal-sec{border-bottom-color:#334155}
+.modal-sec:last-child{border-bottom:none}
+
+
+.group-tab{padding:.45rem 1.1rem;border-radius:9999px;font-weight:700;font-size:.82rem;cursor:pointer;transition:all .2s;border:1.5px solid transparent;white-space:nowrap}
+.group-tab.active{background:#6366f1;color:#fff;border-color:#6366f1;box-shadow:0 4px 15px rgba(99,102,241,.35)}
+.group-tab:not(.active){background:transparent;color:#64748b;border-color:#e2e8f0}
+.dark .group-tab:not(.active){color:#94a3b8;border-color:#334155}
+.group-tab:not(.active):hover{border-color:#6366f1;color:#6366f1}
+
+
+.legend-bar{display:flex;align-items:center;gap:.4rem;flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px}
+.legend-item{display:flex;align-items:center;gap:.28rem;font-size:.7rem;font-weight:700;white-space:nowrap;color:#64748b;cursor:help; padding:2px 6px; border-radius:4px; transition:background 0.2s}
+.dark .legend-item{color:#94a3b8}
+.legend-item:hover{background:rgba(0,0,0,0.05)}
+.dark .legend-item:hover{background:rgba(255,255,255,0.05)}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+
+.section-hdr{display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;padding-bottom:.75rem;border-bottom:2px solid #e2e8f0}
+.dark .section-hdr{border-bottom-color:#1e293b}
+.icon-btn{transition:transform .2s}
+.icon-btn:active{transform:scale(.9)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.card-appear{animation:fadeUp .35s ease both}
+.math-scroll{overflow-x:auto;overflow-y:hidden;max-width:100%;scrollbar-width:none}
+.strategy-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:9999px;font-size:12px;font-weight:700;background:rgba(99,102,241,.1);color:#4f46e5}
+.dark .strategy-pill{background:rgba(99,102,241,.18);color:#a5b4fc}
+</style>
+</head>
+<body class="min-h-screen pb-24 bg-[#f8fafc] dark:bg-[#0f172a] text-slate-800 dark:text-slate-100 transition-colors duration-300">
+
+<header class="sticky top-0 z-30 border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl shadow-sm transition-colors">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+    <div class="flex flex-col lg:flex-row justify-between items-center gap-4">
+      <div class="flex items-center gap-3 w-full lg:w-auto">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center shadow-lg shrink-0">
+          <i class="ph ph-graph text-2xl text-white"></i>
+        </div>
+        <div>
+          <h1 id="mainTitle" class="text-xl font-bold text-slate-900 dark:text-white leading-tight">المرجع الشامل للخوارزميات</h1>
+          <p id="subTitle" class="text-xs text-slate-500 dark:text-slate-400 font-semibold">المودلات 1-12 · تفاعلي ومبوّب</p>
+        </div>
+      </div>
+      <div class="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
+        <div class="relative w-full sm:w-72">
+          <i class="ph ph-magnifying-glass absolute text-slate-400 pointer-events-none" style="top:50%;right:12px;transform:translateY(-50%)" id="searchIcon"></i>
+          <input type="text" id="searchInput" placeholder="ابحث عن خوارزمية..."
+            class="w-full px-10 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400/50 transition-all font-semibold">
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="langBtn" class="icon-btn px-4 py-2.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-sm hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors flex items-center gap-2">
+            <i class="ph ph-translate text-lg"></i><span id="langText">EN</span>
+          </button>
+          <button id="themeBtn" class="icon-btn px-3 py-2.5 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+            <i id="themeIcon" class="ph ph-moon-stars text-xl text-slate-700 dark:text-yellow-400"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="sticky top-[73px] z-20 border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2.5 flex flex-col xl:flex-row items-start xl:items-center gap-3">
+    <div class="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 rounded-full p-1 shrink-0 w-full xl:w-auto overflow-x-auto">
+      <button class="group-tab active" data-group="type" id="tabType">حسب النوع</button>
+      <button class="group-tab" data-group="module" id="tabModule">حسب المودل</button>
+      <button class="group-tab" data-group="complexity" id="tabComplexity">حسب التعقيد</button>
+    </div>
+    <div class="legend-bar flex-1 w-full" id="legendBar"></div>
+  </div>
+</div>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 py-8" id="mainContent"></main>
+
+<div id="noResults" class="hidden flex-col items-center justify-center py-32 text-center">
+  <div class="w-20 h-20 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-5">
+    <i class="ph ph-magnifying-glass-minus text-4xl text-slate-400"></i>
+  </div>
+  <h3 id="noResultsTitle" class="text-xl font-bold mb-2">لم يتم العثور على نتائج</h3>
+  <p id="noResultsDesc" class="text-slate-500 dark:text-slate-400">حاول استخدام كلمات بحث مختلفة.</p>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-sec flex items-start gap-4">
+      <div id="mColorBar" class="w-1.5 self-stretch rounded-full shrink-0"></div>
+      <div class="flex-1 min-w-0 py-1">
+        <div id="mBadges" class="flex flex-wrap gap-1.5 mb-2.5"></div>
+        <h2 id="mTitle" class="text-xl font-bold leading-snug mb-1"></h2>
+        <p id="mSub" class="text-sm text-slate-500 dark:text-slate-400 font-semibold tracking-wide"></p>
+      </div>
+      <button onclick="closeModal()" class="text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors shrink-0 mt-1">
+        <i class="ph ph-x-circle text-2xl"></i>
+      </button>
+    </div>
+    <div class="modal-sec">
+      <p id="lStrategy" class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">الاستراتيجية</p>
+      <div id="mStrategy" class="strategy-pill"></div>
+    </div>
+    <div class="modal-sec">
+      <p id="lDesc" class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">الوصف التفصيلي</p>
+      <p id="mDesc" class="text-sm leading-relaxed text-slate-600 dark:text-slate-300"></p>
+    </div>
+    <div class="modal-sec">
+      <p id="lCx" class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-3">التعقيدات الزمنية والمكانية</p>
+      <div class="grid grid-cols-2 gap-2.5">
+        <div class="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl"><p id="lWorst" class="text-[9px] font-bold text-slate-400 mb-1 uppercase">أسوأ حالة</p><div id="mCxW" class="text-sm font-bold math-scroll"></div></div>
+        <div class="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl"><p id="lSpace" class="text-[9px] font-bold text-slate-400 mb-1 uppercase">المكاني</p><div id="mCxS" class="text-sm font-bold math-scroll"></div></div>
+        <div class="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl"><p id="lBest" class="text-[9px] font-bold text-slate-400 mb-1 uppercase">أفضل حالة</p><div id="mCxB" class="text-sm font-bold math-scroll"></div></div>
+        <div class="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl"><p id="lAvg" class="text-[9px] font-bold text-slate-400 mb-1 uppercase">متوسط</p><div id="mCxA" class="text-sm font-bold math-scroll"></div></div>
+      </div>
+    </div>
+    <div class="modal-sec">
+      <p id="lProps" class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">الخصائص المهمة</p>
+      <p id="mProps" class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed bg-slate-50 dark:bg-slate-800 rounded-xl p-3"></p>
+    </div>
+    <div class="modal-sec">
+      <p id="lWhen" class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">متى تستخدمها؟</p>
+      <p id="mWhen" class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+const UI={
+  ar:{mainTitle:'المرجع الشامل للخوارزميات',subTitle:'المودلات 1-12 · تفاعلي ومبوّب',search:'ابحث عن خوارزمية، التعقيد، الاستراتيجية...',langText:'EN',noTitle:'لم يتم العثور على نتائج',noDesc:'حاول استخدام كلمات بحث مختلفة.',best:'الأفضل',avg:'المتوسط',worst:'الأسوأ',space:'المكاني',tabType:'حسب النوع',tabModule:'حسب المودل',tabCx:'حسب التعقيد',module:'المودل',details:'تفاصيل',lStrategy:'الاستراتيجية',lDesc:'الوصف التفصيلي',lCx:'التعقيدات الزمنية والمكانية',lProps:'الخصائص المهمة',lWhen:'متى تستخدمها؟',faster:'أسرع',slower:'أبطأ'},
+  en:{mainTitle:'CS353 Algorithm Reference',subTitle:'Modules 1-12 · Interactive & Categorized',search:'Search algorithms, complexity, strategy...',langText:'عربي',noTitle:'No results found',noDesc:'Try different keywords.',best:'Best',avg:'Avg',worst:'Worst',space:'Space',tabType:'By Type',tabModule:'By Module',tabCx:'By Complexity',module:'Module',details:'Details',lStrategy:'Strategy',lDesc:'Detailed Description',lCx:'Time & Space Complexities',lProps:'Key Properties',lWhen:'When to use?',faster:'Faster',slower:'Slower'}
+};
+
+const CX={
+  constant:    {color:'#10b981',strip:'rgba(16,185,129,.18)',labelAr:'O(1) — ثابت',         labelEn:'O(1) — Constant',      tipAr:'عدد الخطوات ثابت مهما كان الحجم. مثالي تماماً!', tipEn:'Steps remain constant regardless of size. Perfect!'},
+  logarithmic: {color:'#06b6d4',strip:'rgba(6,182,212,.15)',labelAr:'O(log n) — لوغاريتمي', labelEn:'O(log n) — Logarithmic',tipAr:'يضاف خطوة لكل ضعف في الحجم. n=مليون → 20 خطوة!', tipEn:'One extra step per doubled size. n=1M → 20 steps!'},
+  linear:      {color:'#3b82f6',strip:'rgba(59,130,246,.15)',labelAr:'O(n) — خطي',           labelEn:'O(n) — Linear',         tipAr:'الخطوات تتناسب مع الحجم. n=1000 → 1000 خطوة.', tipEn:'Steps scale linearly with input size.'},
+  linearithmic:{color:'#8b5cf6',strip:'rgba(139,92,246,.15)',labelAr:'O(n log n) — خطي-لوغاريتمي',labelEn:'O(n log n) — Linearithmic',tipAr:'الحد الأمثل للفرز المقارناتي. n=1000 → ~10,000 خطوة.', tipEn:'Optimal bound for comparison sorts.'},
+  subquadratic:{color:'#a78bfa',strip:'rgba(167,139,250,.15)',labelAr:'O(nᵏ) — شبه تربيعي', labelEn:'O(nᵏ) — Sub-quadratic', tipAr:'أسرع من تربيعي. يظهر في ضرب الأعداد والمصفوفات.', tipEn:'Faster than O(n²). Common in advanced math algos.'},
+  quadratic:   {color:'#f59e0b',strip:'rgba(245,158,11,.15)',labelAr:'O(n²) — تربيعي',       labelEn:'O(n²) — Quadratic',     tipAr:'n=1000 → مليون خطوة. بطيء للبيانات الكبيرة.', tipEn:'n=1000 → 1M steps. Slow for large datasets.'},
+  cubic:       {color:'#f97316',strip:'rgba(249,115,22,.15)',labelAr:'O(n³) — تكعيبي',       labelEn:'O(n³) — Cubic',         tipAr:'n=100 → مليون خطوة. مقبول فقط للمصفوفات الصغيرة.', tipEn:'n=100 → 1M steps. Only for small inputs.'},
+  exponential: {color:'#ef4444',strip:'rgba(239,68,68,.12)', labelAr:'O(2ⁿ) — أسي',          labelEn:'O(2ⁿ) — Exponential',   tipAr:'n=50 → أكثر من ذرات الكون! غير عملي لـ n>30.', tipEn:'Grows insanely fast. Impractical for n > 30.'},
+  factorial:   {color:'#dc2626',strip:'rgba(220,38,38,.1)',  labelAr:'O(n!) — مضروبي',       labelEn:'O(n!) — Factorial',     tipAr:'n=20 → 2.4 كوينتيليون! غير عملي تماماً لـ n>12.', tipEn:'The absolute worst. Impractical for n > 12.'},
+  mixed:       {color:'#6b7280',strip:'rgba(107,114,128,.12)',labelAr:'متغير — يعتمد',  labelEn:'Variable — Dep.',  tipAr:'يعتمد على هيكل البيانات: مصفوفة O(V²) أو قوائم O(V+E).', tipEn:'Depends on data structure (e.g., Matrix vs Lists).'}
+};
+
+const MODS={
+  1:{ar:'أساسيات الخوارزميات',en:'Algorithm Fundamentals',icon:'ph-function',color:'#6366f1'},
+  2:{ar:'تحليل الكفاءة',en:'Algorithm Analysis',icon:'ph-chart-line',color:'#8b5cf6'},
+  3:{ar:'القوة الغاشمة والبحث الشامل',en:'Brute Force & Exhaustive Search',icon:'ph-barbell',color:'#f97316'},
+  4:{ar:'التقليل والقهر',en:'Decrease-and-Conquer',icon:'ph-arrow-down',color:'#10b981'},
+  5:{ar:'فرق تسد',en:'Divide-and-Conquer',icon:'ph-scissors',color:'#06b6d4'},
+  6:{ar:'التحويل والقهر (١)',en:'Transform-and-Conquer I',icon:'ph-arrows-clockwise',color:'#f59e0b'},
+  7:{ar:'التحويل والقهر (٢)',en:'Transform-and-Conquer II',icon:'ph-recycle',color:'#a78bfa'},
+  8:{ar:'مقايضة المساحة والوقت (١)',en:'Space-Time Trade-offs I',icon:'ph-scales',color:'#f43f5e'},
+  9:{ar:'مقايضة المساحة والوقت (٢)',en:'Space-Time Trade-offs II',icon:'ph-database',color:'#84cc16'},
+  10:{ar:'البرمجة الديناميكية',en:'Dynamic Programming',icon:'ph-table',color:'#14b8a6'},
+  11:{ar:'التقنية الجشعة',en:'Greedy Technique',icon:'ph-target',color:'#f59e0b'},
+  12:{ar:'حدود قوة الخوارزميات',en:'Limitations of Algorithm Power',icon:'ph-prohibit',color:'#94a3b8'}
+};
+
+const CATS={
+  sort:      {ar:'خوارزميات الترتيب',en:'Sorting Algorithms',icon:'ph-sort-ascending',color:'#3b82f6'},
+  search:    {ar:'البحث والمصفوفات',en:'Search & Arrays',icon:'ph-magnifying-glass-plus',color:'#6366f1'},
+  graph:     {ar:'الرسوم البيانية والأشجار',en:'Graphs & Trees',icon:'ph-graph',color:'#10b981'},
+  ds:        {ar:'هياكل البيانات',en:'Data Structures',icon:'ph-tree-structure',color:'#8b5cf6'},
+  string:    {ar:'معالجة النصوص',en:'String Processing',icon:'ph-text-aa',color:'#f43f5e'},
+  dp:        {ar:'البرمجة الديناميكية',en:'Dynamic Programming',icon:'ph-table',color:'#14b8a6'},
+  greedy:    {ar:'التقنية الجشعة',en:'Greedy Algorithms',icon:'ph-target',color:'#f59e0b'},
+  exhaustive:{ar:'البحث الشامل والتوافيق',en:'Exhaustive Search',icon:'ph-infinity',color:'#ef4444'},
+  geometry:  {ar:'الهندسة الحسابية',en:'Computational Geometry',icon:'ph-compass-tool',color:'#06b6d4'},
+  math:      {ar:'الرياضيات والأعداد',en:'Math & Numerics',icon:'ph-math-operations',color:'#f97316'},
+  limits:    {ar:'حدود الخوارزميات',en:'Limitations',icon:'ph-prohibit',color:'#94a3b8'},
+  helpers:   {ar:'تقنيات مساعدة',en:'Helpers & Misc',icon:'ph-puzzle-piece',color:'#64748b'}
+};
+
+const CX_GROUPS=[
+  {key:'constant',    ar:'مثالي — O(1)',              en:'Ideal — O(1)'},
+  {key:'logarithmic', ar:'ممتاز — O(log n)',           en:'Excellent — O(log n)'},
+  {key:'linear',      ar:'جيد جداً — O(n)',             en:'Very Good — O(n)'},
+  {key:'linearithmic',ar:'جيد — O(n log n)',            en:'Good — O(n log n)'},
+  {key:'subquadratic',ar:'مقبول — O(nᵏ)',              en:'Acceptable — O(nᵏ)'},
+  {key:'mixed',       ar:'متغير — حسب الهيكل',         en:'Variable — Graph-Dependent'},
+  {key:'quadratic',   ar:'بطيء — O(n²)',               en:'Slow — O(n²)'},
+  {key:'cubic',       ar:'بطيء جداً — O(n³)',           en:'Very Slow — O(n³)'},
+  {key:'exponential', ar:'كارثي — O(2ⁿ)',               en:'Catastrophic — O(2ⁿ)'},
+  {key:'factorial',   ar:'كارثي — O(n!)',               en:'Catastrophic — O(n!)'}
+];
+
+function getSVG(id, l){
+const B='#60a5fa',G='#34d399',Y='#fbbf24',R='#f87171',P='#c084fc',Gr='#94a3b8',D='#64748b',T='white';
+
+const t = {
+  min: l==='ar'?'أصغر':'min',
+  swap: l==='ar'?'تبديل':'swap',
+  insert: l==='ar'?'إدراج':'insert',
+  merge: l==='ar'?'دمج':'merge',
+  scan: l==='ar'?'مسح →':'scan →',
+  pivot: l==='ar'?'محور':'pivot',
+  mid: l==='ar'?'وسط':'mid',
+  max: l==='ar'?'أكبر':'max',
+  dup: l==='ar'?'تكرار':'dup!',
+  rot: l==='ar'?'دوران':'rot',
+  key: l==='ar'?'مفتاح':'key',
+  val: l==='ar'?'قيمة':'val',
+  pat: l==='ar'?'النمط':'pattern',
+  txt: l==='ar'?'النص':'text',
+  jump: l==='ar'?'قفز!':'jump!',
+  ans: l==='ar'?'النتيجة':'Result',
+  pair: l==='ar'?'أقرب زوج':'Closest'
+};
+
+const V={
+'sel-sort':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="8" y="35" width="22" height="30" rx="3" fill="${B}" opacity=".75"/><rect x="36" y="20" width="22" height="45" rx="3" fill="${B}" opacity=".75"/><rect x="64" y="50" width="22" height="15" rx="3" fill="${Y}" opacity=".9"/><rect x="92" y="8" width="22" height="57" rx="3" fill="${B}" opacity=".75"/><rect x="120" y="28" width="22" height="37" rx="3" fill="${B}" opacity=".75"/><rect x="148" y="14" width="22" height="51" rx="3" fill="${B}" opacity=".75"/>
+<line x1="75" y1="5" x2="75" y2="47" stroke="${Y}" stroke-width="1.5" stroke-dasharray="3,2"/><polygon points="75,52 68,42 82,42" fill="${Y}"/>
+<text x="75" y="10" text-anchor="middle" dominant-baseline="central" fill="${Y}" font-size="10" font-weight="bold">${t.min}</text>
+<text x="180" y="40" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="10" font-weight="bold">${t.scan}</text></svg>`,
+
+'bub-sort':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="8" y="38" width="22" height="27" rx="3" fill="${B}" opacity=".75"/><rect x="36" y="14" width="22" height="51" rx="3" fill="${Y}" opacity=".9"/><rect x="64" y="25" width="22" height="40" rx="3" fill="${Y}" opacity=".9"/><rect x="92" y="50" width="22" height="15" rx="3" fill="${B}" opacity=".75"/><rect x="120" y="32" width="22" height="33" rx="3" fill="${B}" opacity=".75"/><rect x="148" y="6" width="22" height="59" rx="3" fill="${G}" opacity=".85"/>
+<path d="M47 10 Q60 0 75 10" stroke="${R}" stroke-width="1.5" fill="none"/><polygon points="75,10 70,5 78,4" fill="${R}"/>
+<text x="61" y="8" text-anchor="middle" dominant-baseline="central" fill="${R}" font-size="9" font-weight="bold">${t.swap}</text></svg>`,
+
+'ins-sort':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="5" y="5" width="85" height="60" rx="5" fill="${G}" opacity=".08"/><rect x="12" y="18" width="18" height="42" rx="3" fill="${G}" opacity=".75"/><rect x="36" y="30" width="18" height="30" rx="3" fill="${G}" opacity=".75"/><rect x="60" y="44" width="18" height="16" rx="3" fill="${G}" opacity=".75"/>
+<rect x="100" y="24" width="18" height="36" rx="3" fill="${Y}" opacity=".9"/><rect x="124" y="12" width="18" height="48" rx="3" fill="${B}" opacity=".65"/><rect x="148" y="38" width="18" height="22" rx="3" fill="${B}" opacity=".65"/>
+<line x1="109" y1="20" x2="69" y2="20" stroke="${Y}" stroke-width="1.5" stroke-dasharray="3,2"/><polygon points="65,20 75,15 75,25" fill="${Y}"/>
+<text x="109" y="12" text-anchor="middle" dominant-baseline="central" fill="${Y}" font-size="10" font-weight="bold">${t.insert}</text></svg>`,
+
+'merge-sort':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="60" y="5" width="90" height="16" rx="4" fill="${B}" opacity=".75"/>
+<text x="105" y="13" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="11" font-weight="bold">3, 1, 5, 2, 4</text>
+<line x1="88" y1="21" x2="54" y2="35" stroke="${Gr}" stroke-width="1.5"/><line x1="122" y1="21" x2="156" y2="35" stroke="${Gr}" stroke-width="1.5"/>
+<rect x="22" y="35" width="62" height="14" rx="3" fill="${P}" opacity=".75"/><text x="53" y="42" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">3, 1, 5</text>
+<rect x="126" y="35" width="62" height="14" rx="3" fill="${P}" opacity=".75"/><text x="157" y="42" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">2, 4</text>
+<text x="105" y="58" text-anchor="middle" dominant-baseline="central" fill="${Y}" font-size="11" font-weight="bold">↓ ${t.merge}</text></svg>`,
+
+'quick-sort':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="5" y="14" width="22" height="24" rx="3" fill="${B}" opacity=".75"/><rect x="32" y="22" width="22" height="16" rx="3" fill="${B}" opacity=".75"/><rect x="59" y="4" width="22" height="34" rx="3" fill="${R}" opacity=".9"/><rect x="86" y="30" width="22" height="8" rx="3" fill="${B}" opacity=".75"/><rect x="113" y="14" width="22" height="24" rx="3" fill="${B}" opacity=".75"/><rect x="140" y="32" width="22" height="6" rx="3" fill="${B}" opacity=".75"/>
+<text x="70" y="46" text-anchor="middle" dominant-baseline="central" fill="${R}" font-size="10" font-weight="bold">${t.pivot}</text>
+<line x1="5" y1="58" x2="56" y2="58" stroke="${B}" stroke-width="2"/><text x="30" y="50" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="12">≤</text>
+<line x1="84" y1="58" x2="168" y2="58" stroke="${G}" stroke-width="2"/><text x="126" y="50" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="12">≥</text></svg>`,
+
+'heap-sort':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<circle cx="105" cy="15" r="12" fill="${R}" opacity=".85"/><text x="105" y="15" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="11" font-weight="bold">9</text>
+<line x1="96" y1="25" x2="67" y2="42" stroke="${Gr}" stroke-width="1.5"/><line x1="114" y1="25" x2="143" y2="42" stroke="${Gr}" stroke-width="1.5"/>
+<circle cx="64" cy="50" r="11" fill="${Y}" opacity=".85"/><text x="64" y="50" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">7</text>
+<circle cx="146" cy="50" r="11" fill="${Y}" opacity=".85"/><text x="146" y="50" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">6</text>
+<text x="175" y="25" text-anchor="middle" dominant-baseline="central" fill="${R}" font-size="10" font-weight="bold">Max</text></svg>`,
+
+'count-sort':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="5" y="15" width="196" height="22" rx="4" fill="${B}" opacity=".1" stroke="${B}" stroke-width="1"/>
+<text x="28" y="26" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="12" font-weight="bold">3</text><text x="68" y="26" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="12" font-weight="bold">1</text><text x="105" y="26" text-anchor="middle" dominant-baseline="central" fill="${Y}" font-size="12" font-weight="bold">3</text><text x="142" y="26" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="12" font-weight="bold">2</text><text x="180" y="26" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="12" font-weight="bold">1</text>
+<rect x="5" y="45" width="196" height="18" rx="4" fill="${G}" opacity=".1" stroke="${G}" stroke-width="1"/>
+<text x="50" y="54" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="10" font-weight="bold">C[1]=2</text><text x="105" y="54" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="10" font-weight="bold">C[2]=1</text><text x="162" y="54" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="10" font-weight="bold">C[3]=2</text></svg>`,
+
+'seq-search':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="5" y="25" width="196" height="28" rx="5" fill="${B}" opacity=".08" stroke="${B}" stroke-width="1" stroke-opacity=".3"/>
+<text x="25" y="39" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="12">8</text><text x="52" y="39" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="12">3</text><text x="79" y="39" text-anchor="middle" dominant-baseline="central" fill="${Y}" font-size="14" font-weight="bold">5</text><text x="106" y="39" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="12">1</text><text x="133" y="39" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="12">9</text><text x="160" y="39" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="12">4</text><text x="187" y="39" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="12">7</text>
+<rect x="65" y="25" width="28" height="28" rx="4" fill="${Y}" opacity=".2" stroke="${Y}" stroke-width="1.5"/>
+<polygon points="79,15 73,25 85,25" fill="${Y}"/><text x="79" y="10" text-anchor="middle" dominant-baseline="central" fill="${Y}" font-size="10" font-weight="bold">key</text>
+<line x1="10" y1="60" x2="190" y2="60" stroke="${Gr}" stroke-width="1.5" stroke-dasharray="4,2"/><polygon points="190,60 185,57 185,63" fill="${Gr}"/></svg>`,
+
+'bin-search':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="5" y="25" width="196" height="24" rx="5" fill="${B}" opacity=".08" stroke="${B}" stroke-width="1" stroke-opacity=".3"/>
+<text x="20" y="37" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="11">1</text><text x="40" y="37" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="11">3</text><text x="60" y="37" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="11">5</text><text x="80" y="37" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="11">7</text>
+<text x="105" y="37" text-anchor="middle" dominant-baseline="central" fill="${R}" font-size="14" font-weight="bold">9</text>
+<text x="128" y="37" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="11">11</text><text x="150" y="37" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="11">13</text><text x="175" y="37" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="11">15</text>
+<rect x="88" y="25" width="32" height="24" rx="4" fill="${R}" opacity=".2" stroke="${R}" stroke-width="1.5"/>
+<polygon points="105,15 99,25 111,25" fill="${R}"/><text x="105" y="10" text-anchor="middle" dominant-baseline="central" fill="${R}" font-size="10" font-weight="bold">${t.mid}</text>
+<line x1="5" y1="58" x2="86" y2="58" stroke="${D}" stroke-width="1.5" stroke-dasharray="3,2"/><text x="45" y="58" text-anchor="middle" dominant-baseline="central" fill="${R}" font-size="12" font-weight="bold">✗</text></svg>`,
+
+'max-elem':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="15" y="45" width="24" height="20" rx="3" fill="${B}" opacity=".7"/><rect x="45" y="35" width="24" height="30" rx="3" fill="${B}" opacity=".7"/><rect x="75" y="15" width="24" height="50" rx="3" fill="${R}" opacity=".85"/><rect x="105" y="40" width="24" height="25" rx="3" fill="${B}" opacity=".7"/><rect x="135" y="25" width="24" height="40" rx="3" fill="${B}" opacity=".7"/><rect x="165" y="30" width="24" height="35" rx="3" fill="${B}" opacity=".7"/>
+<text x="87" y="5" text-anchor="middle" dominant-baseline="central" fill="${R}" font-size="10" font-weight="bold">${t.max}</text><polygon points="87,15 82,9 92,9" fill="${R}"/></svg>`,
+
+'dfs':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<line x1="105" y1="18" x2="55" y2="40" stroke="${P}" stroke-width="2.5"/><line x1="105" y1="18" x2="155" y2="40" stroke="${Gr}" stroke-width="1.5"/><line x1="55" y1="40" x2="30" y2="60" stroke="${P}" stroke-width="2.5"/><line x1="55" y1="40" x2="80" y2="60" stroke="${P}" stroke-width="2.5"/><line x1="155" y1="40" x2="135" y2="60" stroke="${Gr}" stroke-width="1.5"/><line x1="155" y1="40" x2="178" y2="60" stroke="${Gr}" stroke-width="1.5"/>
+<circle cx="105" cy="18" r="12" fill="${R}" opacity=".9"/><text x="105" y="18" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">1</text>
+<circle cx="55" cy="40" r="12" fill="${P}" opacity=".9"/><text x="55" y="40" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">2</text>
+<circle cx="155" cy="40" r="12" fill="${Gr}" opacity=".6"/><text x="155" y="40" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10">5</text>
+<circle cx="30" cy="60" r="10" fill="${P}" opacity=".8"/><text x="30" y="60" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9" font-weight="bold">3</text>
+<circle cx="80" cy="60" r="10" fill="${P}" opacity=".8"/><text x="80" y="60" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9" font-weight="bold">4</text>
+<circle cx="135" cy="60" r="9" fill="${Gr}" opacity=".4"/><circle cx="178" cy="60" r="9" fill="${Gr}" opacity=".4"/>
+<text x="160" y="16" text-anchor="start" dominant-baseline="central" fill="${P}" font-size="10" font-weight="bold">DFS</text></svg>`,
+
+'bfs':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<line x1="105" y1="18" x2="65" y2="40" stroke="${Gr}" stroke-width="1.5"/><line x1="105" y1="18" x2="145" y2="40" stroke="${Gr}" stroke-width="1.5"/><line x1="65" y1="40" x2="40" y2="60" stroke="${Gr}" stroke-width="1.5"/><line x1="65" y1="40" x2="90" y2="60" stroke="${Gr}" stroke-width="1.5"/><line x1="145" y1="40" x2="120" y2="60" stroke="${Gr}" stroke-width="1.5"/><line x1="145" y1="40" x2="170" y2="60" stroke="${Gr}" stroke-width="1.5"/>
+<circle cx="105" cy="18" r="12" fill="${R}" opacity=".9"/><text x="105" y="18" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="11" font-weight="bold">A</text>
+<circle cx="65" cy="40" r="11" fill="${Y}" opacity=".85"/><text x="65" y="40" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">B</text>
+<circle cx="145" cy="40" r="11" fill="${Y}" opacity=".85"/><text x="145" y="40" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">C</text>
+<circle cx="40" cy="60" r="9" fill="${B}" opacity=".75"/><circle cx="90" cy="60" r="9" fill="${B}" opacity=".75"/><circle cx="120" cy="60" r="9" fill="${B}" opacity=".75"/><circle cx="170" cy="60" r="9" fill="${B}" opacity=".75"/>
+<text x="160" y="16" text-anchor="start" dominant-baseline="central" fill="${Y}" font-size="10" font-weight="bold">BFS</text>
+<line x1="20" y1="18" x2="190" y2="18" stroke="${R}" stroke-width="1" stroke-dasharray="2,2" opacity="0.4"/>
+<line x1="20" y1="40" x2="190" y2="40" stroke="${Y}" stroke-width="1" stroke-dasharray="2,2" opacity="0.4"/>
+<line x1="20" y1="60" x2="190" y2="60" stroke="${B}" stroke-width="1" stroke-dasharray="2,2" opacity="0.4"/></svg>`,
+
+'topo-sort':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<circle cx="28" cy="35" r="12" fill="${R}" opacity=".85"/><text x="28" y="35" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="11" font-weight="bold">A</text>
+<line x1="40" y1="35" x2="68" y2="20" stroke="${Gr}" stroke-width="1.5"/><line x1="40" y1="35" x2="68" y2="50" stroke="${Gr}" stroke-width="1.5"/>
+<circle cx="80" cy="20" r="12" fill="${P}" opacity=".85"/><text x="80" y="20" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="11" font-weight="bold">B</text>
+<circle cx="80" cy="50" r="12" fill="${P}" opacity=".85"/><text x="80" y="50" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="11" font-weight="bold">C</text>
+<line x1="92" y1="20" x2="120" y2="35" stroke="${Gr}" stroke-width="1.5"/><line x1="92" y1="50" x2="120" y2="35" stroke="${Gr}" stroke-width="1.5"/>
+<circle cx="132" cy="35" r="12" fill="${Y}" opacity=".85"/><text x="132" y="35" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="11" font-weight="bold">D</text>
+<line x1="144" y1="35" x2="172" y2="35" stroke="${Gr}" stroke-width="1.5"/>
+<circle cx="184" cy="35" r="12" fill="${G}" opacity=".85"/><text x="184" y="35" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="11" font-weight="bold">E</text></svg>`,
+
+'bin-tree':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<line x1="105" y1="15" x2="65" y2="35" stroke="${Gr}" stroke-width="1.5"/><line x1="105" y1="15" x2="145" y2="35" stroke="${Gr}" stroke-width="1.5"/><line x1="65" y1="35" x2="40" y2="55" stroke="${Gr}" stroke-width="1.5"/><line x1="65" y1="35" x2="90" y2="55" stroke="${Gr}" stroke-width="1.5"/><line x1="145" y1="35" x2="122" y2="55" stroke="${Gr}" stroke-width="1.5"/><line x1="145" y1="35" x2="165" y2="55" stroke="${Gr}" stroke-width="1.5"/>
+<circle cx="105" cy="15" r="11" fill="${B}" opacity=".85"/><text x="105" y="15" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10">4</text>
+<circle cx="65" cy="35" r="11" fill="${B}" opacity=".85"/><text x="65" y="35" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10">2</text>
+<circle cx="145" cy="35" r="11" fill="${B}" opacity=".85"/><text x="145" y="35" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10">6</text>
+<circle cx="40" cy="55" r="9" fill="${G}" opacity=".8"/><text x="40" y="55" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9">1</text>
+<circle cx="90" cy="55" r="9" fill="${G}" opacity=".8"/><text x="90" y="55" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9">3</text>
+<circle cx="122" cy="55" r="9" fill="${G}" opacity=".8"/><text x="122" y="55" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9">5</text>
+<circle cx="165" cy="55" r="9" fill="${G}" opacity=".8"/><text x="165" y="55" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9">7</text></svg>`,
+
+'bst':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<line x1="105" y1="15" x2="65" y2="35" stroke="${Y}" stroke-width="2"/><line x1="105" y1="15" x2="155" y2="35" stroke="${Gr}" stroke-width="1.5"/><line x1="65" y1="35" x2="38" y2="55" stroke="${Y}" stroke-width="2"/><line x1="65" y1="35" x2="90" y2="55" stroke="${Gr}" stroke-width="1.5"/><line x1="155" y1="35" x2="133" y2="55" stroke="${Gr}" stroke-width="1.5"/><line x1="155" y1="35" x2="177" y2="55" stroke="${Gr}" stroke-width="1.5"/>
+<circle cx="105" cy="15" r="12" fill="${R}" opacity=".9"/><text x="105" y="15" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="11" font-weight="bold">8</text>
+<circle cx="65" cy="35" r="11" fill="${B}" opacity=".8"/><text x="65" y="35" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">4</text>
+<circle cx="155" cy="35" r="11" fill="${B}" opacity=".8"/><text x="155" y="35" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">12</text>
+<circle cx="38" cy="55" r="10" fill="${Y}" opacity=".9"/><text x="38" y="55" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">2</text>
+<circle cx="90" cy="55" r="9" fill="${Gr}" opacity=".7"/><circle cx="133" cy="55" r="9" fill="${Gr}" opacity=".7"/><circle cx="177" cy="55" r="9" fill="${Gr}" opacity=".7"/></svg>`,
+
+'avl':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<line x1="105" y1="15" x2="65" y2="35" stroke="${Gr}" stroke-width="1.5"/><line x1="105" y1="15" x2="155" y2="35" stroke="${Gr}" stroke-width="1.5"/><line x1="65" y1="35" x2="42" y2="55" stroke="${Gr}" stroke-width="1.5"/><line x1="65" y1="35" x2="90" y2="55" stroke="${Gr}" stroke-width="1.5"/>
+<circle cx="105" cy="15" r="12" fill="${B}" opacity=".85"/><text x="105" y="15" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">10</text>
+<circle cx="65" cy="35" r="11" fill="${B}" opacity=".85"/><text x="65" y="35" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">5</text>
+<circle cx="155" cy="35" r="11" fill="${B}" opacity=".85"/><text x="155" y="35" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">15</text>
+<circle cx="42" cy="55" r="9" fill="${G}" opacity=".8"/><circle cx="90" cy="55" r="9" fill="${G}" opacity=".8"/>
+<path d="M160 25 Q184 18 184 42" stroke="${Y}" stroke-width="1.5" fill="none" stroke-dasharray="3,2"/><polygon points="184,42 180,36 188,36" fill="${Y}"/>
+<text x="165" y="15" text-anchor="start" dominant-baseline="central" fill="${Y}" font-size="9" font-weight="bold">${t.rot}</text></svg>`,
+
+'2-3-tree':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="72" y="10" width="66" height="16" rx="5" fill="${B}" opacity=".8"/><text x="105" y="18" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="11" font-weight="bold">10 | 20</text>
+<line x1="84" y1="26" x2="48" y2="40" stroke="${Gr}" stroke-width="1.5"/><line x1="105" y1="26" x2="105" y2="40" stroke="${Gr}" stroke-width="1.5"/><line x1="126" y1="26" x2="160" y2="40" stroke="${Gr}" stroke-width="1.5"/>
+<rect x="24" y="40" width="48" height="14" rx="4" fill="${P}" opacity=".8"/><text x="48" y="47" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10">4 | 7</text>
+<rect x="81" y="40" width="48" height="14" rx="4" fill="${P}" opacity=".8"/><text x="105" y="47" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10">12 | 15</text>
+<rect x="136" y="40" width="48" height="14" rx="4" fill="${P}" opacity=".8"/><text x="160" y="47" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10">22 | 30</text></svg>`,
+
+'hash':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="5" y="10" width="55" height="12" rx="3" fill="${B}" opacity=".2" stroke="${B}" stroke-width="1"/><text x="32" y="16" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="9" font-weight="bold">"alice"</text>
+<rect x="5" y="28" width="55" height="12" rx="3" fill="${B}" opacity=".2" stroke="${B}" stroke-width="1"/><text x="32" y="34" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="9" font-weight="bold">"bob"</text>
+<rect x="5" y="46" width="55" height="12" rx="3" fill="${B}" opacity=".2" stroke="${B}" stroke-width="1"/><text x="32" y="52" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="9" font-weight="bold">"carol"</text>
+<rect x="74" y="20" width="28" height="10" rx="3" fill="${Gr}" opacity=".3"/><text x="88" y="25" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="9">h(k)</text><polygon points="106,25 100,22 100,28" fill="${Y}"/>
+<rect x="112" y="10" width="90" height="12" rx="3" fill="${Y}" opacity=".7"/><text x="157" y="16" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9" font-weight="bold">[2] alice</text>
+<rect x="112" y="28" width="90" height="12" rx="3" fill="${G}" opacity=".65"/><text x="157" y="34" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9" font-weight="bold">[5] carol</text>
+<rect x="112" y="46" width="90" height="12" rx="3" fill="${B}" opacity=".5"/><text x="157" y="52" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9" font-weight="bold">[7] bob</text></svg>`,
+
+'b-tree':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="50" y="10" width="110" height="16" rx="5" fill="${R}" opacity=".75"/><text x="105" y="18" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="11" font-weight="bold">30 | 60 | 90</text>
+<line x1="63" y1="26" x2="28" y2="45" stroke="${Gr}" stroke-width="1.2"/><line x1="84" y1="26" x2="80" y2="45" stroke="${Gr}" stroke-width="1.2"/><line x1="126" y1="26" x2="130" y2="45" stroke="${Gr}" stroke-width="1.2"/><line x1="147" y1="26" x2="180" y2="45" stroke="${Gr}" stroke-width="1.5"/>
+<rect x="8" y="45" width="44" height="14" rx="4" fill="${B}" opacity=".7"/><text x="30" y="52" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9">10|20</text>
+<rect x="58" y="45" width="44" height="14" rx="4" fill="${B}" opacity=".7"/><text x="80" y="52" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9">40|50</text>
+<rect x="108" y="45" width="44" height="14" rx="4" fill="${B}" opacity=".7"/><text x="130" y="52" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9">70|80</text>
+<rect x="158" y="45" width="44" height="14" rx="4" fill="${B}" opacity=".7"/><text x="180" y="52" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9">100</text></svg>`,
+
+'bf-string':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="5" y="15" width="196" height="16" rx="3" fill="${B}" opacity=".1" stroke="${B}" stroke-width="1" stroke-opacity=".3"/>
+<text x="10" y="23" text-anchor="start" dominant-baseline="central" fill="${B}" font-size="11" font-weight="bold" letter-spacing="3">ABACABAB</text>
+<rect x="5" y="45" width="70" height="14" rx="3" fill="${R}" opacity=".2" stroke="${R}" stroke-width="1"/>
+<text x="10" y="52" text-anchor="start" dominant-baseline="central" fill="${R}" font-size="11" font-weight="bold" letter-spacing="3">ABAB</text>
+<rect x="22" y="60" width="70" height="14" rx="3" fill="${G}" opacity=".2" stroke="${G}" stroke-width="1"/>
+<text x="27" y="67" text-anchor="start" dominant-baseline="central" fill="${G}" font-size="11" font-weight="bold" letter-spacing="3">ABAB</text>
+<text x="80" y="52" text-anchor="start" dominant-baseline="central" fill="${Y}" font-size="10">✗</text><text x="100" y="67" text-anchor="start" dominant-baseline="central" fill="${G}" font-size="10">✓</text></svg>`,
+
+'horspool':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="5" y="8" width="196" height="16" rx="3" fill="${Y}" opacity=".1" stroke="${Y}" stroke-width="1"/>
+<text x="103" y="16" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="10">A:1 B:2 C:0 *:5</text>
+<text x="103" y="32" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="12" letter-spacing="2">TEXTABCDE</text>
+<rect x="40" y="42" width="60" height="12" rx="3" fill="${R}" opacity=".2" stroke="${R}" stroke-width="1"/>
+<text x="70" y="48" text-anchor="middle" dominant-baseline="central" fill="${R}" font-size="10" font-weight="bold" letter-spacing="2">ABCDE</text>
+<text x="110" y="48" text-anchor="start" dominant-baseline="central" fill="${Y}" font-size="10" font-weight="bold">${t.jump}</text>
+<rect x="40" y="58" width="60" height="12" rx="3" fill="${G}" opacity=".2" stroke="${G}" stroke-width="1"/>
+<text x="70" y="64" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="10" font-weight="bold" letter-spacing="2">ABCDE</text></svg>`,
+
+'floyd':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="25" y="5" width="160" height="60" rx="5" fill="${B}" opacity=".06"/>
+<text x="50" y="18" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="11">0</text><text x="90" y="18" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="11">3</text><text x="130" y="18" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="11">∞</text><text x="170" y="18" text-anchor="middle" dominant-baseline="central" fill="${Y}" font-size="12" font-weight="bold">7</text>
+<rect x="150" y="10" width="40" height="16" rx="3" fill="${Y}" opacity=".2" stroke="${Y}" stroke-width="1"/>
+<text x="50" y="35" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="11">3</text><text x="90" y="35" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="11">0</text><text x="130" y="35" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="12" font-weight="bold">4</text><text x="170" y="35" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="11">2</text>
+<text x="50" y="52" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="11">∞</text><text x="90" y="52" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="11">∞</text><text x="130" y="52" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="11">0</text><text x="170" y="52" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="11">1</text></svg>`,
+
+'dijkstra':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<line x1="28" y1="35" x2="80" y2="15" stroke="${Y}" stroke-width="2"/><text x="48" y="20" text-anchor="middle" dominant-baseline="central" fill="${Y}" font-size="10" font-weight="bold">4</text>
+<line x1="28" y1="35" x2="80" y2="55" stroke="${Gr}" stroke-width="1.5"/><text x="48" y="50" text-anchor="middle" dominant-baseline="central" fill="${D}" font-size="10">8</text>
+<line x1="80" y1="15" x2="145" y2="35" stroke="${Y}" stroke-width="2"/><text x="110" y="20" text-anchor="middle" dominant-baseline="central" fill="${Y}" font-size="10" font-weight="bold">2</text>
+<line x1="145" y1="35" x2="188" y2="35" stroke="${Y}" stroke-width="2"/><text x="164" y="30" text-anchor="middle" dominant-baseline="central" fill="${Y}" font-size="10" font-weight="bold">3</text>
+<circle cx="28" cy="35" r="12" fill="${R}" opacity=".9"/><text x="28" y="35" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9" font-weight="bold">0</text>
+<circle cx="80" cy="15" r="11" fill="${Y}" opacity=".85"/><text x="80" y="15" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9" font-weight="bold">4</text>
+<circle cx="80" cy="55" r="11" fill="${Gr}" opacity=".6"/><text x="80" y="55" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9">∞</text>
+<circle cx="145" cy="35" r="12" fill="${Y}" opacity=".85"/><text x="145" y="35" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9" font-weight="bold">6</text>
+<circle cx="188" cy="35" r="11" fill="${G}" opacity=".85"/><text x="188" y="35" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9">9</text></svg>`,
+
+'prim-kruskal':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<line x1="30" y1="35" x2="80" y2="15" stroke="${G}" stroke-width="2.5"/><text x="48" y="20" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="10" font-weight="bold">2</text>
+<line x1="80" y1="15" x2="142" y2="15" stroke="${G}" stroke-width="2.5"/><text x="108" y="10" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="10" font-weight="bold">3</text>
+<line x1="142" y1="15" x2="178" y2="50" stroke="${G}" stroke-width="2.5"/><text x="167" y="30" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="10" font-weight="bold">4</text>
+<line x1="80" y1="15" x2="100" y2="55" stroke="${Gr}" stroke-width="1" stroke-dasharray="3,2"/>
+<line x1="30" y1="35" x2="100" y2="55" stroke="${Gr}" stroke-width="1" stroke-dasharray="3,2"/>
+<circle cx="30" cy="35" r="11" fill="${G}" opacity=".85"/><text x="30" y="35" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="11" font-weight="bold">A</text>
+<circle cx="80" cy="15" r="11" fill="${G}" opacity=".85"/><text x="80" y="15" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="11" font-weight="bold">B</text>
+<circle cx="142" cy="15" r="11" fill="${G}" opacity=".85"/><text x="142" y="15" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="11" font-weight="bold">C</text>
+<circle cx="178" cy="50" r="11" fill="${G}" opacity=".85"/><text x="178" y="50" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="11" font-weight="bold">D</text>
+<circle cx="100" cy="55" r="11" fill="${Gr}" opacity=".6"/><text x="100" y="55" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="11">E</text></svg>`,
+
+'euclid':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="5" y="10" width="196" height="14" rx="3" fill="${B}" opacity=".15"/>
+<text x="105" y="17" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="10">GCD(48, 18) → GCD(18, 12)</text>
+<rect x="5" y="28" width="196" height="14" rx="3" fill="${Y}" opacity=".15"/>
+<text x="105" y="35" text-anchor="middle" dominant-baseline="central" fill="${Y}" font-size="10">GCD(18, 12) → GCD(12, 6)</text>
+<rect x="5" y="46" width="196" height="16" rx="3" fill="${G}" opacity=".2"/>
+<text x="105" y="54" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="11" font-weight="bold">GCD(12, 6) → GCD(6,0) = 6</text></svg>`,
+
+'factorial':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="82" y="5" width="46" height="16" rx="4" fill="${R}" opacity=".8"/><text x="105" y="13" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">F(n)</text>
+<line x1="97" y1="21" x2="72" y2="34" stroke="${Gr}" stroke-width="1.5"/><line x1="113" y1="21" x2="138" y2="34" stroke="${Gr}" stroke-width="1.5"/>
+<rect x="52" y="34" width="40" height="13" rx="3" fill="${P}" opacity=".8"/><text x="72" y="40" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9">n×F(n-1)</text>
+<text x="138" y="40" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="10">...</text>
+<line x1="65" y1="47" x2="48" y2="57" stroke="${Gr}" stroke-width="1.2"/><line x1="79" y1="47" x2="96" y2="57" stroke="${Gr}" stroke-width="1.2"/>
+<rect x="30" y="57" width="34" height="12" rx="3" fill="${Y}" opacity=".8"/><text x="47" y="63" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9">F(n-2)</text></svg>`,
+
+'hanoi':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<line x1="38" y1="10" x2="38" y2="60" stroke="${Gr}" stroke-width="2"/><line x1="105" y1="10" x2="105" y2="60" stroke="${Gr}" stroke-width="2"/><line x1="172" y1="10" x2="172" y2="60" stroke="${Gr}" stroke-width="2"/><line x1="5" y1="60" x2="205" y2="60" stroke="${Gr}" stroke-width="2"/>
+<rect x="16" y="40" width="44" height="10" rx="3" fill="${R}" opacity=".85"/><rect x="22" y="28" width="32" height="10" rx="3" fill="${Y}" opacity=".85"/><rect x="28" y="16" width="20" height="10" rx="3" fill="${G}" opacity=".85"/>
+<text x="38" y="8" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="10" font-weight="bold">A</text><text x="105" y="8" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="10" font-weight="bold">B</text><text x="172" y="8" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="10" font-weight="bold">C</text>
+<path d="M38 21 Q72 3 105 52" stroke="${Y}" stroke-width="1.5" fill="none" stroke-dasharray="4,2"/><polygon points="105,52 100,44 110,45" fill="${Y}"/>
+<text x="140" y="30" text-anchor="start" dominant-baseline="central" fill="${Y}" font-size="10" font-weight="bold">2ⁿ-1</text></svg>`,
+
+'sieve':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+${[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20].map((n,i)=>{
+const x=5+(i%10)*20+9,y=i<10?22:50;
+const isPrime=[2,3,5,7,11,13,17,19].includes(n);
+const isCom=[4,6,8,9,10,12,14,15,16,18,20].includes(n);
+return`<circle cx="${x}" cy="${y}" r="8" fill="${isPrime?G:isCom?'#e2e8f0':'#94a3b8'}" opacity="${isPrime?.9:isCom?.4:.6}"/>
+<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="central" fill="${isPrime?'white':isCom?'#94a3b8':'white'}" font-size="9" font-weight="${isPrime?'bold':'normal'}">${n}</text>
+${isCom?`<line x1="${x-6}" y1="${y-6}" x2="${x+6}" y2="${y+6}" stroke="${R}" stroke-width="1.5"/><line x1="${x+6}" y1="${y-6}" x2="${x-6}" y2="${y+6}" stroke="${R}" stroke-width="1.5"/>`:''}`;
+}).join('')}</svg>`,
+
+'dp-fib':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+${[0,1,1,2,3,5,8,13].map((v,i)=>`
+<rect x="${10+i*24}" y="15" width="20" height="13" rx="2" fill="${B}" opacity=".2" stroke="${B}" stroke-width="1"/>
+<text x="${20+i*24}" y="21" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="9" font-weight="bold">${i}</text>
+<rect x="${10+i*24}" y="32" width="20" height="15" rx="2" fill="${i<7?B:G}" opacity="${i<7?.5:.8}" stroke="${i<7?B:G}" stroke-width="1"/>
+<text x="${20+i*24}" y="39" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">${v}</text>`).join('')}
+<text x="105" y="60" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="10">F[n] = F[n-1] + F[n-2]</text></svg>`,
+
+'dp-knapsack':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="25" y="10" width="160" height="40" rx="4" fill="${B}" opacity=".05" stroke="${B}" stroke-width="1"/>
+<text x="50" y="20" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="10">0</text><text x="90" y="20" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="10">0</text><text x="130" y="20" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="10">0</text><text x="170" y="20" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="10">0</text>
+<text x="50" y="40" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="10">0</text><text x="90" y="40" text-anchor="middle" dominant-baseline="central" fill="${Y}" font-size="11" font-weight="bold">3</text><text x="130" y="40" text-anchor="middle" dominant-baseline="central" fill="${Y}" font-size="11" font-weight="bold">3</text><text x="170" y="40" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="12" font-weight="bold">7</text>
+<rect x="150" y="32" width="40" height="16" rx="3" fill="${G}" opacity=".18" stroke="${G}" stroke-width="1"/>
+<text x="105" y="62" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="9">dp[i][w] = max(dp[i-1][w], v+dp[i-1][w-wt])</text></svg>`,
+
+'lcs':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<text x="55" y="15" text-anchor="middle" dominant-baseline="central" fill="${D}" font-size="10">B  D  C  A  B</text>
+<text x="15" y="30" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="10" font-weight="bold">A</text><text x="15" y="45" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="10" font-weight="bold">B</text><text x="15" y="60" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="10" font-weight="bold">C</text>
+${['0,0,0,1,1','1,1,1,1,2','1,1,2,2,2'].map((row,ri)=>row.split(',').map((v,ci)=>`<text x="${45+ci*22}" y="${30+ri*15}" text-anchor="middle" dominant-baseline="central" fill="${v>0?(v>1?G:Y):D}" font-size="${v>1?11:10}" font-weight="${v>1?'bold':'normal'}">${v}</text>`).join('')).join('')}
+<text x="170" y="45" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="10" font-weight="bold">LCS=4</text></svg>`,
+
+'warshall':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="25" y="15" width="160" height="40" rx="4" fill="${B}" opacity=".05"/>
+<text x="50" y="25" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="10">1</text><text x="90" y="25" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="10">1</text><text x="130" y="25" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="11" font-weight="bold">1</text><text x="170" y="25" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="10">0</text>
+<text x="50" y="45" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="10">0</text><text x="90" y="45" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="10">1</text><text x="130" y="45" text-anchor="middle" dominant-baseline="central" fill="${Y}" font-size="11" font-weight="bold">1</text><text x="170" y="45" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="10">1</text>
+<rect x="110" y="17" width="40" height="16" rx="3" fill="${G}" opacity=".18" stroke="${G}" stroke-width="1"/></svg>`,
+
+'huffman':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<circle cx="105" cy="15" r="12" fill="${R}" opacity=".85"/><text x="105" y="15" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">100</text>
+<line x1="96" y1="23" x2="62" y2="39" stroke="${Gr}" stroke-width="1.5"/><line x1="114" y1="23" x2="148" y2="39" stroke="${Gr}" stroke-width="1.5"/>
+<circle cx="60" cy="45" r="10" fill="${P}" opacity=".85"/><text x="60" y="45" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9" font-weight="bold">45</text>
+<circle cx="150" cy="45" r="10" fill="${P}" opacity=".85"/><text x="150" y="45" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9" font-weight="bold">55</text>
+<line x1="142" y1="53" x2="124" y2="65" stroke="${Gr}" stroke-width="1.2"/><line x1="158" y1="53" x2="175" y2="65" stroke="${Gr}" stroke-width="1.2"/>
+<circle cx="122" cy="65" r="9" fill="${Y}" opacity=".8"/><text x="122" y="65" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="8">12</text>
+<circle cx="178" cy="65" r="9" fill="${Y}" opacity=".8"/><text x="178" y="65" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="8">30</text></svg>`,
+
+'perm-search':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<circle cx="105" cy="15" r="10" fill="${R}" opacity=".85"/><text x="105" y="15" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9" font-weight="bold">abc</text>
+<line x1="98" y1="23" x2="55" y2="38" stroke="${Gr}" stroke-width="1.2"/><line x1="105" y1="25" x2="105" y2="38" stroke="${Gr}" stroke-width="1.2"/><line x1="112" y1="23" x2="155" y2="38" stroke="${Gr}" stroke-width="1.2"/>
+<circle cx="55" cy="45" r="9" fill="${P}" opacity=".8"/><text x="55" y="45" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="8">a..</text>
+<circle cx="105" cy="45" r="9" fill="${P}" opacity=".8"/><text x="105" y="45" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="8">b..</text>
+<circle cx="155" cy="45" r="9" fill="${P}" opacity=".8"/><text x="155" y="45" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="8">c..</text>
+<text x="105" y="65" text-anchor="middle" dominant-baseline="central" fill="${R}" font-size="11" font-weight="bold">O(n!)</text></svg>`,
+
+'subset-search':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<circle cx="105" cy="15" r="9" fill="${R}" opacity=".85"/><text x="105" y="15" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9">{ }</text>
+<line x1="98" y1="22" x2="65" y2="35" stroke="${Gr}" stroke-width="1.2"/><line x1="112" y1="22" x2="145" y2="35" stroke="${Gr}" stroke-width="1.2"/>
+<circle cx="65" cy="42" r="9" fill="${P}" opacity=".8"/><text x="65" y="42" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9">∅</text>
+<circle cx="145" cy="42" r="9" fill="${P}" opacity=".8"/><text x="145" y="42" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="9">{1}</text>
+<text x="105" y="65" text-anchor="middle" dominant-baseline="central" fill="${R}" font-size="11" font-weight="bold">O(2ⁿ)</text></svg>`,
+
+'strassen':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="15" y="15" width="45" height="40" rx="4" fill="${B}" opacity=".15" stroke="${B}" stroke-width="1.2"/>
+<text x="37" y="35" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="12" font-weight="bold">A</text>
+<text x="75" y="35" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="16">×</text>
+<rect x="90" y="15" width="45" height="40" rx="4" fill="${P}" opacity=".15" stroke="${P}" stroke-width="1.2"/>
+<text x="112" y="35" text-anchor="middle" dominant-baseline="central" fill="${P}" font-size="12" font-weight="bold">B</text>
+<text x="150" y="35" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="16">=</text>
+<rect x="165" y="15" width="30" height="40" rx="4" fill="${G}" opacity=".2" stroke="${G}" stroke-width="1.2"/>
+<text x="180" y="35" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="12" font-weight="bold">C</text></svg>`,
+
+'gauss':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="35" y="5" width="140" height="60" rx="5" fill="${B}" opacity=".06"/>
+<text x="75" y="20" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="11">2  1 -1 | 8</text>
+<text x="75" y="35" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="11">0  3  2 | 11</text>
+<text x="75" y="50" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="11">0  0  5 | 3</text>
+<line x1="45" y1="12" x2="95" y2="58" stroke="${G}" stroke-width="1.5" stroke-dasharray="2,2" opacity=".6"/></svg>`,
+
+'horner':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="5" y="15" width="196" height="40" rx="4" fill="${B}" opacity=".08"/>
+<text x="105" y="25" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="10">P(x) = aₙxⁿ + ... + a₁x + a₀</text>
+<text x="105" y="45" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="10" font-weight="bold">P(x) = (...(aₙx + aₙ₋₁)x...)x + a₀</text></svg>`,
+
+'karatsuba':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="5" y="20" width="94" height="30" rx="3" fill="${B}" opacity=".1"/>
+<text x="52" y="30" text-anchor="middle" dominant-baseline="central" fill="${D}" font-size="9">Standard: 4</text>
+<text x="52" y="42" text-anchor="middle" dominant-baseline="central" fill="${R}" font-size="10" font-weight="bold">O(n²)</text>
+<rect x="103" y="20" width="103" height="30" rx="3" fill="${G}" opacity=".1"/>
+<text x="154" y="30" text-anchor="middle" dominant-baseline="central" fill="${D}" font-size="9">Karatsuba: 3</text>
+<text x="154" y="42" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="10" font-weight="bold">O(n^1.585)</text></svg>`,
+
+'closest-bf':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<circle cx="28" cy="30" r="4" fill="${B}" opacity=".8"/><circle cx="55" cy="18" r="4" fill="${B}" opacity=".8"/><circle cx="72" cy="48" r="4" fill="${B}" opacity=".8"/><circle cx="80" cy="22" r="4" fill="${R}" opacity=".9"/><circle cx="96" cy="33" r="4" fill="${R}" opacity=".9"/><circle cx="130" cy="55" r="4" fill="${B}" opacity=".8"/><circle cx="155" cy="25" r="4" fill="${B}" opacity=".8"/><circle cx="175" cy="48" r="4" fill="${B}" opacity=".8"/><circle cx="50" cy="60" r="4" fill="${B}" opacity=".8"/><circle cx="100" cy="58" r="4" fill="${B}" opacity=".8"/>
+<line x1="80" y1="22" x2="96" y2="33" stroke="${R}" stroke-width="2.5"/>
+<text x="105" y="10" text-anchor="middle" dominant-baseline="central" fill="${R}" font-size="11" font-weight="bold">${t.pair}</text></svg>`,
+
+'closest-dc':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<line x1="105" y1="5" x2="105" y2="65" stroke="${Y}" stroke-width="2" stroke-dasharray="5,3"/>
+<circle cx="32" cy="25" r="4" fill="${B}" opacity=".8"/><circle cx="50" cy="50" r="4" fill="${B}" opacity=".8"/><circle cx="68" cy="30" r="4" fill="${B}" opacity=".8"/><circle cx="85" cy="42" r="4" fill="${R}" opacity=".9"/><circle cx="122" cy="38" r="4" fill="${G}" opacity=".9"/><circle cx="145" cy="22" r="4" fill="${B}" opacity=".8"/><circle cx="165" cy="55" r="4" fill="${B}" opacity=".8"/>
+<line x1="85" y1="42" x2="122" y2="38" stroke="${R}" stroke-width="2"/>
+<rect x="92" y="30" width="28" height="18" rx="3" fill="${R}" opacity=".12" stroke="${R}" stroke-width="1"/></svg>`,
+
+'lomuto':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="5" y="24" width="196" height="28" rx="5" fill="${B}" opacity=".08" stroke="${B}" stroke-width="1" stroke-opacity=".3"/>
+<text x="24" y="38" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="12">5</text><text x="51" y="38" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="12" font-weight="bold">2</text><text x="78" y="38" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="12">1</text>
+<text x="105" y="38" text-anchor="middle" dominant-baseline="central" fill="${R}" font-size="14" font-weight="bold">P</text>
+<text x="132" y="38" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="12">7</text><text x="159" y="38" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="12">4</text><text x="186" y="38" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="12">8</text>
+<polygon points="24,20 18,12 30,12" fill="${B}"/><text x="24" y="10" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="10">i</text>
+<polygon points="186,20 180,12 192,12" fill="${P}"/><text x="186" y="10" text-anchor="middle" dominant-baseline="central" fill="${P}" font-size="10">j</text>
+<text x="105" y="62" text-anchor="middle" dominant-baseline="central" fill="${D}" font-size="11">i → ← j</text></svg>`,
+
+'tsp-dp':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="25" y="10" width="160" height="40" rx="4" fill="${B}" opacity=".05" stroke="${B}" stroke-width="1"/>
+<text x="50" y="20" text-anchor="middle" dominant-baseline="central" fill="${D}" font-size="10">{A}</text><text x="105" y="20" text-anchor="middle" dominant-baseline="central" fill="${D}" font-size="10">{A,B}</text><text x="160" y="20" text-anchor="middle" dominant-baseline="central" fill="${D}" font-size="10">{A,B,C}</text>
+<text x="50" y="40" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="11">0</text><text x="105" y="40" text-anchor="middle" dominant-baseline="central" fill="${Y}" font-size="12" font-weight="bold">5</text><text x="160" y="40" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="12" font-weight="bold">12</text>
+<text x="105" y="60" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="11" font-weight="bold">O(n²·2ⁿ)</text></svg>`,
+
+'generic-dp':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="5" y="10" width="60" height="20" rx="4" fill="${R}" opacity=".7"/><text x="35" y="20" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">f(n)</text>
+<line x1="65" y1="20" x2="80" y2="20" stroke="${Gr}" stroke-width="1.5"/>
+<rect x="80" y="5" width="125" height="30" rx="4" fill="${B}" opacity=".1" stroke="${B}" stroke-width="1"/>
+<text x="142" y="20" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="10" font-weight="bold">f(n-1) + f(n-2)</text>
+<rect x="30" y="42" width="150" height="24" rx="4" fill="${G}" opacity=".1" stroke="${G}" stroke-width="1"/>
+<text x="105" y="54" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="10" font-weight="bold">Table = Memoization</text></svg>`,
+
+'quickselect':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="5" y="10" width="196" height="20" rx="3" fill="${B}" opacity=".1" stroke="${B}" stroke-width="1"/>
+<text x="28" y="20" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="11">7</text><text x="58" y="20" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="11">2</text><text x="88" y="20" text-anchor="middle" dominant-baseline="central" fill="${Y}" font-size="12" font-weight="bold">5</text><text x="118" y="20" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="11">1</text><text x="148" y="20" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="11">9</text><text x="178" y="20" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="11">3</text>
+<rect x="5" y="40" width="196" height="20" rx="3" fill="${G}" opacity=".1" stroke="${G}" stroke-width="1"/>
+<text x="28" y="50" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="11">1</text><text x="58" y="50" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="11">2</text><text x="88" y="50" text-anchor="middle" dominant-baseline="central" fill="${R}" font-size="12" font-weight="bold">3</text><text x="118" y="50" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="11">5</text><text x="148" y="50" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="11">7</text><text x="178" y="50" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="11">9</text>
+<text x="88" y="65" text-anchor="middle" dominant-baseline="central" fill="${R}" font-size="11" font-weight="bold">k=3</text></svg>`,
+
+'unique-elems':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="5" y="20" width="196" height="24" rx="3" fill="${B}" opacity=".1" stroke="${B}" stroke-width="1"/>
+<text x="28" y="32" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="12">5</text><text x="58" y="32" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="12">3</text><text x="88" y="32" text-anchor="middle" dominant-baseline="central" fill="${R}" font-size="14" font-weight="bold">7</text><text x="118" y="32" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="12">1</text><text x="148" y="32" text-anchor="middle" dominant-baseline="central" fill="${R}" font-size="14" font-weight="bold">7</text><text x="178" y="32" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="12">9</text>
+<path d="M88 44 Q118 60 148 44" stroke="${R}" stroke-width="2" fill="none" stroke-dasharray="3,2"/>
+<text x="118" y="60" text-anchor="middle" dominant-baseline="central" fill="${R}" font-size="10" font-weight="bold">${t.dup}</text></svg>`,
+
+'matrix-mult':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<rect x="15" y="15" width="45" height="40" rx="4" fill="${B}" opacity=".15" stroke="${B}" stroke-width="1.2"/>
+<text x="37" y="35" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="12" font-weight="bold">A</text>
+<text x="75" y="35" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="16">×</text>
+<rect x="90" y="15" width="45" height="40" rx="4" fill="${P}" opacity=".15" stroke="${P}" stroke-width="1.2"/>
+<text x="112" y="35" text-anchor="middle" dominant-baseline="central" fill="${P}" font-size="12" font-weight="bold">B</text>
+<text x="150" y="35" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="16">=</text>
+<rect x="165" y="15" width="30" height="40" rx="4" fill="${G}" opacity=".2" stroke="${G}" stroke-width="1.2"/>
+<text x="180" y="35" text-anchor="middle" dominant-baseline="central" fill="${G}" font-size="12" font-weight="bold">C</text></svg>`,
+
+'tsp-exh':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<circle cx="105" cy="18" r="10" fill="${R}" opacity=".85"/><text x="105" y="18" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">A</text>
+<circle cx="50" cy="50" r="10" fill="${B}" opacity=".75"/><text x="50" y="50" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">B</text>
+<circle cx="160" cy="50" r="10" fill="${B}" opacity=".75"/><text x="160" y="50" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">C</text>
+<circle cx="105" cy="50" r="10" fill="${B}" opacity=".75"/><text x="105" y="50" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10" font-weight="bold">D</text>
+<line x1="105" y1="28" x2="55" y2="45" stroke="${Y}" stroke-width="2"/><line x1="55" y1="55" x2="100" y2="50" stroke="${Y}" stroke-width="2"/><line x1="110" y1="50" x2="154" y2="50" stroke="${Y}" stroke-width="2"/><line x1="158" y1="45" x2="110" y2="25" stroke="${Y}" stroke-width="2"/></svg>`,
+
+'knapsack-exh':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<circle cx="105" cy="15" r="9" fill="${R}" opacity=".85"/><text x="105" y="15" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10">{ }</text>
+<line x1="98" y1="22" x2="65" y2="35" stroke="${Gr}" stroke-width="1.2"/><line x1="112" y1="22" x2="145" y2="35" stroke="${Gr}" stroke-width="1.2"/>
+<circle cx="65" cy="42" r="9" fill="${P}" opacity=".8"/><text x="65" y="42" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10">∅</text>
+<circle cx="145" cy="42" r="9" fill="${P}" opacity=".8"/><text x="145" y="42" text-anchor="middle" dominant-baseline="central" fill="${T}" font-size="10">{1}</text>
+<text x="105" y="65" text-anchor="middle" dominant-baseline="central" fill="${R}" font-size="12" font-weight="bold">O(2ⁿ)</text></svg>`,
+
+'np-limits':`<svg viewBox="0 0 210 70" xmlns="http://www.w3.org/2000/svg" style="direction:ltr">
+<circle cx="105" cy="35" r="32" fill="none" stroke="${B}" stroke-width="2"/><text x="105" y="25" text-anchor="middle" dominant-baseline="central" fill="${B}" font-size="10" font-weight="bold">P</text>
+<circle cx="105" cy="35" r="28" fill="none" stroke="${P}" stroke-width="1.5" stroke-dasharray="4,2"/><text x="105" y="50" text-anchor="middle" dominant-baseline="central" fill="${P}" font-size="10" font-weight="bold">NP</text>
+<text x="160" y="35" text-anchor="start" dominant-baseline="central" fill="${R}" font-size="9" font-weight="bold">NP-Hard</text></svg>`
+};
+return V[id]||`<svg viewBox="0 0 210 60" xmlns="http://www.w3.org/2000/svg" style="direction:ltr"><text x="105" y="30" text-anchor="middle" dominant-baseline="central" fill="${Gr}" font-size="10">[${id}]</text></svg>`;
+}
+
+const ALGOS=[
+{mod:1,cat:'math',cx:'logarithmic',svgId:'euclid',
+  ar:{name:'خوارزمية إقليدس',nameEn:'Euclid\'s Algorithm',strategy:'التقليل بعامل متغير',desc:'تحسب القاسم المشترك الأكبر لعددين عن طريق استبدال المشكلة الكبيرة بأخرى أصغر: gcd(m,n)=gcd(n, m mod n) حتى يصبح n=0.',best:'$O(1)$',avg:'$O(\\log \\min(m,n))$',worst:'$O(\\log \\min(m,n))$',space:'$O(1)$',props:'تُنفَّذ بحلقة تكرارية (while) أو كدالة عودية. عدد التكرارات لا يتجاوز 5 أضعاف عدد أرقام العدد الأصغر.',when:'أي وقت تحتاج فيه لحساب gcd: تبسيط الكسور، التحقق من الأعداد الأولية النسبية، التشفير (RSA).'},
+  en:{name:'Euclid\'s Algorithm',nameEn:'خوارزمية إقليدس',strategy:'Variable-size Decrease',desc:'Computes the Greatest Common Divisor (GCD) of two integers by replacing the problem with a smaller one: gcd(m,n)=gcd(n, m mod n) until n=0.',best:'$O(1)$',avg:'$O(\\log \\min(m,n))$',worst:'$O(\\log \\min(m,n))$',space:'$O(1)$',props:'Implemented iteratively or recursively. Number of steps never exceeds 5 times the number of digits in the smaller integer.',when:'Used for simplifying fractions, checking coprimality, and in cryptography (like RSA).'}},
+{mod:1,cat:'math',cx:'linear',svgId:'factorial',
+  ar:{name:'حساب المضروب (عودي)',nameEn:'Factorial Recursion',strategy:'التقليل بمقدار ثابت',desc:'يحسب n! = n × (n-1) × ... × 1 عوديًا بتقليل المشكلة بمقدار 1 في كل خطوة حتى يصل للحالة الأساسية n=0.',best:'$\\Theta(n)$',avg:'$\\Theta(n)$',worst:'$\\Theta(n)$',space:'$O(n)$',props:'العملية الأساسية هي الضرب. عمق التعشيش = n. يستهلك مساحة على المكدس تناسبية مع n.',when:'تعليمي بشكل أساسي. في الحياة العملية: حساب التوافيق، النظرية الاحتمالية.'},
+  en:{name:'Factorial (Recursive)',nameEn:'حساب المضروب عودياً',strategy:'Decrease by a Constant',desc:'Calculates n! recursively by reducing the problem by 1 in each step until the base case n=0 is reached.',best:'$\\Theta(n)$',avg:'$\\Theta(n)$',worst:'$\\Theta(n)$',space:'$O(n)$',props:'Basic operation is multiplication. Recursive nesting depth is n, consuming $O(n)$ stack space.',when:'Mainly educational to demonstrate recursion. Used in combinatorics and probability theory.'}},
+{mod:2,cat:'search',cx:'linear',svgId:'seq-search',
+  ar:{name:'البحث المتسلسل',nameEn:'Sequential Search',strategy:'القوة الغاشمة',desc:'يبحث في مصفوفة بالمرور على العناصر واحداً بواحد من البداية حتى العثور على المطلوب أو انتهاء المصفوفة.',best:'$O(1)$',avg:'$\\Theta(n/2)$',worst:'$O(n)$',space:'$O(1)$',props:'تحسين "الحارس" (Sentinel): أضف المفتاح في نهاية المصفوفة لتجنب فحص حدود المصفوفة في كل تكرار.',when:'للمصفوفات غير المرتبة أو الصغيرة. الخيار الافتراضي للبيانات غير المرتبة.'},
+  en:{name:'Sequential Search',nameEn:'البحث المتسلسل',strategy:'Brute Force',desc:'Searches an array by checking elements one by one from the beginning until the target is found or the list ends.',best:'$O(1)$',avg:'$\\Theta(n/2)$',worst:'$O(n)$',space:'$O(1)$',props:'Can be optimized with a "Sentinel" by appending the key to the end of the array to avoid bounds checking on every iteration.',when:'Unsorted or small arrays. Default choice for unordered data.'}},
+{mod:2,cat:'search',cx:'linear',svgId:'max-elem',
+  ar:{name:'إيجاد العنصر الأكبر',nameEn:'MaxElement',strategy:'القوة الغاشمة',desc:'يحدد أكبر عنصر في مصفوفة بمقارنة كل عنصر مع أكبر قيمة مُعثور عليها حتى الآن في مسح واحد للمصفوفة.',best:'$\\Theta(n)$',avg:'$\\Theta(n)$',worst:'$\\Theta(n)$',space:'$O(1)$',props:'عدد المقارنات ثابت = n-1 بغض النظر عن محتوى المصفوفة (التعقيد هو Θ وليس O أو Ω).',when:'إيجاد min/max دائماً في O(n). بناء على هذه التقنية: تحديد نطاق قيم مصفوفة، إيجاد العنصر الثاني الأكبر.'},
+  en:{name:'MaxElement',nameEn:'إيجاد العنصر الأكبر',strategy:'Brute Force',desc:'Determines the largest element in an array by comparing each element with the maximum value found so far in a single scan.',best:'$\\Theta(n)$',avg:'$\\Theta(n)$',worst:'$\\Theta(n)$',space:'$O(1)$',props:'Number of comparisons is constant = n-1 regardless of the array content (Complexity is $\\Theta$, not $O$ or $\\Omega$).',when:'Finding min/max is always $O(n)$. Used to determine array value range or find the second largest element.'}},
+{mod:2,cat:'search',cx:'quadratic',svgId:'unique-elems',
+  ar:{name:'التحقق من تفرد العناصر',nameEn:'UniqueElements',strategy:'القوة الغاشمة',desc:'يتحقق من أن جميع عناصر المصفوفة مختلفة باستخدام حلقتين متداخلتين لمقارنة كل زوج من العناصر.',best:'$O(1)$',avg:'-',worst:'$\\Theta(n^2)$',space:'$O(1)$',props:'أسوأ حالة عندما تكون كل العناصر مختلفة (يجب فحص جميع الأزواج). أفضل حالة: اكتشاف تكرار في أول زوج.',when:'مجموعات صغيرة. يمكن تحسينه لـ O(n log n) بالترتيب أولاً أو O(n) بجدول Hash.'},
+  en:{name:'UniqueElements',nameEn:'التحقق من تفرد العناصر',strategy:'Brute Force',desc:'Checks if all elements in an array are distinct using two nested loops to compare every pair of elements.',best:'$O(1)$',avg:'-',worst:'$\\Theta(n^2)$',space:'$O(1)$',props:'Worst case occurs when all elements are distinct. Best case is finding a duplicate in the very first pair.',when:'Small datasets. Can be vastly improved to $O(n \\log n)$ by sorting first or $O(n)$ using a Hash table.'}},
+{mod:2,cat:'math',cx:'cubic',svgId:'matrix-mult',
+  ar:{name:'ضرب المصفوفات (تقليدي)',nameEn:'Matrix Multiplication',strategy:'القوة الغاشمة',desc:'يحسب حاصل ضرب مصفوفتين n×n بثلاث حلقات متداخلة: C[i][j] = Σ A[i][k] × B[k][j] لكل i,j,k.',best:'$\\Theta(n^3)$',avg:'$\\Theta(n^3)$',worst:'$\\Theta(n^3)$',space:'$O(n^2)$',props:'العملية الأساسية هي الضرب. عدد عمليات الضرب = n³. يمكن تحسينه بخوارزمية ستراسن (O(n^2.807)).',when:'المصفوفات الصغيرة حيث الثوابت مهمة. التحقق من الصحة. الفهم التعليمي.'},
+  en:{name:'Matrix Multiplication',nameEn:'ضرب المصفوفات التقليدي',strategy:'Brute Force',desc:'Computes the product of two n×n matrices using three nested loops: C[i][j] = Σ A[i][k] × B[k][j].',best:'$\\Theta(n^3)$',avg:'$\\Theta(n^3)$',worst:'$\\Theta(n^3)$',space:'$O(n^2)$',props:'Basic operation is multiplication. Total multiplications = $n^3$. Can be improved using Strassen\'s algorithm ($O(n^{2.807})$).',when:'Small matrices where constants matter. Used for baseline validation and educational understanding.'}},
+{mod:3,cat:'sort',cx:'quadratic',svgId:'sel-sort',
+  ar:{name:'الترتيب بالاختيار',nameEn:'Selection Sort',strategy:'القوة الغاشمة',desc:'يمسح المصفوفة للعثور على أصغر عنصر ثم يضعه في أوله، ثم يكرر العملية لبقية المصفوفة غير المرتبة.',best:'$\\Theta(n^2)$',avg:'$\\Theta(n^2)$',worst:'$\\Theta(n^2)$',space:'$O(1)$',props:'غير مستقرة (Unstable). تعمل في المكان (In-place). عدد عمليات المقارنة ثابت = n(n-1)/2 دائماً. عدد عمليات المبادلة = O(n) فقط.',when:'مفيدة حين تكون تكلفة الكتابة عالية (الذاكرة Flash) بسبب قلة عمليات المبادلة.'},
+  en:{name:'Selection Sort',nameEn:'الترتيب بالاختيار',strategy:'Brute Force',desc:'Scans the array to find the smallest element, swaps it with the first element, and repeats for the remaining unsorted portion.',best:'$\\Theta(n^2)$',avg:'$\\Theta(n^2)$',worst:'$\\Theta(n^2)$',space:'$O(1)$',props:'Unstable. In-place. Comparisons are always $n(n-1)/2$. Number of swaps is strictly $O(n)$.',when:'Useful when write operations to memory are significantly more expensive than reads (e.g., EEPROM or Flash memory).'}},
+{mod:3,cat:'sort',cx:'quadratic',svgId:'bub-sort',
+  ar:{name:'الترتيب الفقاعي',nameEn:'Bubble Sort',strategy:'القوة الغاشمة',desc:'يقارن العناصر المتجاورة ويبدلها إذا كانت مرتبة خطأ، مما يجعل العنصر الأكبر يطفو للنهاية في كل تمرير.',best:'$O(n)$',avg:'$\\Theta(n^2)$',worst:'$\\Theta(n^2)$',space:'$O(1)$',props:'مستقرة (Stable). تعمل في المكان. أفضل حالة O(n) عندما تكون المصفوفة مرتبة مسبقاً (مع علامة تحسين).',when:'تعليمياً فقط. مفيدة لاكتشاف إذا كانت المصفوفة مرتبة مسبقاً بسرعة.'},
+  en:{name:'Bubble Sort',nameEn:'الترتيب الفقاعي',strategy:'Brute Force',desc:'Repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order, bubbling the largest to the end.',best:'$O(n)$',avg:'$\\Theta(n^2)$',worst:'$\\Theta(n^2)$',space:'$O(1)$',props:'Stable. In-place. Best case is $O(n)$ when array is already sorted (if optimized with a flag). Considered the worst sorting algorithm practically.',when:'Primarily educational. Can be used to quickly detect if an array is already sorted.'}},
+{mod:3,cat:'geometry',cx:'quadratic',svgId:'closest-bf',
+  ar:{name:'أقرب زوج (قوة غاشمة)',nameEn:'Closest-Pair Brute Force',strategy:'القوة الغاشمة',desc:'يجد أقرب نقطتين في مجموعة نقاط في المستوى بحساب المسافة بين كل زوج ممكن من النقاط.',best:'$\\Theta(n^2)$',avg:'$\\Theta(n^2)$',worst:'$\\Theta(n^2)$',space:'$O(1)$',props:'يحسب n(n-1)/2 مسافة. يمكن تجنب حساب الجذر التربيعي بمقارنة المربعات مباشرة لتوفير وقت.',when:'n صغير (n < 100). عند الحاجة لبساطة التطبيق. أساس للمقارنة مع خوارزمية D&C الأسرع.'},
+  en:{name:'Closest-Pair (Brute Force)',nameEn:'أقرب زوج (قوة غاشمة)',strategy:'Brute Force',desc:'Finds the two closest points in a set of points in a plane by calculating the distance between every possible pair.',best:'$\\Theta(n^2)$',avg:'$\\Theta(n^2)$',worst:'$\\Theta(n^2)$',space:'$O(1)$',props:'Calculates $n(n-1)/2$ distances. Calculating square roots can be avoided by comparing squared distances to save time.',when:'Small datasets ($n < 100$). When implementation simplicity is preferred over speed.'}},
+{mod:3,cat:'exhaustive',cx:'factorial',svgId:'tsp-exh',
+  ar:{name:'بائع المتجول (بحث شامل)',nameEn:'TSP - Exhaustive Search',strategy:'البحث الشامل',desc:'يجد أقصر جولة تمر بجميع المدن مرة واحدة بتوليد كل التباديل الممكنة للمدن وحساب طول كل جولة.',best:'-',avg:'-',worst:'$O(n!)$',space:'$O(n)$',props:'عدد الجولات الممكنة = (n-1)!/2 للرسم غير الموجه. نموذج لمشاكل NP-Hard. يمكن حله تقريبياً بتقنيات جشعة.',when:'فقط لـ n ≤ 12. في الممارسة: نستخدم خوارزميات تقريبية أو DP (O(n²·2ⁿ)) للـ n المتوسطة.'},
+  en:{name:'TSP (Exhaustive Search)',nameEn:'بائع المتجول (بحث شامل)',strategy:'Exhaustive Search',desc:'Finds the shortest tour visiting all cities exactly once by generating all possible permutations of cities and calculating their lengths.',best:'-',avg:'-',worst:'$O(n!)$',space:'$O(n)$',props:'Number of possible tours is $(n-1)!/2$ for undirected graphs. Classic NP-Hard problem.',when:'Only viable for $n \\le 12$. In practice, approximation algorithms or DP ($O(n^2 2^n)$) are used.'}},
+{mod:3,cat:'exhaustive',cx:'exponential',svgId:'knapsack-exh',
+  ar:{name:'حقيبة الظهر (بحث شامل)',nameEn:'Knapsack - Exhaustive Search',strategy:'البحث الشامل',desc:'يجد أكثر مجموعة من العناصر قيمةً تتسع في حقيبة بوزن محدد بتجربة جميع المجموعات الفرعية الممكنة.',best:'-',avg:'-',worst:'$\\Theta(2^n)$',space:'$O(n)$',props:'مشكلة NP-Hard. يمكن حلها مثالياً بـ DP في O(nW) حيث W هو سعة الحقيبة.',when:'فقط لـ n صغير جداً (≤25). في الممارسة: نستخدم DP أو خوارزميات تقريبية.'},
+  en:{name:'Knapsack (Exhaustive Search)',nameEn:'حقيبة الظهر (بحث شامل)',strategy:'Exhaustive Search',desc:'Finds the most valuable subset of items that fits in a knapsack of given weight capacity by generating all $2^n$ subsets.',best:'-',avg:'-',worst:'$\\Theta(2^n)$',space:'$O(n)$',props:'An NP-Hard problem. Can be solved optimally using Dynamic Programming in pseudo-polynomial time $O(nW)$.',when:'Only for very small $n$ ($\\le 25$). In practice, DP or approximation algorithms are used.'}},
+{mod:3,cat:'exhaustive',cx:'factorial',svgId:'perm-search',
+  ar:{name:'مشكلة التعيين (بحث شامل)',nameEn:'Assignment Problem',strategy:'البحث الشامل',desc:'يوزع n مهمة على n شخص بأقل تكلفة كلية بتجربة جميع تباديل التعيينات الممكنة.',best:'-',avg:'-',worst:'$O(n!)$',space:'$O(n)$',props:'يوجد n! تعيين ممكن. يمكن حله بكفاءة بـ Hungarian Algorithm في O(n³).',when:'فقط لـ n صغير. في الممارسة: نستخدم خوارزمية المجري (Hungarian) الأسرع بكثير.'},
+  en:{name:'Assignment Problem (Exhaustive)',nameEn:'مشكلة التعيين (بحث شامل)',strategy:'Exhaustive Search',desc:'Distributes $n$ tasks to $n$ people at the minimum total cost by trying all possible permutations of assignments.',best:'-',avg:'-',worst:'$O(n!)$',space:'$O(n)$',props:'There are $n!$ possible assignments. This can be optimally solved much faster using the Hungarian Algorithm in $O(n^3)$.',when:'Only for very small $n$. In practice, use the Hungarian Algorithm.'}},
+{mod:3,cat:'string',cx:'quadratic',svgId:'bf-string',
+  ar:{name:'مطابقة النصوص (قوة غاشمة)',nameEn:'Brute-Force String Matching',strategy:'القوة الغاشمة',desc:'يبحث عن نمط من m حرفاً داخل نص من n حرفاً بمحاولة مطابقة النمط في كل موضع ممكن في النص.',best:'$O(m)$',avg:'$O(n)$',worst:'$O(nm)$',space:'$O(1)$',props:'أسوأ حالة: نصوص مثل "aaa...a" مع نمط "aaa...ab". الحالة المتوسطة عملياً قريبة من O(n).',when:'للنصوص القصيرة أو حين البساطة مطلوبة. لبيانات لا تظهر فيها أنماط قاسية (نصوص طبيعية).'},
+  en:{name:'Brute-Force String Matching',nameEn:'مطابقة النصوص (قوة غاشمة)',strategy:'Brute Force',desc:'Searches for a pattern of $m$ characters inside a text of $n$ characters by trying to match the pattern at every possible position.',best:'$O(m)$',avg:'$O(n)$',worst:'$O(nm)$',space:'$O(1)$',props:'Worst-case occurs with texts like "aaa...a" and pattern "aaa...ab". Average case is practically close to $O(n)$ for natural language.',when:'Short texts or when implementation simplicity is desired. Works fine for natural languages without repetitive sequences.'}},
+{mod:4,cat:'sort',cx:'quadratic',svgId:'ins-sort',
+  ar:{name:'الترتيب بالإدراج',nameEn:'Insertion Sort',strategy:'التقليل بمقدار ثابت',desc:'يأخذ عنصراً من الجزء غير المرتب ويدرجه في مكانه الصحيح ضمن الجزء المرتب بتحريك العناصر الأكبر.',best:'$\\Theta(n)$',avg:'$\\Theta(n^2)$',worst:'$\\Theta(n^2)$',space:'$O(1)$',props:'مستقرة. في المكان. أفضل خوارزمية للمصفوفات شبه المرتبة. يستخدمها Timsort (Python/Java) للأجزاء الصغيرة.',when:'المصفوفات الصغيرة (n < 50) أو شبه المرتبة. كخطوة نهائية في خوارزميات هجينة.'},
+  en:{name:'Insertion Sort',nameEn:'الترتيب بالإدراج',strategy:'Decrease by a Constant',desc:'Takes an element from the unsorted part and inserts it into its correct position in the sorted part by shifting larger elements.',best:'$\\Theta(n)$',avg:'$\\Theta(n^2)$',worst:'$\\Theta(n^2)$',space:'$O(1)$',props:'Stable. In-place. The absolute best algorithm for nearly sorted arrays. Used by Timsort for small subarrays.',when:'Small arrays ($n < 50$) or nearly sorted data. Often used as the base case in hybrid sorting algorithms.'}},
+{mod:4,cat:'search',cx:'logarithmic',svgId:'bin-search',
+  ar:{name:'البحث الثنائي',nameEn:'Binary Search',strategy:'التقليل بعامل ثابت (2)',desc:'يبحث في مصفوفة مرتبة بمقارنة المفتاح مع العنصر الأوسط وإقصاء النصف غير المحتمل وتكرار العملية.',best:'$O(1)$',avg:'$\\approx \\log_2 n$',worst:'$\\Theta(\\log n)$',space:'$O(1)$',props:'يشترط أن تكون المصفوفة مرتبة. الأمثل للبحث في المصفوفات المرتبة (لا يمكن تجاوز O(log n)).',when:'البحث في بيانات مرتبة ثابتة. قوائم الهاتف، الفهارس، البحث في قواميس.'},
+  en:{name:'Binary Search',nameEn:'البحث الثنائي',strategy:'Decrease by a Constant Factor',desc:'Searches a sorted array by repeatedly comparing the key with the middle element and eliminating the irrelevant half.',best:'$O(1)$',avg:'$\\approx \\log_2 n$',worst:'$\\Theta(\\log n)$',space:'$O(1)$',props:'Requires the array to be strictly sorted. It is the optimal search algorithm for sorted arrays (cannot beat $\\Omega(\\log n)$ limit).',when:'Searching in static sorted data. Phone books, indexing, searching in dictionaries.'}},
+{mod:4,cat:'graph',cx:'mixed',svgId:'topo-sort',
+  ar:{name:'الفرز الطوبولوجي',nameEn:'Topological Sorting',strategy:'التقليل بمقدار متغير',desc:'يرتب رؤوس رسم موجه لا دوري (DAG) بحيث تأتي كل قمة قبل القمم التي تشير إليها. يُنجز باستخراج المصادر باستمرار.',best:'$O(V+E)$',avg:'$O(V+E)$',worst:'$O(V+E)$',space:'$O(V)$',props:'يشترط أن يكون الرسم DAG (لا دورات). يمكن تنفيذه عبر DFS أيضاً. الترتيب ليس فريداً دائماً.',when:'جدولة المهام، ترتيب التبعيات (package managers)، تصميم جداول الدراسة، ترتيب خطوات البناء.'},
+  en:{name:'Topological Sorting',nameEn:'الفرز الطوبولوجي',strategy:'Variable-size Decrease',desc:'Orders vertices of a Directed Acyclic Graph (DAG) so that every vertex appears before the vertices it points to.',best:'$O(V+E)$',avg:'$O(V+E)$',worst:'$O(V+E)$',space:'$O(V)$',props:'Graph must be a DAG (no cycles). Can be implemented via source removal or DFS. The resulting order is not always unique.',when:'Task scheduling, resolving dependencies (package managers), curriculum prerequisite planning.'}},
+{mod:4,cat:'search',cx:'linear',svgId:'quickselect',
+  ar:{name:'الاختيار السريع',nameEn:'Quickselect',strategy:'التقليل بحجم متغير',desc:'يجد العنصر رقم k الأصغر في مصفوفة غير مرتبة بتطبيق التقسيم (Partition) مرة واحدة ثم البحث في النصف المناسب فقط.',best:'$O(n)$',avg:'$O(n)$',worst:'$O(n^2)$',space:'$O(1)$',props:'متوسط O(n) مع pivot عشوائي. أسوأ حالة يمكن تجنبها باختيار pivot عشوائي.',when:'إيجاد الوسيط، العنصر رقم k، أو تقسيم البيانات. بديل ممتاز للترتيب الكامل حين نحتاج k فقط.'},
+  en:{name:'Quickselect',nameEn:'الاختيار السريع',strategy:'Variable-size Decrease',desc:'Finds the k-th smallest element in an unsorted array by applying partitioning once and recursively searching only the relevant half.',best:'$O(n)$',avg:'$O(n)$',worst:'$O(n^2)$',space:'$O(1)$',props:'Average time is $O(n)$ with a random pivot. The worst-case $O(n^2)$ can be probabilistically avoided with good pivot selection.',when:'Finding the median, the k-th order statistic, or partitioning data. Excellent alternative to full sorting when only one element is needed.'}},
+{mod:4,cat:'helpers',cx:'linear',svgId:'lomuto',
+  ar:{name:'تقسيم لوموتو/هور',nameEn:'Lomuto/Hoare Partitioning',strategy:'مساعد للتقليل',desc:'يقسم مصفوفة حول محور (Pivot) بحيث تكون العناصر الأصغر يساره والأكبر يمينه. لوموتو يستخدم مؤشراً واحداً، هور يستخدم اثنين.',best:'$\\Theta(n)$',avg:'$\\Theta(n)$',worst:'$\\Theta(n)$',space:'$O(1)$',props:'هور أسرع عملياً (ثلث عمليات المبادلة). كلاهما يعمل في المكان. يُستخدمان في Quicksort وQuickselect.',when:'خطوة مساعدة في Quicksort وQuickselect. حل مشكلة الأعلام الهولندية الثلاثية الألوان.'},
+  en:{name:'Lomuto/Hoare Partitioning',nameEn:'تقسيم لوموتو/هور',strategy:'Subroutine',desc:'Partitions an array around a pivot so smaller elements are on the left and larger on the right. Lomuto uses one pointer; Hoare uses two.',best:'$\\Theta(n)$',avg:'$\\Theta(n)$',worst:'$\\Theta(n)$',space:'$O(1)$',props:'Hoare is practically faster (does ~3x fewer swaps). Both operate in-place. Core engines for Quicksort and Quickselect.',when:'Used strictly as a subroutine in Quicksort and Quickselect.'}},
+{mod:5,cat:'sort',cx:'linearithmic',svgId:'merge-sort',
+  ar:{name:'الترتيب بالدمج',nameEn:'Mergesort',strategy:'فرق تسد',desc:'يقسم المصفوفة لنصفين عوديًا حتى وحدات فردية، ثم يدمجها بترتيب صاعد خطوة بخطوة للأعلى.',best:'$\\Theta(n \\log n)$',avg:'$\\Theta(n \\log n)$',worst:'$\\Theta(n \\log n)$',space:'$O(n)$',props:'مستقر. ليس في المكان (يحتاج O(n) إضافية). التعقيد مضمون بغض النظر عن المدخلات. مثالي للقوائم المترابطة.',when:'الترتيب المضمون O(n log n). ترتيب القوائم المترابطة. الترتيب الخارجي (External Sort) للملفات الكبيرة.'},
+  en:{name:'Mergesort',nameEn:'الترتيب بالدمج',strategy:'Divide and Conquer',desc:'Recursively divides the array in half until single units, then merges them in ascending order going back up.',best:'$\\Theta(n \\log n)$',avg:'$\\Theta(n \\log n)$',worst:'$\\Theta(n \\log n)$',space:'$O(n)$',props:'Stable. Not in-place (requires $O(n)$ extra memory). Guaranteed complexity regardless of input. Ideal for linked lists.',when:'When guaranteed $O(n \\log n)$ is needed. Sorting linked lists. External sorting for huge files.'}},
+{mod:5,cat:'sort',cx:'linearithmic',svgId:'quick-sort',
+  ar:{name:'الترتيب السريع',nameEn:'Quicksort',strategy:'فرق تسد',desc:'يختار محوراً (Pivot) ويقسم المصفوفة لعناصر أصغر وأكبر منه ثم يطبق نفسه عوديًا على القسمين.',best:'$\\Theta(n \\log n)$',avg:'$\\Theta(n \\log n)$',worst:'$O(n^2)$',space:'$O(\\log n)$',props:'في المكان. غير مستقر. في الممارسة أسرع من Mergesort بسبب ثوابت أصغر. أسوأ حالة: مصفوفة مرتبة مع pivot الأول/الأخير.',when:'الترتيب العام. أسرع خوارزمية ترتيب في الممارسة. يستخدمه C++ STL, Java (للأعداد الأولية).'},
+  en:{name:'Quicksort',nameEn:'الترتيب السريع',strategy:'Divide and Conquer',desc:'Selects a Pivot, partitions the array into smaller and larger elements, and recursively sorts the sub-arrays.',best:'$\\Theta(n \\log n)$',avg:'$\\Theta(n \\log n)$',worst:'$O(n^2)$',space:'$O(\\log n)$',props:'In-place. Unstable. Practically faster than Mergesort due to smaller hidden constants. Worst case is an already sorted array with a naive pivot.',when:'General-purpose sorting. Fastest in-memory sorting algorithm in practice. Used in C++ STL and Java.'}},
+{mod:5,cat:'geometry',cx:'linearithmic',svgId:'closest-dc',
+  ar:{name:'أقرب زوج (فرق تسد)',nameEn:'Closest-Pair D&C',strategy:'فرق تسد',desc:'يقسم النقاط بخط عمودي لنصفين ويجد أقرب زوج في كل نصف ثم يتحقق من شريط ضيق حول خط التقسيم.',best:'$O(n \\log n)$',avg:'$O(n \\log n)$',worst:'$O(n \\log n)$',space:'$O(n)$',props:'يجب فرز النقاط أولاً بحسب x (O(n log n)). في شريط التقسيم: يكفي مقارنة كل نقطة بـ 7 نقاط أقرب فقط.',when:'تطبيقات الخرائط والـ GIS، رسوميات الكمبيوتر، التحليل الجغرافي، تجميع البيانات.'},
+  en:{name:'Closest-Pair (Divide & Conquer)',nameEn:'أقرب زوج (فرق تسد)',strategy:'Divide and Conquer',desc:'Divides points by a vertical line, finds closest pairs in each half, and checks a narrow strip around the boundary.',best:'$O(n \\log n)$',avg:'$O(n \\log n)$',worst:'$O(n \\log n)$',space:'$O(n)$',props:'Requires pre-sorting points by x-coordinate. Inside the dividing strip, each point is compared to at most 7 others.',when:'Map applications, GIS, computer graphics, geospatial analysis.'}},
+{mod:5,cat:'math',cx:'subquadratic',svgId:'karatsuba',
+  ar:{name:'ضرب كاراتسوبا',nameEn:'Karatsuba Multiplication',strategy:'فرق تسد',desc:'يضرب عددين كبيرين بتقسيم كل منهما لجزأين واستخدام 3 عمليات ضرب فقط بدلاً من 4 للحصول على النتيجة.',best:'$O(n^{1.585})$',avg:'$O(n^{1.585})$',worst:'$O(n^{1.585})$',space:'$O(n)$',props:'n = عدد أرقام العددين. أسرع من الضرب التقليدي O(n²) للأعداد الكبيرة. يستخدمه Python لضرب الأعداد الكبيرة.',when:'ضرب أعداد ضخمة (تشفير RSA، رياضيات دقيقة). مكتبات الدقة العالية مثل GMP.'},
+  en:{name:'Karatsuba Multiplication',nameEn:'ضرب كاراتسوبا',strategy:'Divide and Conquer',desc:'Multiplies large numbers by dividing them into two halves and using only 3 multiplications instead of 4.',best:'$O(n^{1.585})$',avg:'$O(n^{1.585})$',worst:'$O(n^{1.585})$',space:'$O(n)$',props:'$n$ is the number of digits. Faster than traditional $O(n^2)$ for very large numbers. Used by Python internally.',when:'Multiplying massive numbers (RSA cryptography, arbitrary-precision arithmetic).'}},
+{mod:5,cat:'helpers',cx:'subquadratic',svgId:'strassen',
+  ar:{name:'ضرب مصفوفات ستراسن',nameEn:'Strassen\'s Matrix',strategy:'فرق تسد',desc:'يضرب مصفوفتين n×n باستخدام 7 عمليات ضرب فرعية بدلاً من 8، محسناً بذلك تعقيد ضرب المصفوفات.',best:'$\\Theta(n^{2.807})$',avg:'$\\Theta(n^{2.807})$',worst:'$\\Theta(n^{2.807})$',space:'$O(n^2)$',props:'أسرع نظرياً من O(n³). عملياً: التعقيد الكبير في التنفيذ يجعله أبطأ للمصفوفات الصغيرة. المصفوفات الكبيرة (n > 1000) فقط.',when:'تطبيقات تعلم الآلة (ضرب مصفوفات ضخمة)، الرسوميات ثلاثية الأبعاد.'},
+  en:{name:'Strassen\'s Matrix Mult.',nameEn:'ضرب مصفوفات ستراسن',strategy:'Divide and Conquer',desc:'Multiplies two n×n matrices using 7 sub-multiplications instead of 8, improving the asymptotic complexity.',best:'$\\Theta(n^{2.807})$',avg:'$\\Theta(n^{2.807})$',worst:'$\\Theta(n^{2.807})$',space:'$O(n^2)$',props:'Theoretically faster than $O(n^3)$. Practically, huge overhead makes it slower for small matrices. Only useful for $n > 1000$.',when:'Machine learning (massive matrix operations), 3D graphics engines.'}},
+{mod:6,cat:'ds',cx:'logarithmic',svgId:'avl',
+  ar:{name:'أشجار AVL',nameEn:'AVL Trees',strategy:'التحويل والقهر',desc:'شجرة بحث ثنائية ذاتية التوازن تضمن أن فرق الارتفاع بين الشجرتين الفرعيتين لأي عقدة لا يتجاوز 1.',best:'$O(\\log n)$',avg:'$O(\\log n)$',worst:'$O(\\log n)$',space:'$O(n)$',props:'مضمونة التوازن دائماً. تحتاج دورانات عند الإدراج/الحذف (حد 2 دوران لكل عملية). أسرع بحثاً من Red-Black Tree.',when:'قواعد البيانات، قوائم الترتيب الفوري، أي تطبيق يحتاج O(log n) مضموناً.'},
+  en:{name:'AVL Trees',nameEn:'أشجار AVL',strategy:'Transform and Conquer',desc:'A self-balancing Binary Search Tree ensuring the height difference between subtrees of any node never exceeds 1.',best:'$O(\\log n)$',avg:'$O(\\log n)$',worst:'$O(\\log n)$',space:'$O(n)$',props:'Always guaranteed to be balanced. Uses rotations during insert/delete (max 2 rotations per operation). Faster lookups than Red-Black trees.',when:'Databases, in-memory sorts, scenarios needing strictly guaranteed $O(\\log n)$ searches.'}},
+{mod:6,cat:'ds',cx:'logarithmic',svgId:'2-3-tree',
+  ar:{name:'أشجار 2-3',nameEn:'2-3 Trees',strategy:'التحويل والقهر',desc:'شجرة بحث متوازنة تماماً حيث كل عقدة داخلية تحتوي على 1 أو 2 مفتاح وجميع الأوراق في نفس المستوى.',best:'$O(\\log n)$',avg:'$O(\\log n)$',worst:'$O(\\log n)$',space:'$O(n)$',props:'توازن مثالي دائماً. أبسط نظرياً من Red-Black Tree. أساس نظري لـ B-Trees وRed-Black Trees.',when:'الفهم النظري لأشجار B. أساس لتصميم قواعد البيانات.'},
+  en:{name:'2-3 Trees',nameEn:'أشجار 2-3',strategy:'Transform and Conquer',desc:'A perfectly balanced search tree where every internal node has either 1 or 2 keys, and all leaves are at the exact same level.',best:'$O(\\log n)$',avg:'$O(\\log n)$',worst:'$O(\\log n)$',space:'$O(n)$',props:'Perfectly balanced always. Theoretical predecessor to B-Trees and Red-Black trees.',when:'Used primarily for theoretical understanding of B-Trees.'}},
+{mod:6,cat:'sort',cx:'linearithmic',svgId:'heap-sort',
+  ar:{name:'الترتيب الكومي',nameEn:'Heap Sort',strategy:'التحويل والقهر',desc:'يحول المصفوفة لـ Max-Heap ثم يستخرج أكبر عنصر تكراراً ويضعه في نهاية المصفوفة المرتبة.',best:'$\\Theta(n \\log n)$',avg:'$\\Theta(n \\log n)$',worst:'$\\Theta(n \\log n)$',space:'$O(1)$',props:'في المكان. غير مستقر. O(n log n) مضمونة دائماً. أبطأ من Quicksort في الممارسة بسبب أداء ضعيف على الذاكرة المخبئية.',when:'حين الحاجة لـ O(n log n) مضمونة مع O(1) مكانياً. Priority Queue.'},
+  en:{name:'Heap Sort',nameEn:'الترتيب الكومي',strategy:'Transform and Conquer',desc:'Converts the array into a Max-Heap, then repeatedly extracts the max element and places it at the end of the array.',best:'$\\Theta(n \\log n)$',avg:'$\\Theta(n \\log n)$',worst:'$\\Theta(n \\log n)$',space:'$O(1)$',props:'In-place. Unstable. Guaranteed $O(n \\log n)$. Slower than Quicksort in practice due to poor CPU cache locality.',when:'When strict $O(n \\log n)$ is required with exactly $O(1)$ extra space. Embedded systems.'}},
+{mod:7,cat:'ds',cx:'logarithmic',svgId:'bst',
+  ar:{name:'شجرة البحث الثنائية',nameEn:'Binary Search Tree',strategy:'التمثيل المتغير',desc:'شجرة ثنائية يكون فيها كل عقدة أكبر من جميع قيم فرعها الأيسر وأصغر من جميع قيم فرعها الأيمن.',best:'$O(\\log n)$',avg:'$O(\\log n)$',worst:'$O(n)$',space:'$O(n)$',props:'أسوأ حالة عند الإدراج بترتيب مرتب (تصبح قائمة). بدون توازن ذاتي. الاجتياز Inorder يعطي القيم مرتبة.',when:'التطبيقات التي تحتاج بحث + إدراج + حذف ديناميكي. قواميس، مجموعات مرتبة.'},
+  en:{name:'Binary Search Tree (BST)',nameEn:'شجرة البحث الثنائية',strategy:'Representation Change',desc:'A binary tree where every node is strictly greater than all left descendants and strictly less than all right descendants.',best:'$O(\\log n)$',avg:'$O(\\log n)$',worst:'$O(n)$',space:'$O(n)$',props:'Worst case occurs if data is inserted in sorted order (degenerates into a linked list). No self-balancing. Inorder traversal yields sorted elements.',when:'Dynamic sets where insertion, deletion, and lookup are frequently mixed.'}},
+{mod:7,cat:'ds',cx:'constant',svgId:'hash',
+  ar:{name:'جداول Hash',nameEn:'Hash Tables',strategy:'التمثيل المتغير',desc:'بنية بيانات تحوّل المفتاح لفهرس في مصفوفة باستخدام دالة Hash، مما يتيح وصولاً شبه مباشر.',best:'$O(1)$',avg:'$O(1)$',worst:'$O(n)$',space:'$O(n)$',props:'أسوأ حالة عند التصادمات الكثيرة. التصادمات تُحل بالسلاسل (Chaining) أو العنونة المفتوحة (Open Addressing).',when:'القواميس، عدّ التكرارات، مجموعات الأعضاء، ذاكرة التخزين المؤقت، قواعد البيانات.'},
+  en:{name:'Hash Tables',nameEn:'الجداول المجزأة',strategy:'Representation Change',desc:'A data structure that maps keys to array indices using a Hash function, allowing near-instantaneous access.',best:'$O(1)$',avg:'$O(1)$',worst:'$O(n)$',space:'$O(n)$',props:'Worst case degenerates to linear on total collision. Collisions resolved via Chaining or Open Addressing.',when:'Dictionaries, caching (Memcached, Redis), frequency counting, tracking uniqueness.'}},
+{mod:7,cat:'ds',cx:'logarithmic',svgId:'b-tree',
+  ar:{name:'أشجار B',nameEn:'B-Trees',strategy:'التمثيل المتغير',desc:'شجرة بحث متعددة الأبناء ومتوازنة تحتوي كل عقدة على مفاتيح متعددة. تُصمَّم لتناسب عمليات القراءة من الأقراص.',best:'$O(\\log n)$',avg:'$O(\\log n)$',worst:'$O(\\log n)$',space:'$O(n)$',props:'كل قراءة قرص تجلب صفحة كاملة مليئة بالمفاتيح. مثالية لأنظمة الملفات وقواعد البيانات على الأقراص.',when:'أنظمة ملفات (NTFS, ext4)، قواعد بيانات (MySQL InnoDB, PostgreSQL).'},
+  en:{name:'B-Trees',nameEn:'أشجار بي',strategy:'Representation Change',desc:'A balanced multi-child search tree where each node holds multiple keys. Optimized for block-oriented storage like hard drives.',best:'$O(\\log n)$',avg:'$O(\\log n)$',worst:'$O(\\log n)$',space:'$O(n)$',props:'Every disk read brings in an entire block of keys. Highly minimizes expensive disk I/O operations.',when:'File systems (NTFS, ext4), relational databases (MySQL, PostgreSQL).'}},
+{mod:8,cat:'string',cx:'linear',svgId:'horspool',
+  ar:{name:'خوارزمية هورسبول',nameEn:'Horspool\'s Algorithm',strategy:'مقايضة المساحة والوقت',desc:'تطابق نصوص أسرع من البحث الغاشم بإنشاء جدول إزاحات مسبقاً يحدد مقدار القفز عند عدم المطابقة.',best:'$O(n/m)$',avg:'$O(n)$',worst:'$O(nm)$',space:'$O(|\\Sigma|)$',props:'تجهيز: O(m + |Σ|). تبحث من اليمين لليسار. جدول إزاحة يُبنى مرة واحدة ثم يُستخدم للبحث. أبسط من Boyer-Moore.',when:'البحث في نصوص لمرات متعددة. محررات النصوص (grep)، الأدوات الأمنية.'},
+  en:{name:'Horspool\'s Algorithm',nameEn:'خوارزمية هورسبول',strategy:'Space-Time Trade-off',desc:'Matches strings faster than brute-force by pre-computing a Bad-Character shift table to make large jumps.',best:'$O(n/m)$',avg:'$O(n)$',worst:'$O(nm)$',space:'$O(|\\Sigma|)$',props:'Preprocessing takes $O(m + |\\Sigma|)$. Matches pattern from right to left. Simpler and practically very fast variation of Boyer-Moore.',when:'Text editors (Ctrl+F), command line search tools (grep), basic intrusion detection.'}},
+{mod:8,cat:'sort',cx:'linear',svgId:'count-sort',
+  ar:{name:'الترتيب بالعد',nameEn:'Counting Sort',strategy:'مقايضة المساحة والوقت',desc:'يرتب الأعداد الصحيحة بعد أعداد كل قيمة في مصفوفة عد، ثم يحسب المجموع التراكمي لتحديد مواضع العناصر.',best:'$\\Theta(n+k)$',avg:'$\\Theta(n+k)$',worst:'$\\Theta(n+k)$',space:'$O(n+k)$',props:'k = نطاق القيم. غير مقارناتي (يتجاوز حد Ω(n log n)). مستقر. مثالي حين k = O(n).',when:'أعداد صحيحة في نطاق صغير. ترتيب الدرجات (0-100)، الأعمار، الأشهر. الخطوة الأساسية في Radix Sort.'},
+  en:{name:'Counting Sort',nameEn:'الترتيب بالعد',strategy:'Space-Time Trade-off',desc:'Sorts integers by counting the occurrences of each value into a count array, then computing cumulative sums to find positions.',best:'$\\Theta(n+k)$',avg:'$\\Theta(n+k)$',worst:'$\\Theta(n+k)$',space:'$O(n+k)$',props:'$k$ is the range of values. Non-comparative (beats the $\\Omega(n \\log n)$ limit). Stable. Perfect when $k$ is $O(n)$.',when:'Integers in a small bounded range (e.g., test scores 0-100, ages). Core subroutine for Radix Sort.'}},
+{mod:9,cat:'math',cx:'linear',svgId:'horner',
+  ar:{name:'خوارزمية هورنر',nameEn:'Horner\'s Rule',strategy:'مقايضة المساحة والوقت',desc:'تحسب قيمة متعددة حدود P(x) بإعادة صياغتها كعمليات متداخلة تحتاج n عملية ضرب فقط بدلاً من 2n-1.',best:'$\\Theta(n)$',avg:'$\\Theta(n)$',worst:'$\\Theta(n)$',space:'$O(1)$',props:'مثلى (لا يمكن تحقيق أقل من n ضربة لمتعددة حدود من الدرجة n). تُستخدم في جميع مترجمات البرمجة.',when:'حساب متعددات الحدود بكفاءة. تحويل بين الأسس (binary to decimal). استيفاء متعددات الحدود.'},
+  en:{name:'Horner\'s Rule',nameEn:'خوارزمية هورنر',strategy:'Space-Time Trade-off',desc:'Evaluates a polynomial P(x) by rewriting it as a nested multiplication sequence, requiring only $n$ multiplications instead of $2n-1$.',best:'$\\Theta(n)$',avg:'$\\Theta(n)$',worst:'$\\Theta(n)$',space:'$O(1)$',props:'Optimal (mathematically proven that no algorithm can do it in fewer than $n$ multiplications).',when:'Efficient polynomial evaluation. Base conversions (e.g., binary string to decimal integer).'}},
+{mod:9,cat:'math',cx:'linear',svgId:'sieve',
+  ar:{name:'منخل إراتوسثينيس',nameEn:'Sieve of Eratosthenes',strategy:'مقايضة المساحة والوقت',desc:'يجد جميع الأعداد الأولية حتى n بشطب مضاعفات كل عدد أولي مُكتشف بدءاً من 2.',best:'$O(n \\log \\log n)$',avg:'$O(n \\log \\log n)$',worst:'$O(n \\log \\log n)$',space:'$O(n)$',props:'أسرع طريقة لإيجاد جميع الأعداد الأولية حتى n. التحسين: ابدأ الشطب من p² لكل عدد أولي p.',when:'توليد قوائم الأعداد الأولية في التشفير. التحقق من الأولية لأعداد متعددة دفعة واحدة.'},
+  en:{name:'Sieve of Eratosthenes',nameEn:'منخل إراتوسثينيس',strategy:'Space-Time Trade-off',desc:'Finds all prime numbers up to $n$ by iteratively crossing out the multiples of each discovered prime starting from 2.',best:'$O(n \\log \\log n)$',avg:'$O(n \\log \\log n)$',worst:'$O(n \\log \\log n)$',space:'$O(n)$',props:'Fastest known way to generate a list of primes. Optimization: start crossing out multiples from $p^2$ for each prime $p$.',when:'Generating prime tables for cryptography. Batch primality testing.'}},
+{mod:10,cat:'dp',cx:'linear',svgId:'dp-fib',
+  ar:{name:'فيبوناتشي (برمجة ديناميكية)',nameEn:'Fibonacci DP',strategy:'البرمجة الديناميكية',desc:'يحسب متتالية فيبوناتشي بحفظ النتائج المُحسَّبة في جدول لتجنب الحساب المتكرر (Memoization أو Bottom-up).',best:'$\\Theta(n)$',avg:'$\\Theta(n)$',worst:'$\\Theta(n)$',space:'$O(1)$',props:'العودي الساذج: O(2ⁿ). DP يحسّنه لـ O(n). Bottom-up يمكن تحسينه لـ O(1) مكانياً بحفظ آخر رقمين فقط.',when:'النموذج الكلاسيكي لتعلم DP. حساب أعداد توافيقية، متتاليات رياضية.'},
+  en:{name:'Fibonacci (Dynamic Programming)',nameEn:'فيبوناتشي (برمجة ديناميكية)',strategy:'Dynamic Programming',desc:'Calculates the Fibonacci sequence by storing previously computed results in a table to avoid redundant calculations.',best:'$\\Theta(n)$',avg:'$\\Theta(n)$',worst:'$\\Theta(n)$',space:'$O(1)$',props:'Naive recursion is $O(2^n)$. DP slashes it to $O(n)$. Bottom-up DP can optimize space to $O(1)$ by keeping only the last two numbers.',when:'The classic hello-world of DP. Combinatorial math, biological sequence generation.'}},
+{mod:10,cat:'dp',cx:'quadratic',svgId:'dp-knapsack',
+  ar:{name:'حقيبة الظهر 0/1 (DP)',nameEn:'0/1 Knapsack DP',strategy:'البرمجة الديناميكية',desc:'يحل مشكلة الحقيبة بملء جدول dp[i][w] = أقصى قيمة باستخدام أول i عناصر وسعة w.',best:'$\\Theta(nW)$',avg:'$\\Theta(nW)$',worst:'$\\Theta(nW)$',space:'$O(nW)$',props:'W = سعة الحقيبة. شبه-متعدد الحدود (Pseudo-polynomial) وليس متعددياً حقيقياً. يمكن تحسين المساحة لـ O(W).',when:'اختيار المشاريع بميزانية، تعبئة حاويات، تحسين الموارد.'},
+  en:{name:'0/1 Knapsack DP',nameEn:'حقيبة الظهر 0/1',strategy:'Dynamic Programming',desc:'Solves the knapsack problem by filling a 2D table `dp[i][w]` representing max value using first `i` items and weight capacity `w`.',best:'$\\Theta(nW)$',avg:'$\\Theta(nW)$',worst:'$\\Theta(nW)$',space:'$O(nW)$',props:'$W$ is the knapsack capacity. It is a Pseudo-polynomial time algorithm. Space can be optimized to 1D array $O(W)$.',when:'Budget allocation, container loading, resource optimization.'}},
+{mod:10,cat:'dp',cx:'quadratic',svgId:'lcs',
+  ar:{name:'أطول تسلسل مشترك (LCS)',nameEn:'Longest Common Subsequence',strategy:'البرمجة الديناميكية',desc:'يجد أطول تسلسل من العناصر يظهر بنفس الترتيب في كلا المتتاليتين (لا يشترط تجاور العناصر).',best:'$\\Theta(mn)$',avg:'$\\Theta(mn)$',worst:'$\\Theta(mn)$',space:'$O(mn)$',props:'m,n = طول المتتاليتين. جدول DP ذو بُعدين. يُستخدم أيضاً لحساب أطول متتالية تصاعدية (LIS) بتعديل بسيط.',when:'أدوات diff (مقارنة ملفات)، بيوانفورماتيكس (مقارنة DNA)، git diff.'},
+  en:{name:'Longest Common Subsequence (LCS)',nameEn:'أطول تسلسل مشترك',strategy:'Dynamic Programming',desc:'Finds the longest sequence of elements appearing in the same relative order in both sequences (elements need not be contiguous).',best:'$\\Theta(mn)$',avg:'$\\Theta(mn)$',worst:'$\\Theta(mn)$',space:'$O(mn)$',props:'$m,n$ are the lengths of the sequences. Uses a 2D DP table. Can be adapted to solve Longest Increasing Subsequence (LIS).',when:'File comparison tools (diff, git), Bioinformatics (DNA sequencing alignment).'}},
+{mod:10,cat:'graph',cx:'cubic',svgId:'floyd',
+  ar:{name:'فلويد-وارشال',nameEn:'Floyd-Warshall',strategy:'البرمجة الديناميكية',desc:'يحسب أقصر مسار بين كل زوج من رؤوس الرسم البياني باستخدام برمجة ديناميكية تُحدّث المسافات تدريجياً.',best:'$\\Theta(n^3)$',avg:'$\\Theta(n^3)$',worst:'$\\Theta(n^3)$',space:'$O(n^2)$',props:'يعمل مع الأوزان السالبة (لكن ليس الدورات السالبة). يمكن تعديله للكشف عن الدورات السالبة.',when:'All-Pairs Shortest Path. الشبكات الصغيرة والمتوسطة (n < 500). كشف الدورات السالبة.'},
+  en:{name:'Floyd-Warshall',nameEn:'فلويد-وارشال',strategy:'Dynamic Programming',desc:'Computes the shortest paths between all pairs of vertices in a graph by iteratively updating a distance matrix.',best:'$\\Theta(n^3)$',avg:'$\\Theta(n^3)$',worst:'$\\Theta(n^3)$',space:'$O(n^2)$',props:'Works correctly with negative edge weights (but not negative cycles). Can be used to detect negative cycles (diagonals < 0).',when:'All-Pairs Shortest Path problem. Small to medium dense graphs ($n < 500$).'}},
+{mod:10,cat:'graph',cx:'cubic',svgId:'warshall',
+  ar:{name:'خوارزمية وارشال',nameEn:'Warshall\'s Algorithm',strategy:'البرمجة الديناميكية',desc:'تحسب Transitive Closure لرسم بياني: هل يمكن الوصول من كل رأس لكل رأس آخر؟ تبني مصفوفة قابلية الوصول.',best:'$\\Theta(n^3)$',avg:'$\\Theta(n^3)$',worst:'$\\Theta(n^3)$',space:'$O(n^2)$',props:'نسخة مبسطة من فلويد-وارشال بالقيم البوليانية (0/1). تبني مصفوفة n×n من القيم البوليانية.',when:'اكتشاف الوصولية في الرسوم البيانية. تحليل الشبكات، قواعد البيانات العلائقية (التعدية).'},
+  en:{name:'Warshall\'s Algorithm',nameEn:'خوارزمية وارشال',strategy:'Dynamic Programming',desc:'Computes the Transitive Closure of a directed graph: determines if there is a path from any vertex to any other vertex.',best:'$\\Theta(n^3)$',avg:'$\\Theta(n^3)$',worst:'$\\Theta(n^3)$',space:'$O(n^2)$',props:'A boolean (0/1) simplified version of Floyd-Warshall. Constructs an $n \\times n$ boolean reachability matrix.',when:'Reachability queries. Network analysis, relational databases (transitivity detection).'}},
+{mod:10,cat:'dp',cx:'exponential',svgId:'tsp-dp',
+  ar:{name:'بائع المتجول (برمجة ديناميكية)',nameEn:'TSP - Dynamic Programming',strategy:'البرمجة الديناميكية',desc:'يحل مشكلة TSP بكفاءة أفضل من القوة الغاشمة باستخدام جدول dp[S][i] حيث S هي مجموعة المدن المُزارة.',best:'$O(n^2 2^n)$',avg:'$O(n^2 2^n)$',worst:'$O(n^2 2^n)$',space:'$O(n 2^n)$',props:'أفضل بكثير من O(n!) لكنه لا يزال أسياً. يجعل n=20 قابلاً للحل بدلاً من n=12. الحل الأمثل الوحيد العملي للـ n المتوسطة.',when:'حين الحاجة للحل الأمثل لـ n ≤ 20-25. التوجيه، الجدولة، قطع الدارات المطبوعة.'},
+  en:{name:'TSP (Dynamic Programming)',nameEn:'بائع المتجول (برمجة ديناميكية)',strategy:'Dynamic Programming',desc:'Solves the TSP much faster than Brute Force by using a memoization table `dp[S][i]` where `S` is a bitmask of visited cities.',best:'$O(n^2 2^n)$',avg:'$O(n^2 2^n)$',worst:'$O(n^2 2^n)$',space:'$O(n 2^n)$',props:'Significantly better than $O(n!)$, though still exponential. Makes $n=20$ feasible to compute exactly.',when:'When the strictly optimal tour is required for medium graphs ($n \\le 25$). Circuit board routing.'}},
+{mod:11,cat:'graph',cx:'linearithmic',svgId:'prim-kruskal',
+  ar:{name:'خوارزمية بريم',nameEn:'Prim\'s Algorithm',strategy:'التقنية الجشعة',desc:'تبني شجرة امتداد صغرى (MST) بدءاً من رأس واحد وإضافة أقصر حافة تصل شجرة MST الحالية برأس جديد.',best:'$O(E \\log V)$',avg:'$O(E \\log V)$',worst:'$O(E \\log V)$',space:'$O(V)$',props:'مع Priority Queue: O(E log V). أفضل للرسوم الكثيفة (Dense). تنتج MST فريدة إذا كانت الأوزان فريدة.',when:'شبكات الكهرباء، شبكات الاتصالات، تصميم الشبكات بأقل تكلفة.'},
+  en:{name:'Prim\'s Algorithm',nameEn:'خوارزمية بريم',strategy:'Greedy Technique',desc:'Builds a Minimum Spanning Tree (MST) starting from an arbitrary vertex, iteratively adding the cheapest edge connecting the growing tree to a new vertex.',best:'$O(E \\log V)$',avg:'$O(E \\log V)$',worst:'$O(E \\log V)$',space:'$O(V)$',props:'Implemented using a Min-Heap. Generally outperforms Kruskal on dense graphs. Yields a unique MST if all edge weights are unique.',when:'Designing optimal electrical grids, telecommunication networks, or road networks.'}},
+{mod:11,cat:'graph',cx:'linearithmic',svgId:'prim-kruskal',
+  ar:{name:'خوارزمية كروسكال',nameEn:'Kruskal\'s Algorithm',strategy:'التقنية الجشعة',desc:'تبني MST بفرز جميع الحوافی تصاعدياً ثم إضافة كل حافة لا تُكوّن دورة باستخدام Union-Find.',best:'$O(E \\log E)$',avg:'$O(E \\log E)$',worst:'$O(E \\log E)$',space:'$O(V+E)$',props:'يستخدم Disjoint Sets (Union-Find) لفحص الدورات في O(α(n)) ≈ O(1). أفضل للرسوم الخفيفة (Sparse).',when:'نفس تطبيقات Prim. أسهل في التنفيذ المتوازي.'},
+  en:{name:'Kruskal\'s Algorithm',nameEn:'خوارزمية كروسكال',strategy:'Greedy Technique',desc:'Builds an MST by sorting all edges by weight, then greedily adding edges that do not form a cycle using a Union-Find data structure.',best:'$O(E \\log E)$',avg:'$O(E \\log E)$',worst:'$O(E \\log E)$',space:'$O(V+E)$',props:'Rely heavily on the Disjoint Sets (Union-Find) structure for cycle detection. Outperforms Prim on sparse graphs.',when:'MST problems, specifically when the graph is sparse or edges are already sorted.'}},
+{mod:11,cat:'graph',cx:'quadratic',svgId:'dijkstra',
+  ar:{name:'خوارزمية ديكسترا',nameEn:'Dijkstra\'s Algorithm',strategy:'التقنية الجشعة',desc:'تجد أقصر مسار من رأس مصدر لجميع الرؤوس الأخرى بالاختيار الجشع لأقرب رأس غير مُزار في كل خطوة.',best:'$O((V+E) \\log V)$',avg:'$O((V+E) \\log V)$',worst:'$O(V^2)$',space:'$O(V)$',props:'لا تعمل مع الأوزان السالبة. مع Min-Heap: O((V+E)log V). مع مصفوفة: O(V²) أفضل للرسوم الكثيفة.',when:'GPS والملاحة، الشبكات الحاسوبية (OSPF، MPLS)، ألعاب الكمبيوتر (pathfinding).'},
+  en:{name:'Dijkstra\'s Algorithm',nameEn:'خوارزمية ديكسترا',strategy:'Greedy Technique',desc:'Finds the shortest paths from a single source vertex to all other vertices by greedily selecting the unvisited vertex with the smallest tentative distance.',best:'$O((V+E) \\log V)$',avg:'$O((V+E) \\log V)$',worst:'$O(V^2)$',space:'$O(V)$',props:'Fails on graphs with negative edge weights. With a Min-Heap, it is $O((V+E)\\log V)$. With a simple array, it is $O(V^2)$ (better for extremely dense graphs).',when:'GPS routing, computer network protocols (OSPF), AI pathfinding in games.'}},
+{mod:11,cat:'greedy',cx:'linearithmic',svgId:'huffman',
+  ar:{name:'ترميز هوفمان',nameEn:'Huffman Coding',strategy:'التقنية الجشعة',desc:'يضغط البيانات بتعيين رموز أقصر للرموز الأكثر تكراراً وأطول للأقل تكراراً عبر بناء شجرة Huffman.',best:'$O(n \\log n)$',avg:'$O(n \\log n)$',worst:'$O(n \\log n)$',space:'$O(n)$',props:'الترميز الأمثل لرمز ذو رموز متغيرة الطول. ينتج بادئات خالية (Prefix-free). يستخدمه JPEG, MP3, gzip.',when:'ضغط الملفات (ZIP, GZIP). ترميز الصوت والصورة. ضغط البيانات في الاتصالات.'},
+  en:{name:'Huffman Coding',nameEn:'ترميز هوفمان',strategy:'Greedy Technique',desc:'Compresses data by assigning shorter binary codes to more frequent characters, constructing an optimal prefix-free tree.',best:'$O(n \\log n)$',avg:'$O(n \\log n)$',worst:'$O(n \\log n)$',space:'$O(n)$',props:'Produces the mathematically optimal prefix-free variable-length encoding. Requires a Priority Queue to build the tree.',when:'Lossless data compression (ZIP, GZIP, Deflate). Used internally in JPEG and MP3 encodings.'}},
+{mod:12,cat:'limits',cx:'exponential',svgId:'np-limits',
+  ar:{name:'فئة P و NP',nameEn:'P vs NP Classes',strategy:'نظرية التعقيد',desc:'P: مشاكل تُحل بخوارزمية متعددة الحدود. NP: مشاكل يمكن التحقق من حلها بسرعة. هل P=NP؟ السؤال الأهم في علم الحاسوب.',best:'-',avg:'-',worst:'-',space:'-',props:'NP-Complete: أصعب مشاكل NP. إثبات P=NP سيؤدي لكسر جميع أنظمة التشفير الحالية.',when:'فهم حدود الحوسبة. تصنيف صعوبة المشاكل قبل محاولة حلها.'},
+  en:{name:'P vs NP Classes',nameEn:'فئة بي و إن بي',strategy:'Complexity Theory',desc:'P: Solvable in polynomial time. NP: Verifiable in polynomial time. Does P=NP? The most famous unsolved problem in Computer Science.',best:'-',avg:'-',worst:'-',space:'-',props:'NP-Complete contains the hardest problems in NP. Proving P=NP would collapse modern cryptography.',when:'Used to classify a problem\'s inherent difficulty before wasting time trying to find an optimal polynomial solution.'}},
+{mod:12,cat:'limits',cx:'exponential',svgId:'np-limits',
+  ar:{name:'مشاكل NP-Complete',nameEn:'NP-Complete Problems',strategy:'الاختزال (Reduction)',desc:'مشاكل في NP تكون الأصعب فيها: كل مشكلة في NP يمكن اختزالها إليها. الأمثلة: SAT، Clique، TSP، Vertex Cover.',best:'-',avg:'-',worst:'$O(2^n)$ أو أسوأ',space:'-',props:'ليس لأي منها خوارزمية متعددة الحدود معروفة. تُحل تقريبياً أو بخوارزميات heuristic.',when:'التعرف عليها لتجنب البحث عن خوارزمية متعددة الحدود. استخدام approximation algorithms.'},
+  en:{name:'NP-Complete Problems',nameEn:'المشاكل المستعصية',strategy:'Reduction',desc:'The hardest problems in NP. Every problem in NP can be reduced to them in polynomial time. Examples: SAT, Graph Coloring, Knapsack.',best:'-',avg:'-',worst:'$O(2^n)$ or worse',space:'-',props:'None currently have a known polynomial-time algorithm. If one does, they all do.',when:'Recognize them in the wild to stop searching for perfect solutions and switch to Heuristics or Approximation algorithms.'}},
+{mod:12,cat:'graph',cx:'linear',svgId:'dfs',
+  ar:{name:'البحث في العمق (DFS)',nameEn:'Depth-First Search',strategy:'التقليل بمقدار متغير',desc:'يتعمق في الرسم البياني عبر مسار واحد حتى طريق مسدود ثم يتراجع لاستكشاف مسار آخر. يستخدم مكدساً (ضمنياً أو صريحاً).',best:'$O(V+E)$',avg:'$O(V+E)$',worst:'$O(V^2)$',space:'$O(V)$',props:'يُنتج DFS tree. يكتشف الدورات، المكونات المترابطة، الترتيب الطوبولوجي، المكونات الثنائية الترابط (SCC).',when:'اكتشاف الدورات، الترتيب الطوبولوجي، حل الألغاز والمتاهات، المكونات المترابطة.'},
+  en:{name:'Depth-First Search (DFS)',nameEn:'البحث في العمق',strategy:'Variable-size Decrease',desc:'Explores a graph by plunging as deeply as possible along a branch before backtracking. Uses a Stack (call stack or explicit).',best:'$O(V+E)$',avg:'$O(V+E)$',worst:'$O(V^2)$',space:'$O(V)$',props:'Produces a DFS forest. Highly versatile. Can classify edges (tree, back, cross).',when:'Cycle detection, Topological Sorting, solving mazes, finding Strongly Connected Components (SCCs).'}},
+{mod:12,cat:'graph',cx:'linear',svgId:'bfs',
+  ar:{name:'البحث في العرض (BFS)',nameEn:'Breadth-First Search',strategy:'التقليل بمقدار متغير',desc:'يستكشف الرسم البياني مستوىً بمستوى بزيارة جميع العقد المجاورة قبل الانتقال لمستوى أعمق. يستخدم طابوراً.',best:'$O(V+E)$',avg:'$O(V+E)$',worst:'$O(V^2)$',space:'$O(V)$',props:'يجد أقصر مسار بعدد الحوافی (للرسوم غير الموزونة). يُنتج BFS tree. يكتشف الرسوم ثنائية الأقسام (Bipartite).',when:'أقصر مسار غير موزون، شبكات التواصل الاجتماعي (درجات الفصل)، ألعاب الكمبيوتر.'},
+  en:{name:'Breadth-First Search (BFS)',nameEn:'البحث في العرض',strategy:'Variable-size Decrease',desc:'Explores a graph level by level, visiting all immediate neighbors before moving to deeper levels. Uses a Queue.',best:'$O(V+E)$',avg:'$O(V+E)$',worst:'$O(V^2)$',space:'$O(V)$',props:'Guarantees finding the shortest path (in terms of number of edges) in unweighted graphs. Can detect Bipartite graphs.',when:'Unweighted shortest path, social network degrees of separation, web crawlers.'}},
+{mod:12,cat:'graph',cx:'linear',svgId:'bin-tree',
+  ar:{name:'عبور الأشجار الثنائية',nameEn:'Binary Tree Traversals',strategy:'التقليل بمقدار ثابت',desc:'ثلاثة أنماط لزيارة جميع عقد شجرة ثنائية: قبلي (الجذر أولاً)، وسطي (الجذر وسطاً)، بعدي (الجذر أخيراً).',best:'$\\Theta(n)$',avg:'$\\Theta(n)$',worst:'$\\Theta(n)$',space:'$O(h)$',props:'Inorder لـ BST يُنتج قيماً مرتبة. Preorder مفيد للنسخ. Postorder مفيد للحذف وحساب الحجم.',when:'Inorder: طباعة BST مرتبة. Preorder: تسلسل الشجرة. Postorder: حساب حجم الشجرة، حذف عقد.'},
+  en:{name:'Binary Tree Traversals',nameEn:'عبور الأشجار الثنائية',strategy:'Decrease by a Constant',desc:'Three methods to visit every node in a binary tree: Pre-order (Root-L-R), In-order (L-Root-R), Post-order (L-R-Root).',best:'$\\Theta(n)$',avg:'$\\Theta(n)$',worst:'$\\Theta(n)$',space:'$O(h)$',props:'In-order on a BST yields sorted values. Space complexity depends on tree height $h$ due to recursion stack.',when:'In-order: flatting a BST. Pre-order: copying or serializing a tree. Post-order: safely deleting nodes or computing sizes.'}},
+{mod:12,cat:'math',cx:'cubic',svgId:'gauss',
+  ar:{name:'إلغاء غاوس',nameEn:'Gaussian Elimination',strategy:'التحويل والقهر',desc:'يحل أنظمة المعادلات الخطية بتحويل المصفوفة الموسعة لمثلثة علوية ثم التعويض العكسي لإيجاد المجاهيل.',best:'$\\Theta(n^3)$',avg:'$\\Theta(n^3)$',worst:'$\\Theta(n^3)$',space:'$O(n^2)$',props:'يُستخدم Partial Pivoting لتجنب القسمة على صفر والتقليل من أخطاء التقريب. أساس حل المعادلات الخطية.',when:'حل أنظمة المعادلات الخطية. حساب المعكوس. حساب المحدد. الرسوميات والفيزياء.'},
+  en:{name:'Gaussian Elimination',nameEn:'إلغاء غاوس',strategy:'Transform and Conquer',desc:'Solves systems of linear equations by transforming the augmented matrix into upper triangular form, then back-substituting.',best:'$\\Theta(n^3)$',avg:'$\\Theta(n^3)$',worst:'$\\Theta(n^3)$',space:'$O(n^2)$',props:'Often requires Partial Pivoting (row swapping) to avoid division by zero and minimize floating-point rounding errors.',when:'Solving systems of linear equations, finding matrix inverses, computing determinants in physics/graphics.'}}
+];
+
+let lang='ar', dark=false, tab='type';
+
+function cxColor(cx){return CX[cx]?.color||'#6b7280';}
+function cxStrip(cx){return CX[cx]?.strip||'rgba(107,114,128,.12)';}
+function cxLabel(cx){return lang==='ar'?CX[cx].labelAr:CX[cx].labelEn;}
+function cxTip(cx){return lang==='ar'?CX[cx].tipAr:CX[cx].tipEn;}
+
+function render(filter=''){
+  const main=document.getElementById('mainContent');
+  const noRes=document.getElementById('noResults');
+  main.innerHTML='';
+  const q=filter.toLowerCase();
+
+  const filtered=ALGOS.filter(a=>{
+    const al=a.ar, en=a.en;
+    const txt=`${al.name} ${en?.name||''} ${al.desc} ${en.desc} ${al.strategy} ${en.strategy} ${al.best} ${al.worst}`.toLowerCase();
+    return txt.includes(q);
+  });
+
+  if(filtered.length===0){noRes.style.display='flex';return;}
+  noRes.style.display='none';
+
+  let groups=[];
+  if(tab==='type'){
+    const catOrder=['sort','search','graph','ds','string','dp','greedy','exhaustive','geometry','math','limits','helpers'];
+    catOrder.forEach(catKey=>{
+      const items=filtered.filter(a=>a.cat===catKey);
+      if(items.length===0)return;
+      const cat=CATS[catKey];
+      groups.push({label:lang==='ar'?cat.ar:cat.en, color:cat.color, icon:cat.icon, items});
+    });
+  } else if(tab==='module'){
+    [1,2,3,4,5,6,7,8,9,10,11,12].forEach(m=>{
+      const items=filtered.filter(a=>a.mod===m);
+      if(items.length===0)return;
+      const mod=MODS[m];
+      groups.push({label:`${lang==='ar'?'المودل':'Module'} ${m}: ${lang==='ar'?mod.ar:mod.en}`, color:mod.color, icon:mod.icon, items});
+    });
+  } else {
+    CX_GROUPS.forEach(cg=>{
+      const items=filtered.filter(a=>a.cx===cg.key);
+      if(items.length===0)return;
+      groups.push({label:lang==='ar'?cg.ar:cg.en, color:CX[cg.key].color, icon:'ph-chart-bar', items});
+    });
+  }
+
+  groups.forEach((grp,gi)=>{
+    const sec=document.createElement('section');
+    sec.className='mb-14';
+    const hdr=document.createElement('div');
+    hdr.className='section-hdr';
+    hdr.innerHTML=`
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:${grp.color}18">
+        <i class="ph ${grp.icon} text-xl" style="color:${grp.color}"></i>
+      </div>
+      <h2 class="text-xl font-bold text-slate-900 dark:text-white">${grp.label}</h2>
+      <span class="mr-auto ltr:mr-0 ltr:ml-auto px-3 py-1 text-xs font-bold rounded-full" style="background:${grp.color}18;color:${grp.color}">${grp.items.length}</span>`;
+    sec.appendChild(hdr);
+    const grid=document.createElement('div');
+    grid.className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5';
+    sec.appendChild(grid);
+    grp.items.forEach((a,ai)=>{
+      grid.appendChild(makeCard(a,gi*100+ai));
+    });
+    main.appendChild(sec);
+  });
+
+  if(window.MathJax?.typesetPromise) window.MathJax.typesetPromise([main]).catch(()=>{});
+}
+
+function makeCard(a,delay){
+  const loc=lang==='ar'?a.ar:a.en;
+  const color=cxColor(a.cx);
+  const strip=cxStrip(a.cx);
+  const ui=UI[lang];
+
+  const card=document.createElement('div');
+  card.className='algo-card card-appear bg-white dark:bg-[#1e293b] rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden';
+  card.style.animationDelay=`${Math.min(delay*30,300)}ms`;
+  
+  if(lang==='ar') card.style.boxShadow=`inset -4px 0 0 ${color}`;
+  else card.style.boxShadow=`inset 4px 0 0 ${color}`;
+
+  const svgHtml=getSVG(a.svgId, lang);
+  const modLabel=lang==='ar'?`مودل ${a.mod}`:` Mod ${a.mod}`;
+
+  card.innerHTML=`
+  <div class="p-4 pb-3 flex flex-col h-full">
+    <div class="flex items-start justify-between gap-2 mb-2.5">
+      <div class="flex-1 min-w-0">
+        <div class="flex flex-wrap gap-1 mb-1.5">
+          <span class="mod-badge" style="background:${MODS[a.mod].color}18;color:${MODS[a.mod].color}">${modLabel}</span>
+          <span class="mod-badge" style="background:${color}18;color:${color}">${cxLabel(a.cx)}</span>
+        </div>
+        <h3 class="text-base font-bold text-slate-900 dark:text-white leading-tight">${loc.name}</h3>
+        ${loc.nameEn?`<p class="text-[10px] font-bold text-slate-400 uppercase tracking-wide mt-0.5">${loc.nameEn}</p>`:''}
+      </div>
+      <button class="info-btn" onclick="openModal(${ALGOS.indexOf(a)})" title="${ui.details}">
+        <i class="ph ph-info text-lg"></i>
+      </button>
+    </div>
+
+    <div class="visual-area border border-slate-100 dark:border-slate-700/50" style="background:${strip}">
+      ${svgHtml}
+    </div>
+
+    <p class="text-[12px] text-slate-600 dark:text-slate-300 leading-relaxed mb-3 flex-grow line-clamp-2">${loc.desc}</p>
+
+    <div class="grid grid-cols-3 gap-1.5 rounded-xl p-2 border border-slate-100 dark:border-slate-700/50" style="background:${strip}">
+      <div class="cx-cell bg-white/70 dark:bg-slate-800/70">
+        <span class="cx-label" style="color:${color}">${ui.best}</span>
+        <div class="cx-val math-scroll">${loc.best}</div>
+        <div class="cx-tip">${cxTip(a.cx)}</div>
+      </div>
+      <div class="cx-cell bg-white/70 dark:bg-slate-800/70">
+        <span class="cx-label" style="color:${color}">${ui.avg}</span>
+        <div class="cx-val math-scroll">${loc.avg}</div>
+        <div class="cx-tip">${cxTip(a.cx)}</div>
+      </div>
+      <div class="cx-cell bg-white/70 dark:bg-slate-800/70">
+        <span class="cx-label text-red-500">${ui.worst}</span>
+        <div class="cx-val math-scroll text-red-600 dark:text-red-400">${loc.worst}</div>
+        <div class="cx-tip">${cxTip(a.cx)}</div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 mt-2.5 pt-2.5 border-t border-slate-100 dark:border-slate-800">
+      <i class="ph ph-lightning text-sm" style="color:${color}"></i>
+      <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400">${loc.strategy}</span>
+    </div>
+  </div>`;
+  return card;
+}
+
+function openModal(idx){
+  const a=ALGOS[idx];
+  const loc=lang==='ar'?a.ar:a.en;
+  const color=cxColor(a.cx);
+
+  document.getElementById('mColorBar').style.background=color;
+  document.getElementById('mBadges').innerHTML=`
+    <span class="mod-badge" style="background:${MODS[a.mod].color}18;color:${MODS[a.mod].color}">${lang==='ar'?`المودل ${a.mod}`:`Module ${a.mod}`}: ${lang==='ar'?MODS[a.mod].ar:MODS[a.mod].en}</span>
+    <span class="mod-badge" style="background:${CATS[a.cat].color}18;color:${CATS[a.cat].color}">${lang==='ar'?CATS[a.cat].ar:CATS[a.cat].en}</span>
+    <span class="mod-badge" style="background:${color}18;color:${color}">${cxLabel(a.cx)}</span>`;
+  document.getElementById('mTitle').textContent=loc.name;
+  document.getElementById('mSub').textContent=loc.nameEn||'';
+  document.getElementById('mStrategy').innerHTML=`<i class="ph ph-lightning"></i>${loc.strategy}`;
+  document.getElementById('mDesc').textContent=loc.desc;
+  document.getElementById('mCxW').innerHTML=loc.worst;
+  document.getElementById('mCxS').innerHTML=loc.space;
+  document.getElementById('mCxB').innerHTML=loc.best;
+  document.getElementById('mCxA').innerHTML=loc.avg;
+  document.getElementById('mProps').textContent=loc.props;
+  document.getElementById('mWhen').textContent=loc.when;
+
+  document.getElementById('modalOverlay').classList.add('open');
+  if(window.MathJax?.typesetPromise) window.MathJax.typesetPromise([document.getElementById('modalBox')]).catch(()=>{});
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+function updateUI(){
+  const ui=UI[lang];
+  document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+  document.documentElement.lang=lang;
+  document.getElementById('mainTitle').textContent=ui.mainTitle;
+  document.getElementById('subTitle').textContent=ui.subTitle;
+  document.getElementById('searchInput').placeholder=ui.search;
+  document.getElementById('searchIcon').style.right = lang==='ar'?'12px':'auto';
+  document.getElementById('searchIcon').style.left = lang==='ar'?'auto':'12px';
+  document.getElementById('langText').textContent=ui.langText;
+  document.getElementById('noResultsTitle').textContent=ui.noTitle;
+  document.getElementById('noResultsDesc').textContent=ui.noDesc;
+  document.getElementById('tabType').textContent=ui.tabType;
+  document.getElementById('tabModule').textContent=ui.tabModule;
+  document.getElementById('tabComplexity').textContent=ui.tabCx;
+  
+  document.getElementById('lStrategy').textContent=ui.lStrategy;
+  document.getElementById('lDesc').textContent=ui.lDesc;
+  document.getElementById('lCx').textContent=ui.lCx;
+  document.getElementById('lWorst').textContent=ui.worst;
+  document.getElementById('lSpace').textContent=ui.space;
+  document.getElementById('lBest').textContent=ui.best;
+  document.getElementById('lAvg').textContent=ui.avg;
+  document.getElementById('lProps').textContent=ui.lProps;
+  document.getElementById('lWhen').textContent=ui.lWhen;
+
+  const lKeys = ['constant','logarithmic','linear','linearithmic','quadratic','cubic','exponential','factorial','mixed'];
+  let lgHtml = `<span class="text-xs font-bold text-slate-400 shrink-0">${ui.faster}</span>`;
+  lKeys.forEach(k => {
+      lgHtml += `<span class="legend-item" title="${cxTip(k)}"><span class="legend-dot" style="background:${CX[k].color}"></span>${cxLabel(k).split(' — ')[0]}</span>`;
+  });
+  lgHtml += `<span class="text-xs font-bold text-slate-400 shrink-0">${ui.slower}</span>`;
+  document.getElementById('legendBar').innerHTML = lgHtml;
+}
+
+document.getElementById('langBtn').addEventListener('click',()=>{
+  lang=lang==='ar'?'en':'ar';
+  updateUI();
+  render(document.getElementById('searchInput').value);
+});
+
+document.getElementById('themeBtn').addEventListener('click',()=>{
+  dark=!dark;
+  document.documentElement.classList.toggle('dark',dark);
+  document.getElementById('themeIcon').className=dark?'ph ph-sun text-xl text-yellow-400':'ph ph-moon-stars text-xl text-slate-700';
+});
+
+document.querySelectorAll('.group-tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.group-tab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    tab=btn.dataset.group;
+    render(document.getElementById('searchInput').value);
+  });
+});
+
+let searchTimer=null;
+document.getElementById('searchInput').addEventListener('input',e=>{
+  clearTimeout(searchTimer);
+  searchTimer=setTimeout(()=>render(e.target.value),200);
+});
+
+window.addEventListener('DOMContentLoaded',()=>{
+  if(window.matchMedia?.('(prefers-color-scheme: dark)').matches){
+    dark=true;
+    document.documentElement.classList.add('dark');
+    document.getElementById('themeIcon').className='ph ph-sun text-xl text-yellow-400';
+  }
+  updateUI();
+  render();
+  setTimeout(()=>{if(window.MathJax?.typesetPromise)window.MathJax.typesetPromise();},500);
+});
+</script>
+</body>
+</html>
