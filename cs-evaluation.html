@@ -7,7 +7,80 @@
   <style>
     body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 20px; color: #333; }
     .container { max-width: 1000px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    h2 { text-align: center; color: #2c3e50; margin-bottom: 25px; }
+    h2 { text-align: center; color: #2c3e50; margin-bottom: 18px; }
+
+    .archive-notice {
+      position: relative;
+      overflow: hidden;
+      margin: 0 0 28px;
+      padding: 20px 22px;
+      border: 1px solid #d9e7f5;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #f8fbff 0%, #eef7ff 100%);
+      box-shadow: 0 8px 24px rgba(52, 152, 219, 0.08);
+    }
+    .archive-notice::before {
+      content: "";
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 5px;
+      background: linear-gradient(180deg, #3498db, #2ecc71);
+    }
+    .archive-notice-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .archive-notice-text { flex: 1; min-width: 260px; }
+    .archive-notice-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 7px;
+      color: #1f4f73;
+      font-size: 18px;
+      font-weight: 800;
+    }
+    .archive-notice p {
+      margin: 0;
+      color: #4f6474;
+      line-height: 1.8;
+      font-size: 15px;
+    }
+    .archive-notice strong { color: #234e70; }
+    .garden-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 0 18px;
+      border-radius: 10px;
+      background: #23865f;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 800;
+      white-space: nowrap;
+      box-shadow: 0 6px 16px rgba(35, 134, 95, 0.2);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .garden-link:hover {
+      background: #1c704f;
+      transform: translateY(-2px);
+      box-shadow: 0 9px 20px rgba(35, 134, 95, 0.25);
+    }
+    .garden-link:focus {
+      outline: 3px solid rgba(35, 134, 95, 0.22);
+      outline-offset: 3px;
+    }
+
+    @media (max-width: 640px) {
+      .archive-notice { padding: 18px; }
+      .archive-notice-content { align-items: stretch; }
+      .garden-link { width: 100%; box-sizing: border-box; }
+    }
     
     .search-wrapper { position: relative; margin-bottom: 30px; }
     input[type="text"] { width: 100%; padding: 15px; font-size: 16px; border-radius: 8px; border: 2px solid #3498db; box-sizing: border-box; transition: 0.3s; }
@@ -36,6 +109,22 @@
 
   <div class="container">
     <h2>📊 تقييم أعضاء هيئة التدريس - كلية الحوسبة</h2>
+
+    <div class="archive-notice" role="status" aria-label="تنبيه بشأن تحديث البيانات">
+      <div class="archive-notice-content">
+        <div class="archive-notice-text">
+          <div class="archive-notice-title">📌 تنبيه مهم</div>
+          <p>
+            آخر تحديث لبيانات هذه الصفحة كان بتاريخ <strong>18 أغسطس 2026</strong>،
+            ولن يتم تحديثها بعد هذا التاريخ. للحصول على تجربة أحدث وأفضل، تفضل بزيارة
+            <strong>الحديقة الرقمية</strong>.
+          </p>
+        </div>
+        <a class="garden-link" href="https://libbard.github.io/Garden/hub/faculty.html" target="_blank" rel="noopener noreferrer">
+          🌿 زيارة الحديقة الرقمية
+        </a>
+      </div>
+    </div>
     
     <div id="loading" class="loading">⏳ جاري سحب البيانات...</div>
     <div id="errorMsg" class="error-msg">حدث خطأ في جلب البيانات. يرجى المحاولة لاحقاً.</div>
